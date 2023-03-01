@@ -292,45 +292,45 @@
                                         <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'job' || Request::segment(1) == 'job-application' || Request::segment(1) == 'candidates-job-applications' || Request::segment(1) == 'job-onboard' || Request::segment(1) == 'custom-question' || Request::segment(1) == 'interview-schedule' || Request::segment(1) == 'career') ? 'active dash-trigger' : ''}}    ">
                                         <a class="dash-link" href="#">{{__('Recruitment Setup')}}<span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                         <ul class="dash-submenu">
-                                            @can('manage job')
+                                            {{-- @can('manage job')
                                                 <li class="dash-item {{ (Request::route()->getName() == 'job.index' || Request::route()->getName() == 'job.create' || Request::route()->getName() == 'job.edit' || Request::route()->getName() == 'job.show'   ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('job.index')}}">{{__('Jobs')}}</a>
                                                 </li>
-                                            @endcan
-                                            @can('create job')
+                                            @endcan --}}
+                                            {{-- @can('create job')
                                                 <li class="dash-item {{ ( Request::route()->getName() == 'job.create' ? 'active' : '')}} ">
                                                     <a class="dash-link" href="{{route('job.create')}}">{{__('Job Create')}}</a>
                                                 </li>
-                                            @endcan
-                                            @can('manage job application')
+                                            @endcan --}}
+                                            {{-- @can('manage job application')
                                                 <li class="dash-item {{ (request()->is('job-application*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('job-application.index')}}">{{__('Job Application')}}</a>
                                                 </li>
-                                            @endcan
-                                            @can('manage job application')
+                                            @endcan --}}
+                                            {{-- @can('manage job application')
                                                 <li class="dash-item {{ (request()->is('candidates-job-applications') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('job.application.candidate')}}">{{__('Job Candidate')}}</a>
                                                 </li>
-                                            @endcan
-                                            @can('manage job application')
+                                            @endcan --}}
+                                            {{-- @can('manage job application')
                                                 <li class="dash-item {{ (request()->is('job-onboard*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('job.on.board')}}">{{__('Job On-boarding')}}</a>
                                                 </li>
-                                            @endcan
-                                            @can('manage custom question')
+                                            @endcan --}}
+                                            {{-- @can('manage custom question')
                                                 <li class="dash-item  {{ (request()->is('custom-question*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('custom-question.index')}}">{{__('Custom Question')}}</a>
                                                 </li>
-                                            @endcan
+                                            @endcan --}}
                                             @can('show interview schedule')
                                                 <li class="dash-item {{ (request()->is('interview-schedule*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('interview-schedule.index')}}">{{__('Interview Schedule')}}</a>
                                                 </li>
                                             @endcan
-                                            @can('show career')
+                                            {{-- @can('show career')
                                                 <li class="dash-item {{ (request()->is('career*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('career',[\Auth::user()->creatorId(),$lang])}}">{{__('Career')}}</a></li>
-                                            @endcan
+                                            @endcan --}}
                                         </ul>
                                     </li>
                                     @endif
@@ -766,7 +766,7 @@
                     @if( Gate::check('manage product & service') || Gate::check('manage product & service'))
                         <li class="dash-item dash-hasmenu">
                             <a href="#!" class="dash-link ">
-                                <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span><span class="dash-mtext">{{__('Products System')}}</span><span class="dash-arrow">
+                                <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span><span class="dash-mtext">{{__('Inventory')}}</span><span class="dash-arrow">
                                         <i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="dash-submenu">
@@ -790,7 +790,7 @@
 
                         <!--------------------- Start POs System ----------------------------------->
 
-                        @if( Gate::check('manage warehouse') ||  Gate::check('manage purchase')  || Gate::check('manage pos') || Gate::check('manage print settings'))
+                        {{-- @if( Gate::check('manage warehouse') ||  Gate::check('manage purchase')  || Gate::check('manage pos') || Gate::check('manage print settings'))
                             <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'warehouse' || Request::segment(1) == 'purchase' || Request::route()->getName() == 'pos.barcode' || Request::route()->getName() == 'pos.print' || Request::route()->getName() == 'pos.show')?' active dash-trigger':''}}">
                                 <a href="#!" class="dash-link"><span class="dash-micon"><i class="ti ti-layers-difference"></i></span><span class="dash-mtext">{{__('POS System')}}</span><span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                 <ul class="dash-submenu {{ (Request::segment(1) == 'warehouse' || Request::segment(1) == 'purchase' || Request::route()->getName() == 'pos.barcode' || Request::route()->getName() == 'pos.print' || Request::route()->getName() == 'pos.show')?'show':''}}">
@@ -825,7 +825,7 @@
 
                                 </ul>
                             </li>
-                        @endif
+                        @endif --}}
 
                     <!--------------------- End POs System ----------------------------------->
 
@@ -835,7 +835,7 @@
 
                         <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'support')?'active':''}}">
                             <a href="{{route('support.index')}}" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-headphones"></i></span><span class="dash-mtext">{{__('Support System')}}</span>
+                                <span class="dash-micon"><i class="ti ti-headphones"></i></span><span class="dash-mtext">{{__('Ticketing System')}}</span>
                             </a>
                         </li>
                             <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'zoom-meeting' || Request::segment(1) == 'zoom-meeting-calender')?'active':''}}">
@@ -845,7 +845,7 @@
                         </li>
                         <li class="dash-item dash-hasmenu {{ (Request::segment(1) == 'chats')?'active':''}}">
                             <a href="{{ url('chats') }}" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-message-circle"></i></span><span class="dash-mtext">{{__('Messenger')}}</span>
+                                <span class="dash-micon"><i class="ti ti-message-circle"></i></span><span class="dash-mtext">{{__('Chat Messenger')}}</span>
                             </a>
                         </li>
                         @if(\Auth::user()->type =='company')

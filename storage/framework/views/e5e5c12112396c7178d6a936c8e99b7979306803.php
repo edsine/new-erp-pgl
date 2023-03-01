@@ -293,45 +293,18 @@
                                         <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'job' || Request::segment(1) == 'job-application' || Request::segment(1) == 'candidates-job-applications' || Request::segment(1) == 'job-onboard' || Request::segment(1) == 'custom-question' || Request::segment(1) == 'interview-schedule' || Request::segment(1) == 'career') ? 'active dash-trigger' : ''); ?>    ">
                                         <a class="dash-link" href="#"><?php echo e(__('Recruitment Setup')); ?><span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                         <ul class="dash-submenu">
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage job')): ?>
-                                                <li class="dash-item <?php echo e((Request::route()->getName() == 'job.index' || Request::route()->getName() == 'job.create' || Request::route()->getName() == 'job.edit' || Request::route()->getName() == 'job.show'   ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('job.index')); ?>"><?php echo e(__('Jobs')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create job')): ?>
-                                                <li class="dash-item <?php echo e(( Request::route()->getName() == 'job.create' ? 'active' : '')); ?> ">
-                                                    <a class="dash-link" href="<?php echo e(route('job.create')); ?>"><?php echo e(__('Job Create')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage job application')): ?>
-                                                <li class="dash-item <?php echo e((request()->is('job-application*') ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('job-application.index')); ?>"><?php echo e(__('Job Application')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage job application')): ?>
-                                                <li class="dash-item <?php echo e((request()->is('candidates-job-applications') ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('job.application.candidate')); ?>"><?php echo e(__('Job Candidate')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage job application')): ?>
-                                                <li class="dash-item <?php echo e((request()->is('job-onboard*') ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('job.on.board')); ?>"><?php echo e(__('Job On-boarding')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage custom question')): ?>
-                                                <li class="dash-item  <?php echo e((request()->is('custom-question*') ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('custom-question.index')); ?>"><?php echo e(__('Custom Question')); ?></a>
-                                                </li>
-                                            <?php endif; ?>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
                                             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('show interview schedule')): ?>
                                                 <li class="dash-item <?php echo e((request()->is('interview-schedule*') ? 'active' : '')); ?>">
                                                     <a class="dash-link" href="<?php echo e(route('interview-schedule.index')); ?>"><?php echo e(__('Interview Schedule')); ?></a>
                                                 </li>
                                             <?php endif; ?>
-                                            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('show career')): ?>
-                                                <li class="dash-item <?php echo e((request()->is('career*') ? 'active' : '')); ?>">
-                                                    <a class="dash-link" href="<?php echo e(route('career',[\Auth::user()->creatorId(),$lang])); ?>"><?php echo e(__('Career')); ?></a></li>
-                                            <?php endif; ?>
+                                            
                                         </ul>
                                     </li>
                                     <?php endif; ?>
@@ -767,7 +740,7 @@
                     <?php if( Gate::check('manage product & service') || Gate::check('manage product & service')): ?>
                         <li class="dash-item dash-hasmenu">
                             <a href="#!" class="dash-link ">
-                                <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span><span class="dash-mtext"><?php echo e(__('Products System')); ?></span><span class="dash-arrow">
+                                <span class="dash-micon"><i class="ti ti-shopping-cart"></i></span><span class="dash-mtext"><?php echo e(__('Inventory')); ?></span><span class="dash-arrow">
                                         <i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="dash-submenu">
@@ -793,42 +766,7 @@
 
                         <!--------------------- Start POs System ----------------------------------->
 
-                        <?php if( Gate::check('manage warehouse') ||  Gate::check('manage purchase')  || Gate::check('manage pos') || Gate::check('manage print settings')): ?>
-                            <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'warehouse' || Request::segment(1) == 'purchase' || Request::route()->getName() == 'pos.barcode' || Request::route()->getName() == 'pos.print' || Request::route()->getName() == 'pos.show')?' active dash-trigger':''); ?>">
-                                <a href="#!" class="dash-link"><span class="dash-micon"><i class="ti ti-layers-difference"></i></span><span class="dash-mtext"><?php echo e(__('POS System')); ?></span><span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
-                                <ul class="dash-submenu <?php echo e((Request::segment(1) == 'warehouse' || Request::segment(1) == 'purchase' || Request::route()->getName() == 'pos.barcode' || Request::route()->getName() == 'pos.print' || Request::route()->getName() == 'pos.show')?'show':''); ?>">
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage warehouse')): ?>
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'warehouse.index' || Request::route()->getName() == 'warehouse.show') ? ' active' : ''); ?>"><a class="dash-link" href="<?php echo e(route('warehouse.index')); ?>"><?php echo e(__('Warehouse')); ?></a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage purchase')): ?>
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'purchase.index' || Request::route()->getName() == 'purchase.create' || Request::route()->getName() == 'purchase.edit' || Request::route()->getName() == 'purchase.show') ? ' active' : ''); ?>">
-                                            <a class="dash-link" href="<?php echo e(route('purchase.index')); ?>"><?php echo e(__('Purchase')); ?></a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage pos')): ?>
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'pos.index' ) ? ' active' : ''); ?>">
-                                            <a class="dash-link" href="<?php echo e(route('pos.index')); ?>"><?php echo e(__(' Add POS')); ?></a>
-                                        </li>
-
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'pos.report' || Request::route()->getName() == 'pos.show') ? ' active' : ''); ?>">
-                                            <a class="dash-link" href="<?php echo e(route('pos.report')); ?>"><?php echo e(__('POS')); ?></a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create barcode')): ?>
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'pos.barcode'  || Request::route()->getName() == 'pos.print') ? ' active' : ''); ?>">
-                                            <a class="dash-link" href="<?php echo e(route('pos.barcode')); ?>"><?php echo e(__('Print Barcode')); ?></a>
-                                        </li>
-                                    <?php endif; ?>
-                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage pos')): ?>
-                                        <li class="dash-item <?php echo e((Request::route()->getName() == 'pos-print-setting') ? ' active' : ''); ?>">
-                                            <a class="dash-link" href="<?php echo e(route('pos.print.setting')); ?>"><?php echo e(__('Print Settings')); ?></a>
-                                        </li>
-                                    <?php endif; ?>
-
-                                </ul>
-                            </li>
-                        <?php endif; ?>
+                        
 
                     <!--------------------- End POs System ----------------------------------->
 
@@ -838,7 +776,7 @@
 
                         <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'support')?'active':''); ?>">
                             <a href="<?php echo e(route('support.index')); ?>" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-headphones"></i></span><span class="dash-mtext"><?php echo e(__('Support System')); ?></span>
+                                <span class="dash-micon"><i class="ti ti-headphones"></i></span><span class="dash-mtext"><?php echo e(__('Ticketing System')); ?></span>
                             </a>
                         </li>
                             <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'zoom-meeting' || Request::segment(1) == 'zoom-meeting-calender')?'active':''); ?>">
@@ -848,7 +786,7 @@
                         </li>
                         <li class="dash-item dash-hasmenu <?php echo e((Request::segment(1) == 'chats')?'active':''); ?>">
                             <a href="<?php echo e(url('chats')); ?>" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-message-circle"></i></span><span class="dash-mtext"><?php echo e(__('Messenger')); ?></span>
+                                <span class="dash-micon"><i class="ti ti-message-circle"></i></span><span class="dash-mtext"><?php echo e(__('Chat Messenger')); ?></span>
                             </a>
                         </li>
                         <?php if(\Auth::user()->type =='company'): ?>
