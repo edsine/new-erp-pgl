@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <?php if(\Auth::user()->type!='employee'): ?>
+        
             <div class="col-md-6 ">
                 <div class="card emp_details">
                     <div class="card-header"><h6 class="mb-0"><?php echo e(__('Company Detail')); ?></h6></div>
@@ -111,47 +111,27 @@
                                 <?php echo Form::date('company_doj', null, ['class' => 'form-control ','required' => 'required']); ?>
 
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php else: ?>
-            <div class="col-md-6 ">
-                <div class="employee-detail-wrap ">
-                    <div class="card emp_details">
-                        <div class="card-header"><h6 class="mb-0"><?php echo e(__('Company Detail')); ?></h6></div>
-                        <div class="card-body employee-detail-edit-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="info">
-                                        <strong><?php echo e(__('Branch')); ?></strong>
-                                        <span><?php echo e(!empty($employee->branch)?$employee->branch->name:''); ?></span>
+                            <div class="form-group col-md-6">
+                                <?php echo Form::label('is_active', __('Employee Status'),['class'=>'form-label']); ?>
+
+                                <div class="d-flex radio-check mt-2">
+                                    <div class="form-check form-check-inline form-group">
+                                        <input type="radio" id="g_active" value=1 name="is_active" class="form-check-input" <?php echo e(($employee->is_active == 1 )?'checked':''); ?>>
+                                        <label class="form-check-label" for="g_active"><?php echo e(__('Active')); ?></label>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info font-style">
-                                        <strong><?php echo e(__('Department')); ?></strong>
-                                        <span><?php echo e(!empty($employee->department)?$employee->department->name:''); ?></span>
+                                    <div class="form-check form-check-inline form-group">
+                                        <input type="radio" id="g_inactive" value= 0 name="is_active" class="form-check-input" <?php echo e(($employee->is_active == 0)?'checked':''); ?>>
+                                        <label class="form-check-label" for="g_inactive"><?php echo e(__('Inactive')); ?></label>
                                     </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info font-style">
-                                        <strong><?php echo e(__('Designation')); ?></strong>
-                                        <span><?php echo e(!empty($employee->designation)?$employee->designation->name:''); ?></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="info">
-                                        <strong><?php echo e(__('Date Of Joining')); ?></strong>
-                                        <span><?php echo e(\Auth::user()->dateFormat($employee->company_doj)); ?></span>
-                                    </div>
+    
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        <?php endif; ?>
+        
     </div>
     <?php if(\Auth::user()->type!='employee'): ?>
         <div class="row">

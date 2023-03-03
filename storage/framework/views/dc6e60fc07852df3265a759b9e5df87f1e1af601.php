@@ -9,9 +9,7 @@
 
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
-        <a href="#" data-size="md"  data-bs-toggle="tooltip" title="<?php echo e(__('Import')); ?>" data-url="<?php echo e(route('employee.file.import')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Import employee CSV file')); ?>" class="btn btn-sm btn-primary">
-            <i class="ti ti-file-import"></i>
-        </a>
+        
         <a href="<?php echo e(route('employee.export')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Export')); ?>" class="btn btn-sm btn-primary">
             <i class="ti ti-file-export"></i>
         </a>

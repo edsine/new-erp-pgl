@@ -249,6 +249,7 @@ class AttendanceEmployeeController extends Controller
         //        dd($request->all());
         $employeeId      = !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0;
         $todayAttendance = AttendanceEmployee::where('employee_id', '=', $employeeId)->where('date', date('Y-m-d'))->first();
+        $employee = Employee::findOrFail($id);
         //        dd($todayAttendance);
         if(!empty($todayAttendance) && $todayAttendance->clock_out == '00:00:00')
         {
@@ -256,7 +257,7 @@ class AttendanceEmployeeController extends Controller
             $startTime = Utility::getValByName('company_start_time');
             $endTime   = Utility::getValByName('company_end_time');
 
-            if(Auth::user()->type == 'Employee')
+            if($employee->is_active == 1)
             {
 
                 $date = date("Y-m-d");

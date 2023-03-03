@@ -118,6 +118,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-xxl-6">
                         <div class="card list_card">
                             <div class="card-header">
@@ -284,52 +285,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5><?php echo e(__('Job')); ?></h5>
-                                    <div class="row  mt-4">
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="d-flex align-items-start mb-3">
-                                                <div class="theme-avtar bg-primary">
-                                                    <i class="ti ti-award"></i>
-                                                </div>
-                                                <div class="ms-2">
-                                                    <p class="text-muted text-sm mb-0"><?php echo e(__('Total Jobs')); ?></p>
-                                                    <h4 class="mb-0 text-success"><?php echo e($activeJob + $inActiveJOb); ?></h4>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6 my-3 my-sm-0">
-                                            <div class="d-flex align-items-start mb-3">
-                                                <div class="theme-avtar bg-info">
-                                                    <i class="ti ti-check"></i>
-                                                </div>
-                                                <div class="ms-2">
-                                                    <p class="text-muted text-sm mb-0"><?php echo e(__('Active Job')); ?></p>
-                                                    <h4 class="mb-0 text-primary"><?php echo e($activeJob); ?></h4>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 col-sm-6">
-                                            <div class="d-flex align-items-start mb-3">
-                                                <div class="theme-avtar bg-danger">
-                                                    <i class="ti ti-x"></i>
-                                                </div>
-                                                <div class="ms-2">
-                                                    <p class="text-muted text-sm mb-0"><?php echo e(__('Inactive Job ')); ?></p>
-                                                    <h4 class="mb-0 text-danger"><?php echo e($inActiveJOb); ?></h4>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-body">

@@ -88,10 +88,12 @@ class LeaveController extends Controller
             if(\Auth::user()->type == "employee")
             {
                 $leave->employee_id = $employee->id;
+                $leave->reliever_id = $employee->id;
             }
             else
             {
                 $leave->employee_id = $request->employee_id;
+                $leave->reliever_id = $employee->id;
             }
             $leave->leave_type_id    = $request->leave_type_id;
             $leave->applied_on       = date('Y-m-d');
@@ -212,9 +214,10 @@ class LeaveController extends Controller
     {
         $leave     = Leave::find($id);
         $employee  = Employee::find($leave->employee_id);
+        $reliever  = Employee::find($leave->reliever_id);
         $leavetype = LeaveType::find($leave->leave_type_id);
 
-        return view('leave.action', compact('employee', 'leavetype', 'leave'));
+        return view('leave.action', compact('employee', 'leavetype', 'leave', 'reliever'));
     }
 
     public function changeaction(Request $request)

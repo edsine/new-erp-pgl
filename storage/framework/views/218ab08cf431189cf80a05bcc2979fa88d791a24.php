@@ -2,13 +2,23 @@
 
     <div class="modal-body">
 
-    <?php if(\Auth::user()->type !='employee'): ?>
+    <?php if(\Auth::user()->type !='Client'): ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
                     <?php echo e(Form::label('employee_id',__('Employee') ,['class'=>'form-label'])); ?>
 
                     <?php echo e(Form::select('employee_id',$employees,null,array('class'=>'form-control select','id'=>'employee_id','placeholder'=>__('Select Employee')))); ?>
+
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <?php echo e(Form::label('reliever_id',__('Reliever') ,['class'=>'form-label'])); ?>
+
+                    <?php echo e(Form::select('reliever_id',$employees,null,array('class'=>'form-control select','id'=>'reliever_id','placeholder'=>__('Select Reliever')))); ?>
 
                 </div>
             </div>
@@ -50,13 +60,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <?php echo e(Form::label('leave_reason',__('Leave Reason') ,['class'=>'form-label'])); ?>
+                <?php echo e(Form::label('leave_reason',__('Leave Description') ,['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::textarea('leave_reason',null,array('class'=>'form-control','placeholder'=>__('Leave Reason')))); ?>
+                <?php echo e(Form::textarea('leave_reason',null,array('class'=>'form-control','placeholder'=>__('Leave Description')))); ?>
 
             </div>
         </div>
     </div>
+<?php if(\Auth::user()->type =='HR'): ?>
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
@@ -68,6 +79,7 @@
         </div>
        
     </div>
+<?php endif; ?>
 </div>
 <div class="modal-footer">
     <input type="button" value="<?php echo e(__('Cancel')); ?>" class="btn  btn-light" data-bs-dismiss="modal">

@@ -1,16 +1,16 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Document')); ?>
+    <?php echo e(__('Document Management System')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Document')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Documents')); ?></li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create document')): ?>
-            <a href="#" data-url="<?php echo e(route('document-upload.create')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create New Document Type')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"  class="btn btn-sm btn-primary">
+            <a href="#" data-url="<?php echo e(route('document-upload.create')); ?>" data-ajax-popup="true" data-title="<?php echo e(__('Create New Document')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"  class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
 
@@ -28,7 +28,7 @@
                     <table class="table datatable">
                             <thead>
                             <tr>
-                                <th><?php echo e(__('Name')); ?></th>
+                                <th><?php echo e(__('Title')); ?></th>
                                 <th><?php echo e(__('Document')); ?></th>
                                 <th><?php echo e(__('Role')); ?></th>
                                 <th><?php echo e(__('Description')); ?></th>

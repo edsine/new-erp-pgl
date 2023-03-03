@@ -41,10 +41,11 @@
             <i class="ti ti-calendar"></i> <?php echo e(__('Calendar View')); ?>
 
         </a>
-
+        <?php if(\Auth::user()->type == 'company' || \Auth::user()->type == 'its'): ?>
         <a href="#" data-size="lg" data-url="<?php echo e(route('zoom-meeting.create')); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create  New Meeting')); ?>" class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
+        <?php endif; ?>
 
     </div>
 <?php $__env->stopSection(); ?>

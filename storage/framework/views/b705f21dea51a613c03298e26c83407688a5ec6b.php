@@ -8,7 +8,7 @@
 
         <a href="<?php echo e(route('leavetype.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((Request::route()->getName() == 'leavetype.index' ? 'active' : '')); ?>"><?php echo e(__('Leave Type')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
-        <a href="<?php echo e(route('document.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((Request::route()->getName() == 'document.index' ? 'active' : '')); ?>"><?php echo e(__('Document Type')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+        <a href="<?php echo e(route('document.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((Request::route()->getName() == 'document.index' ? 'active' : '')); ?>"><?php echo e(__('Employee Document Types')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
         <a href="<?php echo e(route('paysliptype.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((request()->is('paysliptype*') ? 'active' : '')); ?>"><?php echo e(__('Payslip Type')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
@@ -26,13 +26,13 @@
 
         <a href="<?php echo e(route('terminationtype.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((request()->is('terminationtype*') ? 'active' : '')); ?>"><?php echo e(__('Termination Type')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
-        <a href="<?php echo e(route('job-category.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((request()->is('job-category*') ? 'active' : '')); ?>"><?php echo e(__('Job Category')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+        
 
-        <a href="<?php echo e(route('job-stage.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e((request()->is('job-stage*') ? 'active' : '')); ?>"><?php echo e(__('Job Stage')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
-
+        <?php if(\Auth::user()->type == 'Company'): ?>
         <a href="<?php echo e(route('performanceType.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e(request()->is('performanceType*') ? 'active' : ''); ?>"><?php echo e(__('Performance Type')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
 
         <a href="<?php echo e(route('competencies.index')); ?>" class="list-group-item list-group-item-action border-0 <?php echo e(request()->is('competencies*') ? 'active' : ''); ?>"><?php echo e(__('Competencies')); ?><div class="float-end"><i class="ti ti-chevron-right"></i></div></a>
+        <?php endif; ?>
 
     </div>
 </div>

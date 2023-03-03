@@ -1,10 +1,10 @@
 <?php $__env->startSection('page-title'); ?>
-    <?php echo e(__('Manage Document Type')); ?>
+    <?php echo e(__('Manage Employee Document Types')); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     <li class="breadcrumb-item"><a href="<?php echo e(route('dashboard')); ?>"><?php echo e(__('Dashboard')); ?></a></li>
-    <li class="breadcrumb-item"><?php echo e(__('Document Type')); ?></li>
+    <li class="breadcrumb-item"><?php echo e(__('Employee Document Types')); ?></li>
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection('action-btn'); ?>
