@@ -2182,7 +2182,7 @@ class Utility extends Model
             'show purchase',
             'delete purchase',
             'send purchase',
-            'create purchase purchase',
+            'create purchase',
             'manage pos',
             'manage contract type',
             'create contract type',
