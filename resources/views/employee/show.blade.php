@@ -23,7 +23,7 @@
 
         <div class="text-end">
             <div class="d-flex justify-content-end drp-languages">
-                <ul class="list-unstyled mb-0 m-2">
+                {{-- <ul class="list-unstyled mb-0 m-2">
                     <li class="dropdown dash-h-item status-drp">
                         <a class="dash-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                            role="button" aria-haspopup="false" aria-expanded="false">
@@ -64,7 +64,7 @@
                             <a href="{{route('noc.download.doc',$employee->id)}}" class=" btn-icon dropdown-item" data-bs-toggle="tooltip" data-bs-placement="top"  target="_blanks"><i class="ti ti-download ">&nbsp;</i>{{__('DOC')}}</a>
                         </div>
                     </li>
-                </ul>
+                </ul> --}}
             </div>
         </div>
     @endif
@@ -165,6 +165,18 @@
                                         <div class="info text-sm">
                                             <strong class="font-bold">{{__('Date Of Joining')}} :</strong>
                                             <span>{{\Auth::user()->dateFormat(!empty($employee)?$employee->company_doj:'')}}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="info text-sm">
+                                            <strong class="font-bold">{{__('Employee Status')}} :</strong>
+                                            @if($employee->is_active == 1)
+                                            <span>Active</span>
+                                            @else
+                                            <span>Inactive</span>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

@@ -18,9 +18,11 @@
         <a href="{{ route('zoom-meeting.index') }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="{{__('List View')}}" data-original-title="{{__('List View')}}">
             <i class="ti ti-list"></i>
         </a>
+        @if (\Auth::user()->type == 'company' || \Auth::user()->type == 'ITS')
         <a href="#" data-size="lg" data-url="{{ route('zoom-meeting.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create New Meeting')}}" class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
+        @endif
     </div>
 
 @endsection

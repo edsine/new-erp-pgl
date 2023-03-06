@@ -21,7 +21,7 @@ class PaySlipController extends Controller
 
     public function index()
     {
-        if(\Auth::user()->can('manage pay slip') || \Auth::user()->type != 'client' || \Auth::user()->type != 'company')
+        if(\Auth::user()->can('manage pay slip') || \Auth::user()->type == 'company')
         {
             $employees = Employee::where(
                 [
@@ -47,7 +47,7 @@ class PaySlipController extends Controller
             $year = [
 //                '2020' => '2020',
 //                '2021' => '2021',
-                '2022' => '2022',
+                // '2022' => '2022',
                 '2023' => '2023',
                 '2024' => '2024',
                 '2025' => '2025',

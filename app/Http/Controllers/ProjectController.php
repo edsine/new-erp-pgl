@@ -89,7 +89,7 @@ class ProjectController extends Controller
             $project->end_date = date("Y-m-d H:i:s", strtotime($request->end_date));
             if($request->hasFile('project_image'))
             {
-                $imageName = time() . '.' . $request->project_image->extension();
+                $imageName = time() . '.' . $request->project_image->extension();   
                 $request->file('project_image')->storeAs('projects', $imageName);
                 $project->project_image      = 'projects/'.$imageName;
             }

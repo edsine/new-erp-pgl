@@ -53,7 +53,11 @@ class User extends Authenticatable
 
     public function getProfileAttribute()
     {
-        if(\Storage::exists($this->avatar) && !empty($this->avatar))
+        if($this->avatar == null) {
+            return asset(\Storage::url('avatar.png'));
+        }
+
+        if(\Storage::exists($this->avatar))
         {
             return $this->attributes['avatar'] = asset(\Storage::url($this->avatar));
         }

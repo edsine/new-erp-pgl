@@ -40,10 +40,11 @@
         <a href="{{ route('zoom-meeting.calender') }}"  data-original-title="{{__('Calendar View')}}" class="btn btn-sm btn-primary">
             <i class="ti ti-calendar"></i> {{__('Calendar View')}}
         </a>
-
+        @if (\Auth::user()->type == 'company' || \Auth::user()->type == 'ITS')
         <a href="#" data-size="lg" data-url="{{ route('zoom-meeting.create') }}" data-ajax-popup="true" data-bs-toggle="tooltip" title="{{__('Create')}}" data-title="{{__('Create  New Meeting')}}" class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
+        @endif
 
     </div>
 @endsection
