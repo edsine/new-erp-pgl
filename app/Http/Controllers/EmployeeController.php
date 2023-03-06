@@ -36,16 +36,18 @@ class EmployeeController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $employee = Employee::where('user_id', $user->id)->first();
         if(\Auth::user()->can('manage employee'))
         {
-            if(Auth::user()->type == 'employee')
-            {
-                $employees = Employee::where('user_id', '=', Auth::user()->id)->get();
-            }
-            else
-            {
+            // if($employee->is_active == 1)
+            // {
+            //     $employees = Employee::where('user_id', '=', Auth::user()->id)->get();
+            // }
+            // else
+            // {
                 $employees = Employee::where('created_by', \Auth::user()->creatorId())->get();
-            }
+            // }
 
             return view('employee.index', compact('employees'));
         }

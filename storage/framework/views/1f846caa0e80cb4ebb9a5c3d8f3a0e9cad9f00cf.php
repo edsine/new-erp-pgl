@@ -17,9 +17,11 @@
         <a href="<?php echo e(route('zoom-meeting.index')); ?>" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="<?php echo e(__('List View')); ?>" data-original-title="<?php echo e(__('List View')); ?>">
             <i class="ti ti-list"></i>
         </a>
+        <?php if(\Auth::user()->type == 'company' || \Auth::user()->type == 'ITS'): ?>
         <a href="#" data-size="lg" data-url="<?php echo e(route('zoom-meeting.create')); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>" data-title="<?php echo e(__('Create New Meeting')); ?>" class="btn btn-sm btn-primary">
             <i class="ti ti-plus"></i>
         </a>
+        <?php endif; ?>
     </div>
 
 <?php $__env->stopSection(); ?>

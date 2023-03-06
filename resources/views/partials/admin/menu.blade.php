@@ -231,7 +231,6 @@
                                 Request::segment(1) == 'leavetype' ||
                                 Request::segment(1) == 'leave' ||
                                 Request::segment(1) == 'attendanceemployee' ||
-                                Request::segment(1) == 'document-upload' ||
                                 Request::segment(1) == 'document' ||
                                 Request::segment(1) == 'performanceType' ||
                                 Request::segment(1) == 'branch' ||

@@ -15,11 +15,15 @@ class LeaveController extends Controller
 {
     public function index()
     {
+        // dd(\Auth::user()->creatorId());
+        $user = Auth::user();
 
         if(\Auth::user()->can('manage leave'))
         {
             $leaves = Leave::where('created_by', '=', \Auth::user()->creatorId())->get();
-            if(\Auth::user()->type == 'employee')
+            $employee = Employee::where('user_id', $user->id)->first();
+
+            if(isset($employee->is_active ) && (\Auth::user()->type != 'HR'))
             {
                 $user     = \Auth::user();
                 $employee = Employee::where('user_id', '=', $user->id)->first();
@@ -72,7 +76,7 @@ class LeaveController extends Controller
                                    'start_date' => 'required',
                                    'end_date' => 'required',
                                    'leave_reason' => 'required',
-                                   'remark' => 'required',
+                                   
                                ]
             );
             if($validator->fails())
