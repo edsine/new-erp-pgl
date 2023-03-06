@@ -62,7 +62,7 @@
                 </div>
             </div>
         </div>
-        @if(\Auth::user()->type!='employee')
+        {{-- @if(\Auth::user()->type!='employee') --}}
             <div class="col-md-6 ">
                 <div class="card emp_details">
                     <div class="card-header"><h6 class="mb-0">{{__('Company Detail')}}</h6></div>
@@ -97,11 +97,26 @@
                                 {!! Form::label('company_doj', 'Company Date Of Joining',['class'=>'form-label']) !!}
                                 {!! Form::date('company_doj', null, ['class' => 'form-control ','required' => 'required']) !!}
                             </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('is_active', __('Employee Status'),['class'=>'form-label']) !!}
+                                <div class="d-flex radio-check mt-2">
+                                    <div class="form-check form-check-inline form-group">
+                                        <input type="radio" id="g_active" value=1 name="is_active" class="form-check-input" {{($employee->is_active == 1 )?'checked':''}}>
+                                        <label class="form-check-label" for="g_active">{{__('Active')}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline form-group">
+                                        <input type="radio" id="g_inactive" value= 0 name="is_active" class="form-check-input" {{($employee->is_active == 0)?'checked':''}}>
+                                        <label class="form-check-label" for="g_inactive">{{__('Inactive')}}</label>
+                                    </div>
+    
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
-        @else
+        {{-- @else
             <div class="col-md-6 ">
                 <div class="employee-detail-wrap ">
                     <div class="card emp_details">
@@ -137,7 +152,7 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endif --}}
     </div>
     @if(\Auth::user()->type!='employee')
         <div class="row">

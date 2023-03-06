@@ -1,17 +1,17 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{__('Manage Document')}}
+    {{__('Document Management System')}}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Document')}}</li>
+    <li class="breadcrumb-item">{{__('Documents')}}</li>
 @endsection
 
 @section('action-btn')
     <div class="float-end">
     @can('create document')
-            <a href="#" data-url="{{ route('document-upload.create') }}" data-ajax-popup="true" data-title="{{__('Create New Document Type')}}" data-bs-toggle="tooltip" title="{{__('Create')}}"  class="btn btn-sm btn-primary">
+            <a href="#" data-url="{{ route('document-upload.create') }}" data-ajax-popup="true" data-title="{{__('Create New Document')}}" data-bs-toggle="tooltip" title="{{__('Create')}}"  class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
 
@@ -29,7 +29,7 @@
                     <table class="table datatable">
                             <thead>
                             <tr>
-                                <th>{{__('Name')}}</th>
+                                <th>{{__('Title')}}</th>
                                 <th>{{__('Document')}}</th>
                                 <th>{{__('Role')}}</th>
                                 <th>{{__('Description')}}</th>

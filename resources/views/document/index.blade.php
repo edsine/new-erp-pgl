@@ -1,11 +1,11 @@
 @extends('layouts.admin')
 
 @section('page-title')
-    {{__('Manage Document Type')}}
+    {{__('Manage Employee Document Types')}}
 @endsection
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Document Type')}}</li>
+    <li class="breadcrumb-item">{{__('Employee Document Types')}}</li>
 @endsection
 
 @section('action-btn')

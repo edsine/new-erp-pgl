@@ -27986,3 +27986,9 @@ table.dataTable tbody > tr.selected th.select-checkbox:after {
     width: 150px;
     height: 49px;
 }
+    .wrap-table-column {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+      max-width: 0;
+    }

@@ -26,7 +26,7 @@ class AttendanceEmployeeController extends Controller
             $department = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $department->prepend('Select Department', '');
 
-            if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
+            if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company' && \Auth::user()->type != 'HR')
             {
                 $emp = !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0;
 
@@ -249,6 +249,7 @@ class AttendanceEmployeeController extends Controller
         //        dd($request->all());
         $employeeId      = !empty(\Auth::user()->employee) ? \Auth::user()->employee->id : 0;
         $todayAttendance = AttendanceEmployee::where('employee_id', '=', $employeeId)->where('date', date('Y-m-d'))->first();
+        $employee = Employee::findOrFail($id);
         //        dd($todayAttendance);
         if(!empty($todayAttendance) && $todayAttendance->clock_out == '00:00:00')
         {
@@ -256,7 +257,7 @@ class AttendanceEmployeeController extends Controller
             $startTime = Utility::getValByName('company_start_time');
             $endTime   = Utility::getValByName('company_end_time');
 
-            if(Auth::user()->type == 'Employee')
+            if($employee->is_active == 1)
             {
 
                 $date = date("Y-m-d");
@@ -267,7 +268,8 @@ class AttendanceEmployeeController extends Controller
                 $hours                    = floor($totalEarlyLeavingSeconds / 3600);
                 $mins                     = floor($totalEarlyLeavingSeconds / 60 % 60);
                 $secs                     = floor($totalEarlyLeavingSeconds % 60);
-                $earlyLeaving             = sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+                // $earlyLeaving             = sprintf('%02d:%02d:%02d', $hours, $mins, $secs);
+                $earlyLeaving             = '00:00:00';
 
                 if(time() > strtotime($date . $endTime))
                 {
@@ -284,6 +286,7 @@ class AttendanceEmployeeController extends Controller
                 }
 
                 //                $attendanceEmployee                = AttendanceEmployee::find($id);
+                
                 $attendanceEmployee['clock_out']     = $time;
                 $attendanceEmployee['early_leaving'] = $earlyLeaving;
                 $attendanceEmployee['overtime']      = $overtime;

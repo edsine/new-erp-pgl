@@ -8,6 +8,10 @@
                         <td>{{ !empty($employee->name)?$employee->name:'' }}</td>
                     </tr>
                     <tr>
+                        <th>{{__('Reliever')}}</th>
+                        <td>{{ !empty($reliever->name)?$reliever->name:'' }}</td>
+                    </tr>
+                    <tr>
                         <th>{{__('Leave Type ')}}</th>
                         <td>{{ !empty($leavetype->title)?$leavetype->title:'' }}</td>
                     </tr>
@@ -24,7 +28,7 @@
                         <td>{{ \Auth::user()->dateFormat($leave->end_date) }}</td>
                     </tr>
                     <tr>
-                        <th>{{__('Leave Reason')}}</th>
+                        <th>{{__('Leave Description')}}</th>
                         <td>{{ !empty($leave->leave_reason)?$leave->leave_reason:'' }}</td>
                     </tr>
                     <tr>
@@ -38,7 +42,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <input type="submit" value="{{__('Approval')}}" class="btn btn-success" data-bs-dismiss="modal" name="status">
-    <input type="submit" value="{{__('Reject')}}" class="btn btn-danger" name="status">
+    <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="status">
+    <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="status">
 </div>
 {{Form::close()}}
