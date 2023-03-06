@@ -1,0 +1,35 @@
+name: Deploy
+
+# Trigger the workflow on push and
+# pull request events on the production branch
+on:
+  push:
+    branches:
+      - production
+  # pull_request:
+  #   branches:
+  #     - production
+
+# Authenticate to the the server via ssh
+# and run our deployment script
+jobs:
+  ftp-deploy:
+    name: FTP-Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest code
+        uses: actions/checkout@v2
+
+      - name: Sync files
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username:  ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          port: 21
+          local-dir: ./
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .env
