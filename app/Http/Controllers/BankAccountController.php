@@ -132,7 +132,7 @@ class BankAccountController extends Controller
             $bankAccount->holder_name     = $request->holder_name;
             $bankAccount->bank_name       = $request->bank_name;
             $bankAccount->account_number  = $request->account_number;
-            $bankAccount->opening_balance = $request->opening_balance;
+            // $bankAccount->opening_balance = $request->opening_balance;
             $bankAccount->contact_number  = $request->contact_number;
             $bankAccount->bank_address    = $request->bank_address;
             $bankAccount->created_by      = \Auth::user()->creatorId();

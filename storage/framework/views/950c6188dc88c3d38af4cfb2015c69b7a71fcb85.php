@@ -62,6 +62,25 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            <?php echo e(Form::label('customer', __('Customer'),['class'=>'form-label'])); ?>
+
+                                            <?php echo e(Form::select('customer',$customers,isset($_GET['customer'])?$_GET['customer']:'', array('class' => 'form-control select','id'=>'choices-multiple1'))); ?>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            <?php echo e(Form::label('department', __('Department'),['class'=>'form-label'])); ?>
+
+                                            <?php echo e(Form::select('department',$departments,isset($_GET['department'])?$_GET['department']:'', array('class' => 'form-control select','id'=>'choices-multiple1'))); ?>
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-auto mt-4">
                                 <div class="row">
@@ -70,7 +89,7 @@
                                             <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
                                         </a>
 
-                                        <a href="<?php echo e(route('productservice.index')); ?>" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
+                                        <a href="<?php echo e(route('payment.index')); ?>" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
                                            title="<?php echo e(__('Reset')); ?>">
                                             <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
                                         </a>
@@ -98,6 +117,9 @@
                                 <th><?php echo e(__('Amount')); ?></th>
                                 <th><?php echo e(__('Account')); ?></th>
                                 <th><?php echo e(__('Vendor')); ?></th>
+                                <th><?php echo e(__('Client')); ?></th>
+                                <th><?php echo e(__('Project')); ?></th>
+                                <th><?php echo e(__('Department')); ?></th>
                                 <th><?php echo e(__('Category')); ?></th>
                                 <th><?php echo e(__('Reference')); ?></th>
                                 <th><?php echo e(__('Description')); ?></th>
@@ -119,6 +141,9 @@
                                     <td><?php echo e(Auth::user()->priceFormat($payment->amount)); ?></td>
                                     <td><?php echo e(!empty($payment->bankAccount)?$payment->bankAccount->bank_name.' '.$payment->bankAccount->holder_name:''); ?></td>
                                     <td><?php echo e(!empty($payment->vender)?$payment->vender->name:'-'); ?></td>
+                                    <td><?php echo e(!empty($payment->client)?$payment->client->name:'-'); ?></td>
+                                    <td><?php echo e(!empty($payment->project)?$payment->project->project_name:'-'); ?></td>
+                                    <td><?php echo e(!empty($payment->department)?$payment->department->name:'-'); ?></td>
                                     <td><?php echo e(!empty($payment->category)?$payment->category->name:'-'); ?></td>
                                     <td><?php echo e(!empty($payment->reference)?$payment->reference:'-'); ?></td>
                                     <td><?php echo e(!empty($payment->description)?$payment->description:'-'); ?></td>

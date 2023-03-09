@@ -19,8 +19,29 @@
                 },
                 success: function(data) {
                     $('#sub_type').empty();
+                    $('#sub_type').append('<option>...</option>');
                     $.each(data, function(key, value) {
                         $('#sub_type').append('<option value="' + key + '">' + value +
+                            '</option>');
+                    });
+                }
+            });
+        });
+
+        $(document).on('change', '#sub_type', function() {
+            var subType = $(this).val();
+            $.ajax({
+                url: '{{ route('charofAccount.subTypeLevel2') }}',
+                type: 'POST',
+                data: {
+                    "sub_type": subType,
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function(data) {
+                    $('#sub_type_level_2').empty();
+                    $('#sub_type_level_2').append('<option>...</option>');
+                    $.each(data, function(key, value) {
+                        $('#sub_type_level_2').append('<option value="' + key + '">' + value +
                             '</option>');
                     });
                 }

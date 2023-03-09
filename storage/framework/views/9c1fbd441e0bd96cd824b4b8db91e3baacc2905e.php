@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="form-group  col-md-6">
-            <?php echo e(Form::label('opening_balance', __('Opening Balance'),['class'=>'form-label'])); ?>
+            <?php echo e(Form::label('opening_balance', __('Current Balance'),['class'=>'form-label'])); ?>
 
             <div class="form-icon-user">
                 <span><i class="ti ti-dollar-sign"></i></span>

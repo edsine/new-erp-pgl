@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Dashboard')); ?>
 
@@ -157,29 +156,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row align-items-center justify-content-between">
-                        <div class="col-auto mb-3 mb-sm-0">
-                            <div class="d-flex align-items-center">
-                                <div class="theme-avtar bg-danger">
-                                    <i class="ti ti-report-money"></i>
-                                </div>
-                                <div class="ms-3">
-                                    <small class="text-muted"><?php echo e(__('Total')); ?></small>
-                                    <h6 class="m-0"><?php echo e(__('Expense')); ?></h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-auto text-end">
-                            <h4 class="m-0"><?php echo e($home_data['total_expense']['total']); ?></h4>
-                            <small class="text-muted"><span class="text-success"><?php echo e($home_data['total_expense']['percentage']); ?>%</span> <?php echo e(__('expense')); ?></small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
 
         <div class="col-lg-4">
             <div class="card">

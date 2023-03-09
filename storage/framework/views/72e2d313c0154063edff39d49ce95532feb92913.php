@@ -687,11 +687,7 @@
                                                     <a class="dash-link"
                                                         href="<?php echo e(route('chart-of-account.index')); ?>"><?php echo e(__('Chart of Accounts')); ?></a>
                                                 </li>
-                                                <li
-                                                    class="dash-item <?php echo e(Request::route()->getName() == 'journal-entry.edit' || Request::route()->getName() == 'journal-entry.create' || Request::route()->getName() == 'journal-entry.index' || Request::route()->getName() == 'journal-entry.show' ? ' active' : ''); ?>">
-                                                    <a class="dash-link"
-                                                        href="<?php echo e(route('journal-entry.index')); ?>"><?php echo e(__('Journal Account')); ?></a>
-                                                </li>
+                                                
                                                 <li
                                                     class="dash-item <?php echo e(Request::route()->getName() == 'report.ledger' ? ' active' : ''); ?>">
                                                     <a class="dash-link"

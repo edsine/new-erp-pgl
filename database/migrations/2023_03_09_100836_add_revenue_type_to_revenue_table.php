@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('revenue', function (Blueprint $table) {
-            //
+        Schema::table('revenues', function (Blueprint $table) {
+            $table->integer('revenue_type');
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('revenue', function (Blueprint $table) {
-            //
+        Schema::table('revenues', function (Blueprint $table) {
+            $table->dropColumn('revenue_type');
         });
     }
 };

@@ -265,6 +265,7 @@ Route::group(
     ], function ()
 {
     Route::get('customer/{id}/show', [CustomerController::class, 'show'])->name('customer.show');
+    Route::post('customer/projects', [CustomerController::class, 'getProjects'])->name('customer.projects');
     Route::resource('customer', CustomerController::class);
 }
 );
@@ -515,6 +516,8 @@ Route::resource('account-assets', AssetController::class)->middleware(['auth', '
 Route::resource('custom-field', CustomFieldController::class)->middleware(['auth', 'XSS', 'revalidate']);
 
 Route::post('chart-of-account/subtype', [ChartOfAccountController::class, 'getSubType'])->name('charofAccount.subType')->middleware(['auth', 'XSS', 'revalidate']);
+
+Route::post('chart-of-account/subtypelevel2', [ChartOfAccountController::class, 'getSubTypeLevel2'])->name('charofAccount.subTypeLevel2')->middleware(['auth', 'XSS', 'revalidate']);
 
 Route::group(
     [

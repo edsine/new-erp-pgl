@@ -11,6 +11,8 @@ class ChartOfAccount extends Model
         'code',
         'type',
         'sub_type',
+        'sub_type_level_2',
+        'sub_type_level_3',
         'is_enabled',
         'description',
         'created_by',
@@ -40,5 +42,15 @@ class ChartOfAccount extends Model
     public function subType()
     {
         return $this->hasOne('App\Models\ChartOfAccountSubType', 'id', 'sub_type');
+    }
+
+    public function subTypeLevel2()
+    {
+        return $this->hasOne('App\Models\ChartOfAccountSubType', 'id', 'sub_type_level_2');
+    }
+
+    public function subTypeLevel3()
+    {
+        return $this->hasOne('App\Models\ChartOfAccountSubType', 'id', 'sub_type_level_3');
     }
 }

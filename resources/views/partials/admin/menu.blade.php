@@ -787,11 +787,11 @@
                                                     <a class="dash-link"
                                                         href="{{ route('chart-of-account.index') }}">{{ __('Chart of Accounts') }}</a>
                                                 </li>
-                                                <li
+                                                {{-- <li
                                                     class="dash-item {{ Request::route()->getName() == 'journal-entry.edit' || Request::route()->getName() == 'journal-entry.create' || Request::route()->getName() == 'journal-entry.index' || Request::route()->getName() == 'journal-entry.show' ? ' active' : '' }}">
                                                     <a class="dash-link"
                                                         href="{{ route('journal-entry.index') }}">{{ __('Journal Account') }}</a>
-                                                </li>
+                                                </li> --}}
                                                 <li
                                                     class="dash-item {{ Request::route()->getName() == 'report.ledger' ? ' active' : '' }}">
                                                     <a class="dash-link"

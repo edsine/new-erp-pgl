@@ -7,6 +7,7 @@ use File;
 use Exception;
 use App\Models\Plan;
 use App\Models\User;
+use App\Models\Project;
 use App\Models\Utility;
 use App\Models\Customer;
 use App\Models\CustomField;
@@ -79,6 +80,7 @@ class CustomerController extends Controller
             $default_language          = DB::table('settings')->select('value')->where('name', 'default_language')->first();
 
             $customer                  = new Customer();
+            $customer->client_id       = 0;
             $customer->customer_id     = $this->customerNumber();
             $customer->name            = $request->name;
             $customer->contact         = $request->contact;
@@ -116,9 +118,12 @@ class CustomerController extends Controller
                         'password' => Hash::make("password"),
                         'type' => 'client',
                         'lang' => Utility::getValByName('default_language'),
-                        'created_by' => \Auth::user()->creatorId()
+                        'created_by' => \Auth::user()->creatorId(),
+                        'customer_id' => $customer->id
                     ]
                 );
+                $customer->client_id = $client->id;
+                $customer->save();
                 $role_r = Role::findByName('client');
                 $client->assignRole($role_r);
             } catch (Exception $e) {
@@ -212,7 +217,7 @@ class CustomerController extends Controller
             // Update client
 
             try {
-                $client = User::where("email", $old_email)->first();
+                $client = User::where("customer_id", $customer->id)->first();
 
                 $client->name = $request->name;
                 $client->email = $request->email;
@@ -241,7 +246,7 @@ class CustomerController extends Controller
                 // Delete client
 
                 try {
-                    $client = User::where("email", $customer->email)->first();
+                    $client = User::where("customer_id", $customer->id)->first();
                     $client->delete();
                 } catch (Exception $e) {
                 }
@@ -542,5 +547,14 @@ class CustomerController extends Controller
         }
 
         return redirect()->back()->with($data['status'], $data['msg']);
+    }
+
+    public function getProjects(Request $request)
+    {
+        $customer = Customer::find($request->client_id);
+
+        $projects = Project::where('client_id', $customer->client_id)->get()->pluck('project_name', 'id')->toArray();
+
+        return response()->json($projects);
     }
 }
