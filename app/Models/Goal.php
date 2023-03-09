@@ -17,8 +17,8 @@ class Goal extends Model
     ];
 
     public static $goalType = [
-        'Invoice',
-        'Bill',
+        // 'Invoice',
+        // 'Bill',
         'Revenue',
         'Payment',
     ];

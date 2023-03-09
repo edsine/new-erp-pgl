@@ -39,7 +39,7 @@ class ChartOfAccountController extends Controller
 
     public function create()
     {
-        $types = ChartOfAccountType::where('created_by',\Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $types = ChartOfAccountType::get()->pluck('name', 'id');
         $types->prepend('--', 0);
 
         return view('chartOfAccount.create', compact('types'));

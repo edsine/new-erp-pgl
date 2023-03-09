@@ -39,7 +39,7 @@
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 month">
                                         <div class="btn-box">
-                                            {{Form::label('account',__('Account'),['class'=>'form-label'])}}
+                                            {{Form::label('account',__('Bank Account'),['class'=>'form-label'])}}
                                             {{ Form::select('account',$account,isset($_GET['account'])?$_GET['account']:'', array('class' => 'form-control select')) }}
                                         </div>
                                     </div>

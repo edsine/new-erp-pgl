@@ -10,11 +10,11 @@
             {{ Form::number('code', '', array('class' => 'form-control','required'=>'required')) }}
         </div>
         <div class="form-group col-md-6">
-            {{ Form::label('type', __('Account'),['class'=>'form-label']) }}
-            {{ Form::select('type', $types,null, array('class' => 'form-control select','required'=>'required')) }}
+            {{ Form::label('type', __('Account Type'),['class'=>'form-label']) }}
+            {{ Form::select('type', $types, null, array('class' => 'form-control select','required'=>'required')) }}
         </div>
         <div class="form-group col-md-6">
-            {{Form::label('sub_type',__('Type'),['class'=>'form-label'])}}
+            {{Form::label('sub_type',__('Sub Type'),['class'=>'form-label'])}}
             <select class="form-control select" name="sub_type" id="sub_type" required>
 
             </select>

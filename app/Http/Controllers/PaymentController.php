@@ -23,7 +23,7 @@ class PaymentController extends Controller
             $vender->prepend('Select Vendor', '');
 
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
-            $account->prepend('Select Account', '');
+            $account->prepend('Select Bank Account', '');
 
             $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 2)->get()->pluck('name', 'id');
             $category->prepend('Select Category', '');
