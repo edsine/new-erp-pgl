@@ -138,41 +138,41 @@
                                     <tr>
                                         <td>Contract Sum</td>
                                         <td></td>
-                                        <td>{{ !empty($data['contract_sum']) ? $data['contract_sum'] : '0' }}</td>
+                                        <td>{{ !empty($data['contract_sum']) ? \Auth::user()->priceFormat($data['contract_sum']) : '0' }}</td>
                                     </tr>
                                     <tr>
                                         <td>Local Tax</td>
                                         <td></td>
-                                        <td>{{ !empty($data['tax_amount']) ? $data['tax_amount'] : '0' }}</td>
+                                        <td>{{ !empty($data['tax_amount']) ? \Auth::user()->priceFormat($data['tax_amount']) : '0' }}</td>
                                     </tr>
                                     <tr>
                                         <td>Net Contract Sum</td>
                                         <td></td>
-                                        <td>{{ !empty($data['net_contract_sum']) ? $data['net_contract_sum'] : '0' }}</td>
+                                        <td>{{ !empty($data['net_contract_sum']) ? \Auth::user()->priceFormat($data['net_contract_sum']) : '0' }}</td>
                                     </tr>
                                     <tr>
                                         <td>Revenue received</td>
-                                        <td>{{ !empty($data['revenue']) ? $data['revenue'] : '0' }}</td>
+                                        <td>{{ !empty($data['revenue']) ? \Auth::user()->priceFormat($data['revenue']) : '0' }}</td>
                                         <td></td>
                                     </tr>
 
                                     <tr>
                                         <td>Balance to be paid</td>
-                                        <td>{{ !empty($data['balance_to_be_paid']) ? $data['balance_to_be_paid'] : '0' }}</td>
+                                        <td>{{ !empty($data['balance_to_be_paid']) ? \Auth::user()->priceFormat($data['balance_to_be_paid']) : '0' }}</td>
                                         <td></td>
                                     </tr>
 
                                     <tr>
                                         <td>Expected Net Profit</td>
-                                        <td>{{ !empty($data['expected_net_profit']) ? $data['expected_net_profit'] : '0' }}</td>
+                                        <td>{{ !empty($data['expected_net_profit']) ? \Auth::user()->priceFormat($data['expected_net_profit']) : '0' }}</td>
                                         <td></td>
                                     </tr>
 
                                 </tbody>
                                 <tfooter>
                                     <td class="text-dark"><strong>{{ __('Actual Net Profit') }}</strong></td>
-                                    <td>{{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] > 0 ? $data['actual_net_profit'] : '') : '' }}</td>
-                                    <td>({{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] < 0 ? abs($data['actual_net_profit']) : '') : '' }})</td>
+                                    <td>{{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] > 0 ? \Auth::user()->priceFormat($data['actual_net_profit']) : '') : '' }}</td>
+                                    <td>({{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] < 0 ? \Auth::user()->priceFormat(abs($data['actual_net_profit'])) : '') : '' }})</td>
                                 </tfooter>
                             </table>
 
