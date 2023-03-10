@@ -76,7 +76,8 @@
                                         <th> <?php echo e(__('Code')); ?></th>
                                         <th> <?php echo e(__('Name')); ?></th>
                                         <th> <?php echo e(__('Type')); ?></th>
-                                        <th> <?php echo e(__('Sub Type')); ?></th>
+                                        <th> <?php echo e(__('Group')); ?></th>
+                                        <th> <?php echo e(__('Sub-Group')); ?></th>
                                         <th> <?php echo e(__('Balance')); ?></th>
                                         <th> <?php echo e(__('Status')); ?></th>
                                         <th width="10%"> <?php echo e(__('Action')); ?></th>
@@ -91,6 +92,7 @@
                                             </td>
                                             <td><?php echo e(!empty($account->types) ? $account->types->name : '-'); ?></td>
                                             <td><?php echo e(!empty($account->subType) ? $account->subType->name : '-'); ?></td>
+                                            <td><?php echo e(!empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-'); ?></td>
                                             <td>
                                                 <?php if(!empty($account->balance()) && $account->balance()['netAmount'] < 0): ?>
                                                     <?php echo e(__('Dr') . '. ' . \Auth::user()->priceFormat(abs($account->balance()['netAmount']))); ?>

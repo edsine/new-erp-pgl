@@ -875,6 +875,8 @@ Route::get('reports-payroll', [ReportController::class, 'payroll'])->name('repor
 Route::get('reports-monthly-attendance', [ReportController::class, 'monthlyAttendance'])->name('report.monthly.attendance')->middleware(['auth', 'XSS']);
 Route::get('report/attendance/{month}/{branch}/{department}', [ReportController::class, 'exportCsv'])->name('report.attendance')->middleware(['auth', 'XSS']);
 
+Route::get('reports-project-finance', [ReportController::class, 'financialProjectReport'])->name('report.finacialprojectreport')->middleware(['auth', 'XSS']);
+
 // User Module
 Route::get('users/{view?}', [UserController::class, 'index'])->name('users')->middleware(['auth', 'XSS']);
 Route::get('users-view', [UserController::class, 'filterUserView'])->name('filter.user.view')->middleware(['auth', 'XSS']);

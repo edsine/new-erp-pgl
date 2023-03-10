@@ -21,6 +21,8 @@ class ChartOfAccountController extends Controller
         if (\Auth::user()->can('manage chart of account')) {
             $types = ChartOfAccountType::where('created_by', '=', \Auth::user()->creatorId())->get();
 
+            // dd($types);
+
             $chartAccounts = [];
             foreach ($types as $type) {
                 $accounts = ChartOfAccount::where('type', $type->id)->where('created_by', '=', \Auth::user()->creatorId())->get();

@@ -15,20 +15,20 @@
 
         </div>
         <div class="form-group col-md-6">
-            <?php echo e(Form::label('type', __('Account Type'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('type', __('Type'), ['class' => 'form-label'])); ?>
 
             <?php echo e(Form::select('type', $types, null, ['class' => 'form-control select', 'required' => 'required'])); ?>
 
         </div>
         <div class="form-group col-md-6">
-            <?php echo e(Form::label('sub_type', __('Sub Type'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('sub_type', __('Group'), ['class' => 'form-label'])); ?>
 
             <select class="form-control select" name="sub_type" id="sub_type" required>
 
             </select>
         </div>
         <div class="form-group col-md-6">
-            <?php echo e(Form::label('sub_type_level_2', __('Sub Type Level 2'), ['class' => 'form-label'])); ?>
+            <?php echo e(Form::label('sub_type_level_2', __('Sub-Group'), ['class' => 'form-label'])); ?>
 
             <select class="form-control select" name="sub_type_level_2" id="sub_type_level_2">
 

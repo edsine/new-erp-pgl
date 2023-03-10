@@ -2,36 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\AccountStatementExport;
-use App\Exports\PayrollExport;
-use App\Exports\ProductStockExport;
-use App\Models\BankAccount;
-use App\Models\Bill;
-use App\Models\Branch;
-use App\Models\Department;
-use App\Models\Employee;
-use App\Models\Leave;
-use App\Models\PaySlip;
-use App\Models\AttendanceEmployee;
-use App\Models\BillProduct;
-use App\Models\ChartOfAccount;
-use App\Models\ChartOfAccountSubType;
-use App\Models\ChartOfAccountType;
-use App\Models\Customer;
-use App\Models\Invoice;
-use App\Models\InvoiceProduct;
-use App\Models\JournalItem;
-use App\Models\Payment;
-use App\Models\ProductServiceCategory;
-use App\Models\Revenue;
-use App\Models\StockReport;
-use App\Models\Utility;
 use App\Models\Tax;
-use App\Models\LeaveType;
-use App\Models\BankTransfer;
+use App\Models\Bill;
+use App\Models\Leave;
+use App\Models\Branch;
 use App\Models\Vender;
+use App\Models\Invoice;
+use App\Models\Payment;
+use App\Models\PaySlip;
+use App\Models\Project;
+use App\Models\Revenue;
+use App\Models\Utility;
+use App\Models\Customer;
+use App\Models\Employee;
+use App\Models\LeaveType;
+use App\Models\Department;
+use App\Models\BankAccount;
+use App\Models\BillProduct;
+use App\Models\JournalItem;
+use App\Models\StockReport;
+use App\Models\BankTransfer;
 use Illuminate\Http\Request;
+use App\Exports\PayrollExport;
+use App\Models\ChartOfAccount;
+use App\Models\InvoiceProduct;
+use App\Models\AttendanceEmployee;
+use App\Models\ChartOfAccountType;
+use App\Exports\ProductStockExport;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\ChartOfAccountSubType;
+use App\Models\ProductServiceCategory;
+use App\Exports\AccountStatementExport;
+use App\Models\ChartOfAccountSubTypeLevel2;
 
 class ReportController extends Controller
 {
@@ -345,6 +347,63 @@ class ReportController extends Controller
             $filter['endDateRange']   = 'Dec-' . $year;
 
             return view('report.expense_summary', compact('filter'), $data);
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function financialProjectReport(Request $request)
+    {
+        if (\Auth::user()->can('income vs expense report')) {
+            $projects = Project::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('project_name', 'id');
+            $projects->prepend('Select Project', '');
+
+            $filter['project'] = __('...');
+
+            $data = [];
+
+
+            if (!empty($request->project)) {
+                $project = Project::find($request->project);
+
+                // Expense
+                $expAmt = 0;
+                $project_expenses = Payment::where('project_id', $project->id)->get();
+                foreach ($project_expenses as $expense) {
+                    $expAmt += $expense->amount;
+                }
+
+                $data['expense'] = $expAmt;
+                // end expense
+
+
+                // Revenue
+                $revenueAmt = 0;
+                $project_revenue = Revenue::where('project_id', $project->id)->get();
+                foreach ($project_revenue as $revenue) {
+                    $revenueAmt += $revenue->amount;
+                }
+
+                $data['revenue'] = $revenueAmt;
+                // end revenue
+                $data['contract_sum'] = $project->budget;
+
+                $vatTAX = Tax::where('name', 'VAT')->first();
+                $tax_rate = !empty($vatTAX) ? floatval($vatTAX->rate) : 13.5;
+
+
+                $data['net_contract_sum'] = $project->budget - ($project->budget * ($tax_rate / 100));
+                $data['balance_to_be_paid'] = $data['net_contract_sum'] - $data['revenue'];
+                $data['expected_net_profit'] = $data['net_contract_sum'] - $data['expense'];
+                $data['actual_net_profit'] = $data['revenue'] - $data['expense'];
+                $data['tax_amount'] = ($project->budget * ($tax_rate / 100));
+                $data['project'] = $project;
+
+
+                $filter['project'] = !empty($project) ? $project->id : '';
+            }
+
+            return view('report.financial_project_report', compact('filter', 'projects', 'data'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -1353,25 +1412,35 @@ class ReportController extends Controller
                 $subTypes     = ChartOfAccountSubType::where('type', $type->id)->get();
                 $subTypeArray = [];
                 foreach ($subTypes as $subType) {
-                    $accounts     = ChartOfAccount::where('type', $type->id)->where('sub_type', $subType->id)->get();
-                    $accountArray = [];
-                    foreach ($accounts as $account) {
+                    $subTypesLevel2     = ChartOfAccountSubTypeLevel2::where('sub_type', $subType->id)->get();
+                    $subTypesLevel2Array = [];
 
-                        $journalItem = JournalItem::select(\DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'))->where('account', $account->id);
-                        $journalItem->where('created_at', '>=', $start);
-                        $journalItem->where('created_at', '<=', $end);
-                        $journalItem          = $journalItem->first();
-                        $data['account_name'] = $account->name;
-                        $data['totalCredit']  = $journalItem->totalCredit;
-                        $data['totalDebit']   = $journalItem->totalDebit;
-                        $data['netAmount']    = $journalItem->netAmount;
-                        $accountArray[]       = $data;
+                    foreach ($subTypesLevel2 as $subTypeLevel2) {
+                        $accounts     = ChartOfAccount::where('type', $type->id)->where('sub_type', $subType->id)->where('sub_type_level_2', $subTypeLevel2->id)->get();
+                        $accountArray = [];
+                        foreach ($accounts as $account) {
+
+                            $journalItem = JournalItem::select(\DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'))->where('account', $account->id);
+                            $journalItem->where('created_at', '>=', $start);
+                            $journalItem->where('created_at', '<=', $end);
+                            $journalItem          = $journalItem->first();
+                            $data['account_name'] = $account->name;
+                            $data['totalCredit']  = $journalItem->totalCredit;
+                            $data['totalDebit']   = $journalItem->totalDebit;
+                            $data['netAmount']    = $journalItem->netAmount;
+                            $accountArray[]       = $data;
+                        }
+                        // $subTypeData['subType'] = $subType->name;
+                        // $subTypeData['account'] = $accountArray;
+                        // $subTypeArray[]         = $subTypeData;
+                        $subTypeLevel2Data['subTypeLevel2'] = $subTypeLevel2->name;
+                        $subTypeLevel2Data['account'] = $accountArray;
+                        $subTypesLevel2Array[]         = $subTypeLevel2Data;
                     }
                     $subTypeData['subType'] = $subType->name;
-                    $subTypeData['account'] = $accountArray;
+                    $subTypeData['subTypeLevel2'] = $subTypesLevel2Array;
                     $subTypeArray[]         = $subTypeData;
                 }
-
                 $chartAccounts[$type->name] = $subTypeArray;
             }
 

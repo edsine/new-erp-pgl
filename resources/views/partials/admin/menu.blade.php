@@ -97,6 +97,13 @@
                                                                 href="{{ route('report.income.vs.expense.summary') }}">{{ __('Income VS Expense') }}</a>
                                                         </li>
                                                     @endcan
+                                                    @can('income vs expense report')
+                                                        <li
+                                                            class="dash-item {{ Request::route()->getName() == 'report.finacialprojectreport' ? ' active' : '' }}">
+                                                            <a class="dash-link"
+                                                                href="{{ route('report.finacialprojectreport') }}">{{ __('Financial Project Report') }}</a>
+                                                        </li>
+                                                    @endcan
                                                     @can('statement report')
                                                         <li
                                                             class="dash-item {{ Request::route()->getName() == 'report.account.statement' ? ' active' : '' }}">
@@ -310,8 +317,7 @@
                                                     </li>
                                                 @endcan
                                                 @can('manage pay slip')
-                                                    <li
-                                                        class="dash-item {{ request()->is('payslip*') ? 'active' : '' }}">
+                                                    <li class="dash-item {{ request()->is('payslip*') ? 'active' : '' }}">
                                                         <a class="dash-link"
                                                             href="{{ route('payslip.index') }}">{{ __('Payslip') }}</a>
                                                     </li>
@@ -409,8 +415,7 @@
                                                     </li>
                                                 @endcan
                                                 @can('manage trainer')
-                                                    <li
-                                                        class="dash-item {{ request()->is('trainer*') ? 'active' : '' }}">
+                                                    <li class="dash-item {{ request()->is('trainer*') ? 'active' : '' }}">
                                                         <a class="dash-link"
                                                             href="{{ route('trainer.index') }}">{{ __('Trainer') }}</a>
                                                     </li>
@@ -492,8 +497,7 @@
                                                     class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                             <ul class="dash-submenu">
                                                 @can('manage award')
-                                                    <li
-                                                        class="dash-item {{ request()->is('award*') ? 'active' : '' }}">
+                                                    <li class="dash-item {{ request()->is('award*') ? 'active' : '' }}">
                                                         <a class="dash-link"
                                                             href="{{ route('award.index') }}">{{ __('Award') }}</a>
                                                     </li>
@@ -513,8 +517,7 @@
                                                     </li>
                                                 @endcan
                                                 @can('manage travel')
-                                                    <li
-                                                        class="dash-item {{ request()->is('travel*') ? 'active' : '' }}">
+                                                    <li class="dash-item {{ request()->is('travel*') ? 'active' : '' }}">
                                                         <a class="dash-link"
                                                             href="{{ route('travel.index') }}">{{ __('Trip') }}</a>
                                                     </li>
@@ -688,7 +691,8 @@
                                 </a>
                                 <ul class="dash-submenu">
                                     @if (Gate::check('manage customer'))
-                                        <li class="dash-item {{ Request::segment(1) == 'customer' ? 'active' : '' }}">
+                                        <li
+                                            class="dash-item {{ Request::segment(1) == 'customer' ? 'active' : '' }}">
                                             <a class="dash-link"
                                                 href="{{ route('customer.index') }}">{{ __('Customer') }}</a>
                                         </li>
@@ -909,7 +913,8 @@
                                         </li>
                                     @endcan
                                     @if (\Auth::user()->type == 'company' || \Auth::user()->type == 'client')
-                                        <li class="dash-item  {{ Request::segment(1) == 'contract' ? 'active' : '' }}">
+                                        <li
+                                            class="dash-item  {{ Request::segment(1) == 'contract' ? 'active' : '' }}">
                                             <a class="dash-link"
                                                 href="{{ route('contract.index') }}">{{ __('Contract') }}</a>
                                         </li>
@@ -1121,7 +1126,8 @@
                                     </li>
                                 @endif
                                 @if (Gate::check('manage product & service'))
-                                    <li class="dash-item {{ Request::segment(1) == 'productstock' ? 'active' : '' }}">
+                                    <li
+                                        class="dash-item {{ Request::segment(1) == 'productstock' ? 'active' : '' }}">
                                         <a href="{{ route('productstock.index') }}"
                                             class="dash-link">{{ __('Product Stock') }}
                                         </a>
@@ -1182,7 +1188,8 @@
                         </li>
                         @endcan --}}
                     @can('manage document')
-                        <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'document-upload' ? 'active' : '' }}">
+                        <li
+                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'document-upload' ? 'active' : '' }}">
                             <a href="{{ route('document-upload.index') }}" class="dash-link">
                                 <span class="dash-micon"><i class="ti ti-files"></i></span><span
                                     class="dash-mtext">{{ __('Document Manager') }}</span>
@@ -1223,8 +1230,7 @@
                     <!--------------------- Start System Setup ----------------------------------->
 
                     @if (Gate::check('manage company settings'))
-                        <li
-                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'settings' ? ' active' : '' }}">
+                        <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'settings' ? ' active' : '' }}">
                             <a href="{{ route('settings') }}" class="dash-link">
                                 <span class="dash-micon"><i class="ti ti-settings"></i></span><span
                                     class="dash-mtext">{{ __('Settings') }}</span>
