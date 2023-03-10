@@ -172,7 +172,7 @@ class PaymentController extends Controller
             $journal              = new JournalEntry();
             $journal->journal_id  = $this->journalNumber();
             $journal->date        = $request->date;
-            $journal->reference   = $request->reference;
+            $journal->reference   = time();
             $journal->description = $request->description;
             $journal->created_by  = \Auth::user()->creatorId();
             $journal->save();
@@ -313,7 +313,7 @@ class PaymentController extends Controller
             $payment->vender_id      = $request->vender_id;
             $payment->category_id    = $request->category_id;
             $payment->payment_method = 0;
-            $payment->reference      = $request->reference;
+            // $payment->reference      = $request->reference;
 
             $payment->expense_type   = $request->expense_type;
             if ($request->expense_type == 1) {

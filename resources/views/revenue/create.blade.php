@@ -33,10 +33,10 @@
             {{ Form::label('category_id', __('Category'), ['class' => 'form-label']) }}
             {{ Form::select('category_id', $categories, null, ['class' => 'form-control select', 'required' => 'required']) }}
         </div>
-        <div class="form-group col-md-6">
+        {{-- <div class="form-group col-md-6">
             {{ Form::label('reference', __('Reference'), ['class' => 'form-label']) }}
             {{ Form::text('reference', '', ['class' => 'form-control']) }}
-        </div>
+        </div> --}}
 
         <div class="form-group col-md-6">
             {{ Form::label('add_receipt', __('Payment Receipt'), ['class' => 'col-form-label']) }}

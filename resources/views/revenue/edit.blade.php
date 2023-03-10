@@ -34,11 +34,11 @@
             {{ Form::select('category_id', $categories, null, ['class' => 'form-control select', 'required' => 'required']) }}
         </div>
 
-        <div class="form-group  col-md-6">
+        {{-- <div class="form-group  col-md-6">
             {{ Form::label('reference', __('Reference'), ['class' => 'form-label']) }}
             {{ Form::text('reference', null, ['class' => 'form-control']) }}
 
-        </div>
+        </div> --}}
 
 
         <div class="form-group col-md-6">

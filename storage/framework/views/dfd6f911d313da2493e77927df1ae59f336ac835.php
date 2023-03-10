@@ -1,4 +1,3 @@
-
 <?php
 $profile = asset(Storage::url('uploads/avatar/'));
 ?>
@@ -55,7 +54,7 @@ $profile = asset(Storage::url('uploads/avatar/'));
                                     <th><?php echo e(__('Contact')); ?></th>
                                     <th><?php echo e(__('Email')); ?></th>
                                     <th><?php echo e(__('Balance')); ?></th>
-                                    <th><?php echo e(__('Last Login At')); ?></th>
+                                    
                                     <th><?php echo e(__('Action')); ?></th>
                                 </tr>
                             </thead>
@@ -78,10 +77,7 @@ $profile = asset(Storage::url('uploads/avatar/'));
                                         <td><?php echo e($Vender['contact']); ?></td>
                                         <td><?php echo e($Vender['email']); ?></td>
                                         <td><?php echo e(\Auth::user()->priceFormat($Vender['balance'])); ?></td>
-                                        <td>
-                                            <?php echo e(!empty($Vender->last_login_at) ? $Vender->last_login_at : '-'); ?>
-
-                                        </td>
+                                        
                                         <td class="Action">
                                             <span>
                                                 <?php if($Vender['is_active'] == 0): ?>

@@ -108,7 +108,7 @@ class RevenueController extends Controller
             }
             $revenue->category_id    = $request->category_id;
             $revenue->payment_method = 0;
-            $revenue->reference      = $request->reference;
+            $revenue->reference      = time();
             $revenue->description    = $request->description;
             if (!empty($request->add_receipt)) {
                 $fileName = time() . "_" . $request->add_receipt->getClientOriginalName();
@@ -252,7 +252,7 @@ class RevenueController extends Controller
             }
             $revenue->category_id    = $request->category_id;
             $revenue->payment_method = 0;
-            $revenue->reference      = $request->reference;
+            // $revenue->reference      = $request->reference;
             $revenue->description    = $request->description;
             if (!empty($request->add_receipt)) {
 
