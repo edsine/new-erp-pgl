@@ -15,7 +15,7 @@
             <div class="form-group">
                 <?php echo e(Form::label('role',__('Role'),['class'=>'form-label'])); ?>
 
-                <?php echo e(Form::select('role',$roles,null,array('class'=>'form-control select'))); ?>
+                <?php echo e(Form::select('role',$roles,null,array('class'=>'form-control select', ))); ?>
 
             </div>
         </div>

@@ -13,5 +13,14 @@ class DucumentUpload extends Model
         'description',
         'created_by',
     ];
+
+    // protected $casts = [
+    //     'role' => 'array',
+    // ];
+
+    
+
+
+    
     
 }
