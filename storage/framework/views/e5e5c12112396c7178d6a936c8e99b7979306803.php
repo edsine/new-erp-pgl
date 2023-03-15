@@ -1085,6 +1085,12 @@
                         </li>
                     <?php endif; ?>
 
+                    <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'requisition' ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('requisition.index')); ?>" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext"><?php echo e(__('Requisition Manager')); ?></span>
+                        </a>
+                    </li> 
                     <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'support' ? 'active' : ''); ?>">
                         <a href="<?php echo e(route('support.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-headphones"></i></span><span

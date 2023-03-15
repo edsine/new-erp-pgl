@@ -120,7 +120,7 @@ use App\Http\Controllers\ZoomMeetingController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\ProjectReportController;
-
+use App\Http\Controllers\RequisitionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -1218,6 +1218,13 @@ Route::group(
     Route::post('support/{id}/reply', [SupportController::class, 'replyAnswer'])->name('support.reply.answer');
     Route::get('support/grid', [SupportController::class, 'grid'])->name('support.grid');
     Route::resource('support', SupportController::class);
+
+    Route::get('index', [RequisitionController::class, 'index'])->name('requisition.index');
+    Route::get('create', [RequisitionController::class, 'create'])->name('requisition.create');
+    Route::post('store', [RequisitionController::class, 'store'])->name('requisition.store');
+    Route::get('edit/{id}', [RequisitionController::class, 'edit'])->name('requisition.edit');
+    Route::put('update/{id}', [RequisitionController::class, 'update'])->name('requisition.update');
+    Route::delete('{id}', [RequisitionController::class, 'destroy'])->name('requisition.destroy');
 
 }
 );

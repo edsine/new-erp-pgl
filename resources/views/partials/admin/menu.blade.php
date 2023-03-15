@@ -1190,6 +1190,12 @@
                         </li>
                     @endcan
 
+                    <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'requisition' ? 'active' : '' }}">
+                        <a href="{{ route('requisition.index') }}" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext">{{ __('Requisition Manager') }}</span>
+                        </a>
+                    </li> 
                     <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
                         <a href="{{ route('support.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-headphones"></i></span><span
