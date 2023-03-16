@@ -431,10 +431,10 @@
                                             Gate::check('manage custom question') ||
                                             Gate::check('show interview schedule') ||
                                             Gate::check('show career'))
-                                        <li
-                                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'job' || Request::segment(1) == 'job-application' || Request::segment(1) == 'candidates-job-applications' || Request::segment(1) == 'job-onboard' || Request::segment(1) == 'custom-question' || Request::segment(1) == 'interview-schedule' || Request::segment(1) == 'career' ? 'active dash-trigger' : '' }}    ">
-                                            <a class="dash-link" href="#">{{ __('Recruitment Setup') }}<span
-                                                    class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                        <li>
+                                            {{-- class="dash-item dash-hasmenu {{ Request::segment(1) == 'job' || Request::segment(1) == 'job-application' || Request::segment(1) == 'candidates-job-applications' || Request::segment(1) == 'job-onboard' || Request::segment(1) == 'custom-question' || Request::segment(1) == 'interview-schedule' || Request::segment(1) == 'career' ? 'active dash-trigger' : '' }}    "> --}}
+                                            {{-- <a class="dash-link" href="#">{{ __('Recruitment Setup') }}<span
+                                                    class="dash-arrow"><i data-feather="chevron-right"></i></span></a> --}}
                                             <ul class="dash-submenu">
                                                 {{-- @can('manage job')
                                                 <li class="dash-item {{ (Request::route()->getName() == 'job.index' || Request::route()->getName() == 'job.create' || Request::route()->getName() == 'job.edit' || Request::route()->getName() == 'job.show'   ? 'active' : '')}}">
@@ -466,13 +466,13 @@
                                                     <a class="dash-link" href="{{route('custom-question.index')}}">{{__('Custom Question')}}</a>
                                                 </li>
                                             @endcan --}}
-                                                @can('show interview schedule')
+                                                {{-- @can('show interview schedule')
                                                     <li
                                                         class="dash-item {{ request()->is('interview-schedule*') ? 'active' : '' }}">
                                                         <a class="dash-link"
                                                             href="{{ route('interview-schedule.index') }}">{{ __('Interview Schedule') }}</a>
                                                     </li>
-                                                @endcan
+                                                @endcan --}}
                                                 {{-- @can('show career')
                                                 <li class="dash-item {{ (request()->is('career*') ? 'active' : '')}}">
                                                     <a class="dash-link" href="{{route('career',[\Auth::user()->creatorId(),$lang])}}">{{__('Career')}}</a></li>
@@ -1197,6 +1197,12 @@
                         </li>
                     @endcan
 
+                    <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'requisition' ? 'active' : '' }}">
+                        <a href="{{ route('requisition.index') }}" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext">{{ __('Requisition Manager') }}</span>
+                        </a>
+                    </li> 
                     <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
                         <a href="{{ route('support.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-headphones"></i></span><span

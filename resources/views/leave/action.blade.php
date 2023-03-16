@@ -41,8 +41,17 @@
 
     </div>
 </div>
+@if($leave->status == 'Pending')
 <div class="modal-footer">
     <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="status">
+    <input type="submit" value="{{__('Under Review')}}" class="btn btn-info" name="status">
     <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="status">
 </div>
+@elseif($leave->status == 'Under Review')
+<div class="modal-footer">
+    <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="status">
+    <input type="submit" value="{{__('Under Review')}}" class="btn btn-info" name="status">
+    <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="status">
+</div>
+@endif
 {{Form::close()}}

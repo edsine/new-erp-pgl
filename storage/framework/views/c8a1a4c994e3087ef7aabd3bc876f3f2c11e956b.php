@@ -69,6 +69,9 @@
                                             <?php elseif($leave->status == 'Approved'): ?>
                                                 <div class="status_badge badge bg-success p-2 px-3 rounded">
                                                     <?php echo e($leave->status); ?></div>
+                                            <?php elseif($leave->status == 'Under Review'): ?>
+                                            <div class="status_badge badge bg-info p-2 px-3 rounded">
+                                                <?php echo e($leave->status); ?></div>
                                             <?php else: ?>
                                                 <div class="status_badge badge bg-danger p-2 px-3 rounded">
                                                     <?php echo e($leave->status); ?></div>

@@ -16,7 +16,7 @@ class DucumentUploadController extends Controller
         {
             if(\Auth::user()->type == 'company')
             {
-                $documents = DucumentUpload::where('created_by', \Auth::user()->creatorId())->get();
+                $documents = DucumentUpload::get();
             }
             else
             {
@@ -40,15 +40,12 @@ class DucumentUploadController extends Controller
 
     public function create()
     {
-        if(\Auth::user()->can('create document'))
-        {
+        if (\Auth::user()->can('create document')) {
             $roles = Role::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $roles->prepend('All', '0');
 
             return view('documentUpload.create', compact('roles'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -57,16 +54,15 @@ class DucumentUploadController extends Controller
     public function store(Request $request)
     {
 
-        if(\Auth::user()->can('create document'))
-        {
+        if (\Auth::user()->can('create document')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required',
-//                                   'document' => 'mimes:jpeg,png,jpg,svg,pdf,doc,zip|max:20480',
-                               ]
+                $request->all(),
+                [
+                    'name' => 'required',
+                    //                                   'document' => 'mimes:jpeg,png,jpg,svg,pdf,doc,zip|max:20480',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
@@ -74,27 +70,26 @@ class DucumentUploadController extends Controller
 
             $document              = new DucumentUpload();
             $document->name        = $request->name;
-            if(!empty($request->document))
-            {
+            if (!empty($request->document)) {
                 $fileName = time() . "_" . $request->document->getClientOriginalName();
                 $document->document = $fileName;
                 $dir        = 'uploads/documentUpload';
-                $path = Utility::upload_file($request,'document',$fileName,$dir,[]);
-                if($path['flag']==0){
+                $path = Utility::upload_file($request, 'document', $fileName, $dir, []);
+                if ($path['flag'] == 0) {
                     return redirect()->back()->with('error', __($path['msg']));
                 }
-//                $request->document  = $fileName;
-//                $document->save();
+                //                $request->document  = $fileName;
+                //                $document->save();
             }
+
             $document->role        = $request->role;
+
             $document->description = $request->description;
             $document->created_by  = \Auth::user()->creatorId();
             $document->save();
 
             return redirect()->route('document-upload.index')->with('success', __('Document successfully uploaded.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -109,41 +104,36 @@ class DucumentUploadController extends Controller
     public function edit($id)
     {
 
-        if(\Auth::user()->can('edit document'))
-        {
+        if (\Auth::user()->can('edit document')) {
             $roles = Role::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $roles->prepend('All', '0');
 
             $ducumentUpload = DucumentUpload::find($id);
 
             return view('documentUpload.edit', compact('roles', 'ducumentUpload'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function update(Request $request, $id)
     {
-        if(\Auth::user()->can('edit document'))
-        {
+        if (\Auth::user()->can('edit document')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required',
-//                                   'document' => 'mimes:jpeg,png,jpg,svg,pdf,doc,zip|max:20480',
-                               ]
+                $request->all(),
+                [
+                    'name' => 'required',
+                    //                                   'document' => 'mimes:jpeg,png,jpg,svg,pdf,doc,zip|max:20480',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
             }
             $document = DucumentUpload::find($id);
             $document->name = $request->name;
-            if(!empty($request->document))
-            {
+            if (!empty($request->document)) {
 
                 $filenameWithExt = $request->file('document')->getClientOriginalName();
                 $filename        = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -155,22 +145,19 @@ class DucumentUploadController extends Controller
                     \File::delete($image_path);
                 }
                 $url = '';
-                $path = \Utility::upload_file($request,'document',$fileNameToStore,$dir,[]);
-                if($path['flag'] == 1){
+                $path = \Utility::upload_file($request, 'document', $fileNameToStore, $dir, []);
+                if ($path['flag'] == 1) {
                     $url = $path['url'];
-                }else{
+                } else {
                     return redirect()->back()->with('error', __($path['msg']));
                 }
-
             }
             $document->role        = $request->role;
             $document->description = $request->description;
             $document->save();
 
             return redirect()->route('document-upload.index')->with('success', __('Document successfully uploaded.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -178,29 +165,22 @@ class DucumentUploadController extends Controller
 
     public function destroy($id)
     {
-        if(\Auth::user()->can('delete document'))
-        {
+        if (\Auth::user()->can('delete document')) {
             $document = DucumentUpload::find($id);
-            if($document->created_by == \Auth::user()->creatorId())
-            {
+            if ($document->created_by == \Auth::user()->creatorId()) {
                 $document->delete();
 
                 $dir = storage_path('uploads/documentUpload/');
 
-                if(!empty($document->document))
-                {
+                if (!empty($document->document)) {
                     unlink($dir . $document->document);
                 }
 
                 return redirect()->route('document-upload.index')->with('success', __('Document successfully deleted.'));
-            }
-            else
-            {
+            } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }

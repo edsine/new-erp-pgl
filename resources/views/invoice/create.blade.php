@@ -431,18 +431,7 @@
                                         </div>
                                     </div>
                                 </div>
-{{--                                <div class="col-md-6">--}}
-{{--                                    <div class="form-check custom-checkbox mt-4">--}}
-{{--                                        <input class="form-check-input" type="checkbox" name="discount_apply" id="discount_apply">--}}
-{{--                                        <label class="form-check-label " for="discount_apply">{{__('Discount Apply')}}</label>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="col-md-6">--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        {{Form::label('sku',__('SKU')) }}--}}
-{{--                                        {!!Form::text('sku', null,array('class' => 'form-control','required'=>'required')) !!}--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+
                                 @if(!$customFields->isEmpty())
                                     <div class="col-md-6">
                                         <div class="tab-pane fade show" id="tab-2" role="tabpanel">

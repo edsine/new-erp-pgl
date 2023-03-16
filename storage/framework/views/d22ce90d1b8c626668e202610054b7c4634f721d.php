@@ -42,10 +42,19 @@
 
     </div>
 </div>
+<?php if($leave->status == 'Pending'): ?>
 <div class="modal-footer">
     <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success" data-bs-dismiss="modal" name="status">
+    <input type="submit" value="<?php echo e(__('Under Review')); ?>" class="btn btn-info" name="status">
     <input type="submit" value="<?php echo e(__('Rejected')); ?>" class="btn btn-danger" name="status">
 </div>
+<?php elseif($leave->status == 'Under Review'): ?>
+<div class="modal-footer">
+    <input type="submit" value="<?php echo e(__('Approved')); ?>" class="btn btn-success" data-bs-dismiss="modal" name="status">
+    <input type="submit" value="<?php echo e(__('Under Review')); ?>" class="btn btn-info" name="status">
+    <input type="submit" value="<?php echo e(__('Rejected')); ?>" class="btn btn-danger" name="status">
+</div>
+<?php endif; ?>
 <?php echo e(Form::close()); ?>
 
 <?php /**PATH C:\laragon\www\pglnigeriaerp\resources\views/leave/action.blade.php ENDPATH**/ ?>

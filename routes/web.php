@@ -95,6 +95,7 @@ use App\Http\Controllers\CompanyPolicyController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\MolliePaymentController;
 use App\Http\Controllers\ProjectReportController;
+use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\ProjectstagesController;
 use App\Http\Controllers\SkrillPaymentController;
 use App\Http\Controllers\StripePaymentController;
@@ -1225,6 +1226,13 @@ Route::group(
     Route::post('support/{id}/reply', [SupportController::class, 'replyAnswer'])->name('support.reply.answer');
     Route::get('support/grid', [SupportController::class, 'grid'])->name('support.grid');
     Route::resource('support', SupportController::class);
+
+    Route::get('index', [RequisitionController::class, 'index'])->name('requisition.index');
+    Route::get('create', [RequisitionController::class, 'create'])->name('requisition.create');
+    Route::post('store', [RequisitionController::class, 'store'])->name('requisition.store');
+    Route::get('edit/{id}', [RequisitionController::class, 'edit'])->name('requisition.edit');
+    Route::put('update/{id}', [RequisitionController::class, 'update'])->name('requisition.update');
+    Route::delete('{id}', [RequisitionController::class, 'destroy'])->name('requisition.destroy');
 
 }
 );
