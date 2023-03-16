@@ -260,12 +260,12 @@
                                         <td>{{\Auth::user()->priceFormat($revenue)}}</td>
                                     @endforeach
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td>{{(__('Invoice'))}}</td>
                                     @foreach($invoiceIncomeTotal as $invoice)
                                         <td>{{\Auth::user()->priceFormat($invoice)}}</td>
                                     @endforeach
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td colspan="13" class="text-dark"><span>{{__('Expense : ')}}</span></td>
                                 </tr>
@@ -275,12 +275,12 @@
                                         <td>{{\Auth::user()->priceFormat($payment)}}</td>
                                     @endforeach
                                 </tr>
-                                <tr>
+                                {{-- <tr>
                                     <td>{{(__('Bill'))}}</td>
                                     @foreach($billExpenseTotal as $bill)
                                         <td>{{\Auth::user()->priceFormat($bill)}}</td>
                                     @endforeach
-                                </tr>
+                                </tr> --}}
                                 <tr>
                                     <td colspan="13" class="text-dark"><span>{{__('Profit = Income - Expense ')}}</span></td>
                                 </tr>

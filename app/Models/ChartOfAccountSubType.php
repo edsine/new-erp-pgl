@@ -11,4 +11,5 @@ class ChartOfAccountSubType extends Model
         'type',
         'created_by',
     ];
+
 }

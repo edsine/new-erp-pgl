@@ -35,7 +35,7 @@
     <div class="row">
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                {{ Form::label('budget', __('Budget'), ['class' => 'form-label']) }}
+                {{ Form::label('budget', __('Contract Sum'), ['class' => 'form-label']) }}
                 {{ Form::number('budget', null, ['class' => 'form-control']) }}
             </div>
         </div>

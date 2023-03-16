@@ -83,7 +83,7 @@ class BankTransferController extends Controller
             $transfer->amount         = $request->amount;
             $transfer->date           = $request->date;
             $transfer->payment_method = 0;
-            $transfer->reference      = $request->reference;
+            $transfer->reference      = time();
             $transfer->description    = $request->description;
             $transfer->created_by     = \Auth::user()->creatorId();
             $transfer->save();
@@ -143,7 +143,7 @@ class BankTransferController extends Controller
             $transfer->amount         = $request->amount;
             $transfer->date           = $request->date;
             $transfer->payment_method = 0;
-            $transfer->reference      = $request->reference;
+            // $transfer->reference      = $request->reference;
             $transfer->description    = $request->description;
             $transfer->save();
 

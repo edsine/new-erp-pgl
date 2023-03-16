@@ -22,7 +22,7 @@ class TransactionController extends Controller
             $filter['category'] = __('All');
 
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
-            $account->prepend(__('Stripe / Paypal'), 'strip-paypal');
+            // $account->prepend(__('Stripe / Paypal'), 'strip-paypal');
             $account->prepend('Select Account', '');
 
             $accounts = Transaction::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')
@@ -36,8 +36,8 @@ class TransactionController extends Controller
                       ]
             )->get()->pluck('name', 'name');
 
-            $category->prepend('Invoice', 'Invoice');
-            $category->prepend('Bill', 'Bill');
+            $category->prepend('Revenue', 'Revenue');
+            $category->prepend('Payment', 'Payment');
             $category->prepend('Select Category', '');
 
             $transactions = Transaction::orderBy('id', 'desc');

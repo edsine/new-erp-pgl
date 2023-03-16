@@ -36,7 +36,7 @@
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('account', __('Account'),['class'=>'form-label']) }}
+                                            {{ Form::label('account', __('Bank Account'),['class'=>'form-label']) }}
                                             {{ Form::select('account',$account,isset($_GET['account'])?$_GET['account']:'', array('class' => 'form-control select' ,'id'=>'choices-multiple')) }}
                                         </div>
                                     </div>
@@ -53,6 +53,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('customer', __('Customer'),['class'=>'form-label']) }}
+                                            {{ Form::select('customer',$customers,isset($_GET['customer'])?$_GET['customer']:'', array('class' => 'form-control select','id'=>'choices-multiple1')) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('department', __('Department'),['class'=>'form-label']) }}
+                                            {{ Form::select('department',$departments,isset($_GET['department'])?$_GET['department']:'', array('class' => 'form-control select','id'=>'choices-multiple1')) }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-auto mt-4">
                                 <div class="row">
@@ -61,7 +76,7 @@
                                             <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
                                         </a>
 
-                                        <a href="{{ route('productservice.index') }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
+                                        <a href="{{ route('payment.index') }}" class="btn btn-sm btn-danger" data-bs-toggle="tooltip"
                                            title="{{ __('Reset') }}">
                                             <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
                                         </a>
@@ -88,6 +103,9 @@
                                 <th>{{__('Amount')}}</th>
                                 <th>{{__('Account')}}</th>
                                 <th>{{__('Vendor')}}</th>
+                                <th>{{__('Client')}}</th>
+                                <th>{{__('Project')}}</th>
+                                <th>{{__('Department')}}</th>
                                 <th>{{__('Category')}}</th>
                                 <th>{{__('Reference')}}</th>
                                 <th>{{__('Description')}}</th>
@@ -109,6 +127,9 @@
                                     <td>{{  Auth::user()->priceFormat($payment->amount)}}</td>
                                     <td>{{ !empty($payment->bankAccount)?$payment->bankAccount->bank_name.' '.$payment->bankAccount->holder_name:''}}</td>
                                     <td>{{  !empty($payment->vender)?$payment->vender->name:'-'}}</td>
+                                    <td>{{  !empty($payment->client)?$payment->client->name:'-'}}</td>
+                                    <td>{{  !empty($payment->project)?$payment->project->project_name:'-'}}</td>
+                                    <td>{{  !empty($payment->department)?$payment->department->name:'-'}}</td>
                                     <td>{{  !empty($payment->category)?$payment->category->name:'-'}}</td>
                                     <td>{{  !empty($payment->reference)?$payment->reference:'-'}}</td>
                                     <td>{{  !empty($payment->description)?$payment->description:'-'}}</td>

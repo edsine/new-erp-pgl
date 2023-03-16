@@ -151,7 +151,7 @@
                                             @endforeach
                                         @endif
 
-                                        <tr>
+                                        {{-- <tr>
                                             <td colspan="13" class="text-dark"><span>{{__('Invoice : ')}}</span></td>
                                         </tr>
                                         @if(!empty($invoiceIncomeArray))
@@ -163,13 +163,13 @@
                                                     @endforeach
                                                 </tr>
                                             @endforeach
-                                        @endif
+                                        @endif --}}
                                         <div class="row">
                                             <div class="col-sm-12">
                                                 <table class="table table-flush border">
                                                     <tbody>
                                                     <tr>
-                                                        <td colspan="13" class="text-dark"><span>{{__('Total Income =  Revenue + Invoice ')}}</span></td>
+                                                        <td colspan="13" class="text-dark"><span>{{__('Total Income =  Revenue')}}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td width="25%" class="text-dark">{{__('Total Income')}}</td>
@@ -212,7 +212,7 @@
                                                     </tr>
                                                 @endforeach
                                             @endif
-                                            <tr>
+                                            {{-- <tr>
                                                 <td colspan="13" class="text-dark"><span>{{__('Bill : ')}}</span></td>
                                             </tr>
                                             @if(!empty($billExpenseArray))
@@ -224,13 +224,13 @@
                                                         @endforeach
                                                     </tr>
                                                 @endforeach
-                                            @endif
+                                            @endif --}}
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <table class="table table-flush border" id="dataTable-manual">
                                                         <tbody>
                                                         <tr>
-                                                            <td colspan="13" class="text-dark"><span>{{__('Total Expense =  Payment + Bill ')}}</span></td>
+                                                            <td colspan="13" class="text-dark"><span>{{__('Total Expense =  Payment')}}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td class="text-dark">{{__('Total Expenses')}}</td>

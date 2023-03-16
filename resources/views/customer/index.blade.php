@@ -55,7 +55,7 @@ $profile=\App\Models\Utility::get_file('uploads/avatar');
                                 <th> {{__('Contact')}}</th>
                                 <th> {{__('Email')}}</th>
                                 <th> {{__('Balance')}}</th>
-                                <th> {{__('Last Login')}}</th>
+                                {{-- <th> {{__('Last Login')}}</th> --}}
                                 <th>{{__('Action')}}</th>
                             </tr>
                             </thead>
@@ -77,9 +77,9 @@ $profile=\App\Models\Utility::get_file('uploads/avatar');
                                     <td>{{$customer['contact']}}</td>
                                     <td>{{$customer['email']}}</td>
                                     <td>{{\Auth::user()->priceFormat($customer['balance'])}}</td>
-                                    <td>
+                                    {{-- <td>
                                         {{ (!empty($customer->last_login_at)) ? $customer->last_login_at : '-' }}
-                                    </td>
+                                    </td> --}}
                                     <td class="Action">
                                         <span>
                                         @if($customer['is_active']==0)

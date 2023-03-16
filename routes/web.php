@@ -2,124 +2,125 @@
 
 use App\Models\Utility;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\SystemController;
-use App\Http\Controllers\ProductServiceController;
-use App\Http\Controllers\ProductStockController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\VenderController;
-use App\Http\Controllers\BankAccountController;
-use App\Http\Controllers\BankTransferController;
-use App\Http\Controllers\TaxController;
-use App\Http\Controllers\ProductServiceCategoryController;
-use App\Http\Controllers\ProductServiceUnitController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\CreditNoteController;
-use App\Http\Controllers\DebitNoteController;
-use App\Http\Controllers\BillController;
-use App\Http\Controllers\RevenueController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ProposalController;
-use App\Http\Controllers\GoalController;
-use App\Http\Controllers\BudgetController;
-use App\Http\Controllers\AssetController;
-use App\Http\Controllers\CustomFieldController;
-use App\Http\Controllers\ChartOfAccountController;
-use App\Http\Controllers\JournalEntryController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\DealController;
-use App\Http\Controllers\StageController;
-use App\Http\Controllers\PipelineController;
-use App\Http\Controllers\LabelController;
-use App\Http\Controllers\SourceController;
-use App\Http\Controllers\LeadController;
-use App\Http\Controllers\LeadStageController;
-use App\Http\Controllers\EmailTemplateController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\BranchController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\PayslipTypeController;
-use App\Http\Controllers\SetSalaryController;
-use App\Http\Controllers\AllowanceController;
-use App\Http\Controllers\CommissionController;
-use App\Http\Controllers\LoanController;
-use App\Http\Controllers\LoanOptionController;
-use App\Http\Controllers\DeductionOptionController;
-use App\Http\Controllers\SaturationDeductionController;
-use App\Http\Controllers\OtherPaymentController;
-use App\Http\Controllers\OvertimeController;
-use App\Http\Controllers\AllowanceOptionController;
-use App\Http\Controllers\PaySlipController;
-use App\Http\Controllers\CompanyPolicyController;
-use App\Http\Controllers\IndicatorController;
-use App\Http\Controllers\AppraisalController;
-use App\Http\Controllers\GoalTypeController;
-use App\Http\Controllers\GoalTrackingController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\MeetingController;
-use App\Http\Controllers\TrainingController;
-use App\Http\Controllers\TrainerController;
-use App\Http\Controllers\AwardTypeController;
-use App\Http\Controllers\AwardController;
-use App\Http\Controllers\ResignationController;
-use App\Http\Controllers\TravelController;
-use App\Http\Controllers\ComplaintController;
-use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\WarningController;
-use App\Http\Controllers\TerminationController;
-use App\Http\Controllers\TerminationTypeController;
-use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\JobCategoryController;
-use App\Http\Controllers\JobStageController;
-use App\Http\Controllers\JobApplicationController;
-use App\Http\Controllers\CustomQuestionController;
-use App\Http\Controllers\InterviewScheduleController;
-use App\Http\Controllers\ProjectTaskController;
-use App\Http\Controllers\DucumentUploadController;
-use App\Http\Controllers\TransferController;
-use App\Http\Controllers\AttendanceEmployeeController;
-use App\Http\Controllers\LeaveController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TaskStageController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\ContractTypeController;
-use App\Http\Controllers\TimesheetController;
-use App\Http\Controllers\ProjectstagesController;
-use App\Http\Controllers\BugStatusController;
-use App\Http\Controllers\StripePaymentController;
-use App\Http\Controllers\FormBuilderController;
-use App\Http\Controllers\ContractController;
-use App\Http\Controllers\LandingPageSectionController;
-use App\Http\Controllers\PaypalController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\PaystackPaymentController;
-use App\Http\Controllers\FlutterwavePaymentController;
-use App\Http\Controllers\RazorpayPaymentController;
-use App\Http\Controllers\PaytmPaymentController;
-use App\Http\Controllers\MolliePaymentController;
-use App\Http\Controllers\MercadoPaymentController;
-use App\Http\Controllers\SkrillPaymentController;
-use App\Http\Controllers\PaymentWallPaymentController;
-use App\Http\Controllers\CoingatePaymentController;
-use App\Http\Controllers\SupportController;
-use App\Http\Controllers\CompetenciesController;
-use App\Http\Controllers\PerformanceTypeController;
-use App\Http\Controllers\TimeTrackerController;
-use App\Http\Controllers\ZoomMeetingController;
-use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\PosController;
+use App\Http\Controllers\TaxController;
+use App\Http\Controllers\BillController;
+use App\Http\Controllers\DealController;
+use App\Http\Controllers\GoalController;
+use App\Http\Controllers\LeadController;
+use App\Http\Controllers\LoanController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\AwardController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\LabelController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\StageController;
+use App\Http\Controllers\BranchController;
+use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\PaypalController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SourceController;
+use App\Http\Controllers\SystemController;
+use App\Http\Controllers\TravelController;
+use App\Http\Controllers\VenderController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PaySlipController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RevenueController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\WarningController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\GoalTypeController;
+use App\Http\Controllers\JobStageController;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\OvertimeController;
+use App\Http\Controllers\PipelineController;
+use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\TransferController;
+use App\Http\Controllers\AllowanceController;
+use App\Http\Controllers\AppraisalController;
+use App\Http\Controllers\AwardTypeController;
+use App\Http\Controllers\BugStatusController;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DebitNoteController;
+use App\Http\Controllers\IndicatorController;
+use App\Http\Controllers\LeadStageController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\SetSalaryController;
+use App\Http\Controllers\TaskStageController;
+use App\Http\Controllers\TimesheetController;
+use App\Http\Controllers\WarehouseController;
+use App\Http\Controllers\CommissionController;
+use App\Http\Controllers\CreditNoteController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\LoanOptionController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\CustomFieldController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\FormBuilderController;
+use App\Http\Controllers\JobCategoryController;
+use App\Http\Controllers\PayslipTypeController;
+use App\Http\Controllers\ProjectTaskController;
+use App\Http\Controllers\ResignationController;
+use App\Http\Controllers\TerminationController;
+use App\Http\Controllers\TimeTrackerController;
+use App\Http\Controllers\TransactionController;
+use App\Http\Controllers\ZoomMeetingController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BankTransferController;
+use App\Http\Controllers\CompetenciesController;
+use App\Http\Controllers\ContractTypeController;
+use App\Http\Controllers\GoalTrackingController;
+use App\Http\Controllers\JournalEntryController;
+use App\Http\Controllers\OtherPaymentController;
+use App\Http\Controllers\PaytmPaymentController;
+use App\Http\Controllers\ProductStockController;
+use App\Http\Controllers\CompanyPolicyController;
+use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\MolliePaymentController;
 use App\Http\Controllers\ProjectReportController;
+use App\Http\Controllers\ProjectstagesController;
+use App\Http\Controllers\SkrillPaymentController;
+use App\Http\Controllers\StripePaymentController;
+use App\Http\Controllers\ChartOfAccountController;
+use App\Http\Controllers\CustomQuestionController;
+use App\Http\Controllers\DucumentUploadController;
+use App\Http\Controllers\JobApplicationController;
+use App\Http\Controllers\MercadoPaymentController;
+use App\Http\Controllers\ProductServiceController;
+use App\Http\Controllers\AllowanceOptionController;
+use App\Http\Controllers\CoingatePaymentController;
+use App\Http\Controllers\DeductionOptionController;
+use App\Http\Controllers\PaystackPaymentController;
+use App\Http\Controllers\PerformanceTypeController;
+use App\Http\Controllers\RazorpayPaymentController;
+use App\Http\Controllers\TerminationTypeController;
+use App\Http\Controllers\InterviewScheduleController;
+use App\Http\Controllers\AttendanceEmployeeController;
+use App\Http\Controllers\ChartOfAccountTypeController;
+use App\Http\Controllers\FlutterwavePaymentController;
+use App\Http\Controllers\LandingPageSectionController;
+use App\Http\Controllers\PaymentWallPaymentController;
+use App\Http\Controllers\ProductServiceUnitController;
+use App\Http\Controllers\SaturationDeductionController;
+use App\Http\Controllers\ProductServiceCategoryController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
 /*
@@ -264,6 +265,7 @@ Route::group(
     ], function ()
 {
     Route::get('customer/{id}/show', [CustomerController::class, 'show'])->name('customer.show');
+    Route::post('customer/projects', [CustomerController::class, 'getProjects'])->name('customer.projects');
     Route::resource('customer', CustomerController::class);
 }
 );
@@ -515,6 +517,8 @@ Route::resource('custom-field', CustomFieldController::class)->middleware(['auth
 
 Route::post('chart-of-account/subtype', [ChartOfAccountController::class, 'getSubType'])->name('charofAccount.subType')->middleware(['auth', 'XSS', 'revalidate']);
 
+Route::post('chart-of-account/subtypelevel2', [ChartOfAccountController::class, 'getSubTypeLevel2'])->name('charofAccount.subTypeLevel2')->middleware(['auth', 'XSS', 'revalidate']);
+
 Route::group(
     [
         'middleware' => [
@@ -525,6 +529,7 @@ Route::group(
     ], function ()
 {
     Route::resource('chart-of-account', ChartOfAccountController::class);
+    Route::resource('chart-of-account-type', ChartOfAccountTypeController::class);
 }
 );
 
@@ -547,10 +552,10 @@ Route::group(
 );
 
 // Client Module
-Route::resource('clients', ClientController::class)->middleware(['auth', 'XSS']);
+// Route::resource('clients', ClientController::class)->middleware(['auth', 'XSS']);
 
-Route::any('client-reset-password/{id}', [ClientController::class, 'clientPassword'])->name('clients.reset');
-Route::post('client-reset-password/{id}', [ClientController::class, 'clientPasswordReset'])->name('client.password.update');
+// Route::any('client-reset-password/{id}', [ClientController::class, 'clientPassword'])->name('clients.reset');
+// Route::post('client-reset-password/{id}', [ClientController::class, 'clientPasswordReset'])->name('client.password.update');
 // Deal Module
 
 // Deal Module
@@ -869,6 +874,8 @@ Route::get('employee/{id}/leave/{status}/{type}/{month}/{year}', [ReportControll
 Route::get('reports-payroll', [ReportController::class, 'payroll'])->name('report.payroll')->middleware(['auth', 'XSS']);
 Route::get('reports-monthly-attendance', [ReportController::class, 'monthlyAttendance'])->name('report.monthly.attendance')->middleware(['auth', 'XSS']);
 Route::get('report/attendance/{month}/{branch}/{department}', [ReportController::class, 'exportCsv'])->name('report.attendance')->middleware(['auth', 'XSS']);
+
+Route::get('reports-project-finance', [ReportController::class, 'financialProjectReport'])->name('report.finacialprojectreport')->middleware(['auth', 'XSS']);
 
 // User Module
 Route::get('users/{view?}', [UserController::class, 'index'])->name('users')->middleware(['auth', 'XSS']);

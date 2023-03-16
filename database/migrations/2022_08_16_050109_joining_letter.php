@@ -29,6 +29,6 @@ class JoiningLetter extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('joining_letters');
     }
 }

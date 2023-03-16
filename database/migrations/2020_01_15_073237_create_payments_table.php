@@ -17,7 +17,7 @@ class CreatePaymentsTable extends Migration
             'payments', function (Blueprint $table){
             $table->bigIncrements('id');
             $table->date('date');
-            $table->float('amount',15,2)->default('0.00');
+            $table->float('amount',50,2)->default('0.00');
             $table->integer('account_id');
             $table->integer('vender_id');
             $table->text('description')->nullable();

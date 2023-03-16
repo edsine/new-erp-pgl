@@ -29,6 +29,6 @@ class GenerateOfferLetter extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('generate_offer_letters');
     }
 }

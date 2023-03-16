@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('plans', function (Blueprint $table) {
-            //
-        });
+        // Schema::table('plans', function (Blueprint $table) {
+        //     //
+        // });
     }
 
     /**
@@ -25,9 +25,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('plans', function (Blueprint $table) {
-            $table->integer('pos')->default(0)->after('project');
+        // Schema::table('plans', function (Blueprint $table) {
+        //     $table->integer('pos')->default(0)->after('project');
 
-        });
+        // });
     }
 };

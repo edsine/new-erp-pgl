@@ -15,7 +15,7 @@ class AddBalanceToCustomersTable extends Migration
     {
         Schema::table(
             'customers', function (Blueprint $table){
-            $table->float('balance')->default('0.00')->after('lang');
+            $table->float('balance', 50, 8)->default('0.00')->after('lang');
         }
         );
     }

@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TaskComment;
-use App\Models\TaskFile;
-use App\Models\TaskStage;
-use App\Models\TimeTracker;
-use App\Models\User;
-use App\Models\Project;
-use App\Models\Utility;
-use App\Models\Bug;
-use App\Models\BugStatus;
-use App\Models\BugFile;
-use App\Models\BugComment;
-use App\Models\Milestone;
 use Carbon\Carbon;
+use App\Models\Bug;
+use App\Models\User;
+use App\Models\BugFile;
+use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Revenue;
+use App\Models\Utility;
+use App\Models\TaskFile;
+use App\Models\BugStatus;
+use App\Models\Milestone;
+use App\Models\TaskStage;
+use App\Models\BugComment;
 use App\Models\ActivityLog;
 use App\Models\ProjectTask;
 use App\Models\ProjectUser;
+use App\Models\TaskComment;
+use App\Models\TimeTracker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -31,12 +33,9 @@ class ProjectController extends Controller
      */
     public function index($view = 'grid')
     {
-        if(\Auth::user()->can('manage project'))
-        {
+        if (\Auth::user()->can('manage project')) {
             return view('projects.index', compact('view'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -48,16 +47,13 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        if(\Auth::user()->can('create project'))
-        {
-          $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
-          $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-          $clients->prepend('Select Client', '');
-          $users->prepend('Select User', '');
-            return view('projects.create', compact('clients','users'));
-        }
-        else
-        {
+        if (\Auth::user()->can('create project')) {
+            $users   = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '!=', 'client')->get()->pluck('name', 'id');
+            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+            $clients->prepend('Select Client', '');
+            $users->prepend('Select User', '');
+            return view('projects.create', compact('clients', 'users'));
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -71,27 +67,25 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
 
-        if(\Auth::user()->can('create project'))
-        {
+        if (\Auth::user()->can('create project')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                'project_name' => 'required',
-                                'project_image' => 'required',
-                            ]
+                $request->all(),
+                [
+                    'project_name' => 'required',
+                    'project_image' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
             }
             $project = new Project();
             $project->project_name = $request->project_name;
             $project->start_date = date("Y-m-d H:i:s", strtotime($request->start_date));
             $project->end_date = date("Y-m-d H:i:s", strtotime($request->end_date));
-            if($request->hasFile('project_image'))
-            {
-                $imageName = time() . '.' . $request->project_image->extension();   
+            if ($request->hasFile('project_image')) {
+                $imageName = time() . '.' . $request->project_image->extension();
                 $request->file('project_image')->storeAs('projects', $imageName);
-                $project->project_image      = 'projects/'.$imageName;
+                $project->project_image      = 'projects/' . $imageName;
             }
             $project->client_id = $request->client;
             $project->budget = !empty($request->budget) ? $request->budget : 0;
@@ -101,7 +95,7 @@ class ProjectController extends Controller
             $project->tags = $request->tag;
             $project->created_by = \Auth::user()->creatorId();
             $project->save();
-            if(\Auth::user()->type=='company'){
+            if (\Auth::user()->type == 'company') {
 
                 ProjectUser::create(
                     [
@@ -110,8 +104,8 @@ class ProjectController extends Controller
                     ]
                 );
 
-                if($request->user){
-                    foreach($request->user as $key => $value) {
+                if ($request->user) {
+                    foreach ($request->user as $key => $value) {
                         ProjectUser::create(
                             [
                                 'project_id' => $project->id,
@@ -120,9 +114,7 @@ class ProjectController extends Controller
                         );
                     }
                 }
-
-
-            }else{
+            } else {
                 ProjectUser::create(
                     [
                         'project_id' => $project->id,
@@ -137,8 +129,8 @@ class ProjectController extends Controller
                     ]
                 );
 
-                if($request->user){
-                    foreach($request->user as $key => $value) {
+                if ($request->user) {
+                    foreach ($request->user as $key => $value) {
                         ProjectUser::create(
                             [
                                 'project_id' => $project->id,
@@ -147,28 +139,25 @@ class ProjectController extends Controller
                         );
                     }
                 }
-
             }
 
 
             //Slack Notification
             $setting  = Utility::settings(\Auth::user()->creatorId());
-            if(isset($setting['project_notification']) && $setting['project_notification'] ==1){
-                $msg = $request->project_name.' '.__(" created by").' ' .\Auth::user()->name.'.';
+            if (isset($setting['project_notification']) && $setting['project_notification'] == 1) {
+                $msg = $request->project_name . ' ' . __(" created by") . ' ' . \Auth::user()->name . '.';
                 Utility::send_slack_msg($msg);
             }
 
             //Telegram Notification
             $setting  = Utility::settings(\Auth::user()->creatorId());
-            if(isset($setting['telegram_project_notification']) && $setting['telegram_project_notification'] ==1){
-                $msg = __("New").' '.$request->project_name.' '.__("project").' '.__(" created by").' ' .\Auth::user()->name.'.';
+            if (isset($setting['telegram_project_notification']) && $setting['telegram_project_notification'] == 1) {
+                $msg = __("New") . ' ' . $request->project_name . ' ' . __("project") . ' ' . __(" created by") . ' ' . \Auth::user()->name . '.';
                 Utility::send_telegram_msg($msg);
             }
 
             return redirect()->route('projects.index')->with('success', __('Project Add Successfully'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -182,22 +171,20 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
 
-        if(\Auth::user()->can('view project'))
-        {
+        if (\Auth::user()->can('view project')) {
 
             $usr           = Auth::user();
-            if(\Auth::user()->type == 'client'){
-              $user_projects = Project::where('client_id',\Auth::user()->id)->pluck('id','id')->toArray();;
-            }else{
-              $user_projects = $usr->projects->pluck('id')->toArray();
+            if (\Auth::user()->type == 'client') {
+                $user_projects = Project::where('client_id', \Auth::user()->id)->pluck('id', 'id')->toArray();;
+            } else {
+                $user_projects = $usr->projects->pluck('id')->toArray();
             }
-            if(in_array($project->id, $user_projects))
-            {
+            if (in_array($project->id, $user_projects)) {
                 $project_data = [];
                 // Task Count
-                $tasks = ProjectTask::where('project_id',$project->id)->get();
+                $tasks = ProjectTask::where('project_id', $project->id)->get();
                 $project_task         = $tasks->count();
-                $completedTask = ProjectTask::where('project_id',$project->id)->where('is_complete',1)->get();
+                $completedTask = ProjectTask::where('project_id', $project->id)->where('is_complete', 1)->get();
 
                 $project_done_task    = $completedTask->count();
 
@@ -211,8 +198,8 @@ class ProjectController extends Controller
 
                 // Expense
                 $expAmt = 0;
-                foreach($project->expense as $expense)
-                {
+                $project_expenses = Payment::where('project_id', $project->id)->get();
+                foreach ($project_expenses as $expense) {
                     $expAmt += $expense->amount;
                 }
 
@@ -222,6 +209,21 @@ class ProjectController extends Controller
                     'percentage' => Utility::getPercentage($expAmt, $project->budget),
                 ];
                 // end expense
+
+
+                // Revenue
+                $revenueAmt = 0;
+                $project_revenue = Revenue::where('project_id', $project->id)->get();
+                foreach ($project_revenue as $revenue) {
+                    $revenueAmt += $revenue->amount;
+                }
+
+                $project_data['revenue'] = [
+                    'allocated' => $project->budget,
+                    'total' => $revenueAmt,
+                    'percentage' => Utility::getPercentage($revenueAmt, $project->budget),
+                ];
+                // end revenue
 
 
                 // Users Assigned
@@ -244,8 +246,8 @@ class ProjectController extends Controller
                 // end Day left
 
                 // Open Task
-                    $remaining_task = ProjectTask::where('project_id', '=', $project->id)->where('is_complete', '=', 0)->where('created_by',\Auth::user()->creatorId())->count();
-                    $total_task     = $project->tasks->count();
+                $remaining_task = ProjectTask::where('project_id', '=', $project->id)->where('is_complete', '=', 0)->where('created_by', \Auth::user()->creatorId())->count();
+                $total_task     = $project->tasks->count();
 
                 $project_data['open_task'] = [
                     'tasks' => number_format($remaining_task) . '/' . number_format($total_task),
@@ -264,7 +266,7 @@ class ProjectController extends Controller
 
                 // Time spent
 
-                    $times = $project->timesheets()->where('created_by', '=', $usr->id)->pluck('time')->toArray();
+                $times = $project->timesheets()->where('created_by', '=', $usr->id)->pluck('time')->toArray();
                 $totaltime                  = str_replace(':', '.', Utility::timeToHr($times));
                 $project_data['time_spent'] = [
                     'total' => number_format($totaltime) . '/' . number_format($totaltime),
@@ -287,10 +289,9 @@ class ProjectController extends Controller
                 $cnt             = 0;
                 $cnt1            = 0;
 
-                foreach(array_keys($seven_days) as $k => $date)
-                {
-                        $task_cnt     = $project->tasks()->where('is_complete', '=', 1)->whereRaw("find_in_set('" . $usr->id . "',assign_to)")->where('marked_at', 'LIKE', $date)->count();
-                        $arrTimesheet = $project->timesheets()->where('created_by', '=', $usr->id)->where('date', 'LIKE', $date)->pluck('time')->toArray();
+                foreach (array_keys($seven_days) as $k => $date) {
+                    $task_cnt     = $project->tasks()->where('is_complete', '=', 1)->whereRaw("find_in_set('" . $usr->id . "',assign_to)")->where('marked_at', 'LIKE', $date)->count();
+                    $arrTimesheet = $project->timesheets()->where('created_by', '=', $usr->id)->where('date', 'LIKE', $date)->pluck('time')->toArray();
 
                     // Task Chart Count
                     $cnt += $task_cnt;
@@ -316,15 +317,11 @@ class ProjectController extends Controller
                 // end chart
 
 
-                return view('projects.view',compact('project','project_data'));
-            }
-            else
-            {
+                return view('projects.view', compact('project', 'project_data'));
+            } else {
                 return redirect()->back()->with('error', __('Permission Denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -337,22 +334,16 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        if(\Auth::user()->can('edit project'))
-        {
-          $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
-          $project = Project::findOrfail($project->id);
-          if($project->created_by == \Auth::user()->creatorId())
-          {
-              return view('projects.edit', compact('project', 'clients'));
-          }
-          else
-          {
-              return response()->json(['error' => __('Permission denied.')], 401);
-          }
-            return view('projects.edit',compact('project'));
-        }
-        else
-        {
+        if (\Auth::user()->can('edit project')) {
+            $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
+            $project = Project::findOrfail($project->id);
+            if ($project->created_by == \Auth::user()->creatorId()) {
+                return view('projects.edit', compact('project', 'clients'));
+            } else {
+                return response()->json(['error' => __('Permission denied.')], 401);
+            }
+            return view('projects.edit', compact('project'));
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -366,27 +357,25 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        if(\Auth::user()->can('edit project'))
-        {
+        if (\Auth::user()->can('edit project')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                'project_name' => 'required',
-                            ]
+                $request->all(),
+                [
+                    'project_name' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
             }
             $project = Project::find($project->id);
             $project->project_name = $request->project_name;
             $project->start_date = date("Y-m-d H:i:s", strtotime($request->start_date));
             $project->end_date = date("Y-m-d H:i:s", strtotime($request->end_date));
-            if($request->hasFile('project_image'))
-            {
+            if ($request->hasFile('project_image')) {
                 Utility::checkFileExistsnDelete([$project->project_image]);
                 $imageName = time() . '.' . $request->project_image->extension();
                 $request->file('project_image')->storeAs('projects', $imageName);
-                $project->project_image      = 'projects/'.$imageName;
+                $project->project_image      = 'projects/' . $imageName;
             }
             $project->budget = $request->budget;
             $project->client_id = $request->client;
@@ -396,9 +385,7 @@ class ProjectController extends Controller
             $project->tags = $request->tag;
             $project->save();
             return redirect()->route('projects.index')->with('success', __('Project Updated Successfully'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -411,17 +398,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if(\Auth::user()->can('delete project'))
-        {
-            if(!empty($project->image))
-            {
+        if (\Auth::user()->can('delete project')) {
+            if (!empty($project->image)) {
                 Utility::checkFileExistsnDelete([$project->project_image]);
             }
             $project->delete();
             return redirect()->back()->with('success', __('Project Successfully Deleted.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -433,7 +416,7 @@ class ProjectController extends Controller
 
         $user_project = $project->users->pluck('id')->toArray();
 
-        $user_contact = User::where('created_by', \Auth::user()->creatorId())->where('type','!=','client')->whereNOTIn('id', $user_project)->pluck('id')->toArray();
+        $user_contact = User::where('created_by', \Auth::user()->creatorId())->where('type', '!=', 'client')->whereNOTIn('id', $user_project)->pluck('id')->toArray();
         $arrUser      = array_unique($user_contact);
         $users        = User::whereIn('id', $arrUser)->get();
 
@@ -479,23 +462,18 @@ class ProjectController extends Controller
     public function destroyProjectUser($id, $user_id)
     {
         $project = Project::find($id);
-            if($project->created_by == \Auth::user()->ownerId())
-            {
-                ProjectUser::where('project_id', '=', $project->id)->where('user_id', '=', $user_id)->delete();
+        if ($project->created_by == \Auth::user()->ownerId()) {
+            ProjectUser::where('project_id', '=', $project->id)->where('user_id', '=', $user_id)->delete();
 
-                return redirect()->back()->with('success', __('User successfully deleted!'));
-            }
-            else
-            {
-                return redirect()->back()->with('error', __('Permission Denied.'));
-            }
-
+            return redirect()->back()->with('success', __('User successfully deleted!'));
+        } else {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
     }
 
     public function loadUser(Request $request)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $project    = Project::find($request->project_id);
             $returnHTML = view('projects.users', compact('project'))->render();
 
@@ -510,35 +488,31 @@ class ProjectController extends Controller
 
     public function milestone($project_id)
     {
-        if(\Auth::user()->can('create milestone'))
-        {
+        if (\Auth::user()->can('create milestone')) {
             $project = Project::find($project_id);
 
             return view('projects.milestone', compact('project'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function milestoneStore(Request $request, $project_id)
     {
-        if(\Auth::user()->can('create milestone'))
-        {
+        if (\Auth::user()->can('create milestone')) {
             $project   = Project::find($project_id);
             $validator = Validator::make(
-                $request->all(), [
-                                'title' => 'required',
-                                'status' => 'required',
-                                'cost' => 'required',
-                                'due_date' => 'required',
-                                'start_date'=>'required'
-                               ]
+                $request->all(),
+                [
+                    'title' => 'required',
+                    'status' => 'required',
+                    'cost' => 'required',
+                    'due_date' => 'required',
+                    'start_date' => 'required'
+                ]
             );
 
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
             }
 
@@ -562,45 +536,39 @@ class ProjectController extends Controller
             );
 
             return redirect()->back()->with('success', __('Milestone successfully created.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function milestoneEdit($id)
     {
-        if(\Auth::user()->can('edit milestone'))
-        {
+        if (\Auth::user()->can('edit milestone')) {
             $milestone = Milestone::find($id);
 
             return view('projects.milestoneEdit', compact('milestone'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function milestoneUpdate($id, Request $request)
     {
-        if(\Auth::user()->can('edit milestone'))
-        {
+        if (\Auth::user()->can('edit milestone')) {
             $validator = Validator::make(
-                $request->all(), [
-                                'title' => 'required',
-                                'status' => 'required',
-                                'cost' => 'required',
-                                'due_date' => 'required',
-                                'start_date'=>'required'
-                            ]
+                $request->all(),
+                [
+                    'title' => 'required',
+                    'status' => 'required',
+                    'cost' => 'required',
+                    'due_date' => 'required',
+                    'start_date' => 'required'
+                ]
             );
 
-            if($validator->fails())
-                {
-                    return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
-                }
+            if ($validator->fails()) {
+                return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
+            }
 
             $milestone              = Milestone::find($id);
             $milestone->title       = $request->title;
@@ -613,38 +581,30 @@ class ProjectController extends Controller
             $milestone->save();
 
             return redirect()->back()->with('success', __('Milestone updated successfully.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function milestoneDestroy($id)
     {
-        if(\Auth::user()->can('delete milestone'))
-        {
+        if (\Auth::user()->can('delete milestone')) {
             $milestone = Milestone::find($id);
             $milestone->delete();
 
             return redirect()->back()->with('success', __('Milestone successfully deleted.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
 
     public function milestoneShow($id)
     {
-        if(\Auth::user()->can('view milestone'))
-        {
+        if (\Auth::user()->can('view milestone')) {
             $milestone = Milestone::find($id);
 
             return view('projects.milestoneShow', compact('milestone'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -652,25 +612,21 @@ class ProjectController extends Controller
     public function filterProjectView(Request $request)
     {
 
-        if(\Auth::user()->can('manage project'))
-        {
+        if (\Auth::user()->can('manage project')) {
             $usr           = Auth::user();
-            if(\Auth::user()->type == 'client'){
-              $user_projects = Project::where('client_id',\Auth::user()->id)->where('created_by',\Auth::user()->creatorId())->pluck('id','id')->toArray();;
-            }else{
-              $user_projects = $usr->projects()->pluck('project_id', 'project_id')->toArray();
+            if (\Auth::user()->type == 'client') {
+                $user_projects = Project::where('client_id', \Auth::user()->id)->where('created_by', \Auth::user()->creatorId())->pluck('id', 'id')->toArray();;
+            } else {
+                $user_projects = $usr->projects()->pluck('project_id', 'project_id')->toArray();
             }
-            if($request->ajax() && $request->has('view') && $request->has('sort'))
-            {
+            if ($request->ajax() && $request->has('view') && $request->has('sort')) {
                 $sort     = explode('-', $request->sort);
                 $projects = Project::whereIn('id', array_keys($user_projects))->orderBy($sort[0], $sort[1]);
 
-                if(!empty($request->keyword))
-                {
+                if (!empty($request->keyword)) {
                     $projects->where('project_name', 'LIKE', $request->keyword . '%')->orWhereRaw('FIND_IN_SET("' . $request->keyword . '",tags)');
                 }
-                if(!empty($request->status))
-                {
+                if (!empty($request->status)) {
                     $projects->whereIn('status', $request->status);
                 }
                 $projects   = $projects->get();
@@ -683,9 +639,7 @@ class ProjectController extends Controller
                     ]
                 );
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -693,17 +647,14 @@ class ProjectController extends Controller
     // Project Gantt Chart
     public function gantt($projectID, $duration = 'Week')
     {
-        if(\Auth::user()->can('view grant chart'))
-        {
+        if (\Auth::user()->can('view grant chart')) {
             $project = Project::find($projectID);
             $tasks   = [];
 
-            if($project)
-            {
+            if ($project) {
                 $tasksobj = $project->tasks;
 
-                foreach($tasksobj as $task)
-                {
+                foreach ($tasksobj as $task) {
                     $tmp                 = [];
                     $tmp['id']           = 'task_' . $task->id;
                     $tmp['name']         = $task->name;
@@ -721,10 +672,7 @@ class ProjectController extends Controller
             }
 
             return view('projects.gantt', compact('project', 'tasks', 'duration'));
-        }
-
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
     }
@@ -733,10 +681,8 @@ class ProjectController extends Controller
     {
         $project = Project::find($projectID);
 
-        if($project)
-        {
-            if(\Auth::user()->can('view project task'))
-            {
+        if ($project) {
+            if (\Auth::user()->can('view project task')) {
                 $id               = trim($request->task_id, 'task_');
                 $task             = ProjectTask::find($id);
                 $task->start_date = $request->start;
@@ -747,26 +693,25 @@ class ProjectController extends Controller
                     [
                         'is_success' => true,
                         'message' => __("Time Updated"),
-                    ], 200
+                    ],
+                    200
                 );
-            }
-            else
-           {
+            } else {
                 return response()->json(
                     [
                         'is_success' => false,
                         'message' => __("You can't change Date!"),
-                    ], 400
+                    ],
+                    400
                 );
             }
-        }
-        else
-        {
+        } else {
             return response()->json(
                 [
                     'is_success' => false,
                     'message' => __("Something is wrong."),
-                ], 400
+                ],
+                400
             );
         }
     }
@@ -776,44 +721,35 @@ class ProjectController extends Controller
 
 
         $user = Auth::user();
-        if($user->can('manage bug report'))
-        {
+        if ($user->can('manage bug report')) {
             $project = Project::find($project_id);
 
-            if(!empty($project) && $project->created_by == Auth::user()->creatorId())
-            {
+            if (!empty($project) && $project->created_by == Auth::user()->creatorId()) {
 
-                if($user->type != 'company')
-                {
-                    if(\Auth::user()->type == 'client'){
-                      $bugs = Bug::where('project_id',$project->id)->get();
-                    }else{
-                      $bugs = Bug::where('project_id',$project->id)->whereRaw("find_in_set('" . $user->id . "',assign_to)")->get();
+                if ($user->type != 'company') {
+                    if (\Auth::user()->type == 'client') {
+                        $bugs = Bug::where('project_id', $project->id)->get();
+                    } else {
+                        $bugs = Bug::where('project_id', $project->id)->whereRaw("find_in_set('" . $user->id . "',assign_to)")->get();
                     }
                 }
 
-                if($user->type == 'company')
-                {
+                if ($user->type == 'company') {
                     $bugs = Bug::where('project_id', '=', $project_id)->get();
                 }
 
                 return view('projects.bug', compact('project', 'bugs'));
-            }
-            else
-            {
+            } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function bugCreate($project_id)
     {
-        if(\Auth::user()->can('create bug report'))
-        {
+        if (\Auth::user()->can('create bug report')) {
 
             $priority     = Bug::$priority;
             $status       = BugStatus::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
@@ -821,29 +757,24 @@ class ProjectController extends Controller
 
 
             $users        = [];
-            foreach($project_user as $key=>$user)
-            {
+            foreach ($project_user as $key => $user) {
 
-                $user_data = User::where('id',$user->user_id)->first();
+                $user_data = User::where('id', $user->user_id)->first();
                 $key = $user->user_id;
-                $user_name = !empty($user_data)? $user_data->name:'';
+                $user_name = !empty($user_data) ? $user_data->name : '';
                 $users[$key] = $user_name;
             }
 
             return view('projects.bugCreate', compact('status', 'project_id', 'priority', 'users'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
-
     }
 
     function bugNumber()
     {
         $latest = Bug::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
-        if(!$latest)
-        {
+        if (!$latest) {
             return 1;
         }
 
@@ -852,21 +783,20 @@ class ProjectController extends Controller
 
     public function bugStore(Request $request, $project_id)
     {
-        if(\Auth::user()->can('create bug report'))
-        {
+        if (\Auth::user()->can('create bug report')) {
             $validator = \Validator::make(
-                $request->all(), [
+                $request->all(),
+                [
 
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'status' => 'required',
-                                   'assign_to' => 'required',
-                                   'start_date' => 'required',
-                                   'due_date' => 'required',
-                               ]
+                    'title' => 'required',
+                    'priority' => 'required',
+                    'status' => 'required',
+                    'assign_to' => 'required',
+                    'start_date' => 'required',
+                    'due_date' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->route('task.bug', $project_id)->with('error', $messages->first());
@@ -905,58 +835,49 @@ class ProjectController extends Controller
             ];
 
             return redirect()->route('task.bug', $project_id)->with('success', __('Bug successfully created.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function bugEdit($project_id, $bug_id)
     {
-        if(\Auth::user()->can('edit bug report'))
-        {
+        if (\Auth::user()->can('edit bug report')) {
             $bug          = Bug::find($bug_id);
             $priority     = Bug::$priority;
             $status       = BugStatus::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
             $project_user = ProjectUser::where('project_id', $project_id)->get();
             $users        = array();
-            foreach($project_user as $user)
-            {
-              $user_data = User::where('id',$user->user_id)->first();
-              $key = $user->user_id;
-              $user_name = !empty($user_data) ? $user_data->name:'';
-              $users[$key] = $user_name;
+            foreach ($project_user as $user) {
+                $user_data = User::where('id', $user->user_id)->first();
+                $key = $user->user_id;
+                $user_name = !empty($user_data) ? $user_data->name : '';
+                $users[$key] = $user_name;
             }
 
             return view('projects.bugEdit', compact('status', 'project_id', 'priority', 'users', 'bug'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
-
-
     }
 
     public function bugUpdate(Request $request, $project_id, $bug_id)
     {
 
 
-        if(\Auth::user()->can('edit bug report'))
-        {
+        if (\Auth::user()->can('edit bug report')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                   'title' => 'required',
-                                   'priority' => 'required',
-                                   'status' => 'required',
-                                   'assign_to' => 'required',
-                                   'start_date' => 'required',
-                                   'due_date' => 'required',
-                               ]
+                $request->all(),
+                [
+                    'title' => 'required',
+                    'priority' => 'required',
+                    'status' => 'required',
+                    'assign_to' => 'required',
+                    'start_date' => 'required',
+                    'due_date' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->route('task.bug', $project_id)->with('error', $messages->first());
@@ -972,9 +893,7 @@ class ProjectController extends Controller
             $bug->save();
 
             return redirect()->route('task.bug', $project_id)->with('success', __('Bug successfully created.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -983,15 +902,12 @@ class ProjectController extends Controller
     {
 
 
-        if(\Auth::user()->can('delete bug report'))
-        {
+        if (\Auth::user()->can('delete bug report')) {
             $bug = Bug::find($bug_id);
             $bug->delete();
 
             return redirect()->route('task.bug', $project_id)->with('success', __('Bug successfully deleted.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -999,70 +915,54 @@ class ProjectController extends Controller
     public function bugKanban($project_id)
     {
         $user = Auth::user();
-        if($user->can('move bug report'))
-        {
+        if ($user->can('move bug report')) {
 
             $project = Project::find($project_id);
 
-            if(!empty($project) && $project->created_by == $user->creatorId())
-            {
-                if($user->type != 'company')
-                {
+            if (!empty($project) && $project->created_by == $user->creatorId()) {
+                if ($user->type != 'company') {
                     $bugStatus = BugStatus::where('created_by', '=', Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
                 }
 
-                if($user->type == 'company' || $user->type == 'client')
-                {
+                if ($user->type == 'company' || $user->type == 'client') {
                     $bugStatus = BugStatus::where('created_by', '=', Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
                 }
 
                 return view('projects.bugKanban', compact('project', 'bugStatus'));
-            }
-            else
-            {
+            } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
 
     public function bugKanbanOrder(Request $request)
     {
-        if(\Auth::user()->can('move bug report'))
-        {
+        if (\Auth::user()->can('move bug report')) {
             $post   = $request->all();
             $bug    = Bug::find($post['bug_id']);
             $status = BugStatus::find($post['status_id']);
 
-            if(!empty($status))
-            {
+            if (!empty($status)) {
                 $bug->status = $post['status_id'];
                 $bug->save();
             }
 
 
-            foreach($post['order'] as $key => $item)
-            {
-                if($item != 'null'){
+            foreach ($post['order'] as $key => $item) {
+                if ($item != 'null') {
                     $bug_order         = Bug::find($item);
-                    if(!empty($bug_order)){
+                    if (!empty($bug_order)) {
                         $bug_order->order  = $key;
                         $bug_order->status = $post['status_id'];
                         $bug_order->save();
                     }
                 }
             }
-
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
-
-
     }
 
     public function bugShow($project_id, $bug_id)
@@ -1087,7 +987,8 @@ class ProjectController extends Controller
             [
                 'is_success' => true,
                 'message' => __("Bug comment successfully created."),
-            ], 200
+            ],
+            200
         );
     }
 
@@ -1125,8 +1026,7 @@ class ProjectController extends Controller
     {
         $commentFile = BugFile::find($file_id);
         $path        = storage_path('bugs/' . $commentFile->file);
-        if(file_exists($path))
-        {
+        if (file_exists($path)) {
             \File::delete($path);
         }
         $commentFile->delete();
@@ -1136,8 +1036,8 @@ class ProjectController extends Controller
 
     public function tracker($id)
     {
-        $treckers=TimeTracker::where('project_id',$id)->get();
-        return view('time_trackers.index',compact('treckers'));
+        $treckers = TimeTracker::where('project_id', $id)->get();
+        return view('time_trackers.index', compact('treckers'));
     }
 
     public function getProjectChart($arrParam)
@@ -1180,23 +1080,19 @@ class ProjectController extends Controller
     //project copy module
     public function copyproject($id)
     {
-        if(Auth::user()->can('create project'))
-        {
+        if (Auth::user()->can('create project')) {
             $project = Project::find($id);
 
-            return view('projects.copy',compact('project'));
-        }
-        else
-        {
+            return view('projects.copy', compact('project'));
+        } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
     }
 
-    public function copyprojectstore(Request $request,$id)
+    public function copyprojectstore(Request $request, $id)
     {
 
-        if(Auth::user()->can('create project'))
-        {
+        if (Auth::user()->can('create project')) {
             $project                          = Project::find($id);
             $duplicate                          = new Project();
             $duplicate['project_name']          = $project->project_name;
@@ -1212,39 +1108,38 @@ class ProjectController extends Controller
 
 
 
-            if(isset($request->user) && in_array("user", $request->user)){
-                $users = ProjectUser::where('project_id',$project->id)->get();
+            if (isset($request->user) && in_array("user", $request->user)) {
+                $users = ProjectUser::where('project_id', $project->id)->get();
 
-                foreach($users as $user){
+                foreach ($users as $user) {
                     $users = new ProjectUser();
                     $users['user_id'] = $user->user_id;
                     $users['project_id'] = $duplicate->id;
                     $users->save();
                 }
-            }
-            else{
+            } else {
                 $objUser = Auth::user();
                 $users              = new ProjectUser();
                 $users['user_id']   = $objUser->id;
-                $users['project_id']= $duplicate->id;
+                $users['project_id'] = $duplicate->id;
                 $users->save();
             }
 
-//            if(isset($request->client) && in_array("client", $request->client)){
-//                $clients = ClientProject::where('project_id',$project->id)->get();
-//                foreach($clients as $client){
-//                    $clients = new ClientProject();
-//                    $clients['client_id'] = $client->client_id;
-//                    $clients['project_id'] = $duplicate->id;
-//                    $clients->save();
-//                }
-//            }
+            //            if(isset($request->client) && in_array("client", $request->client)){
+            //                $clients = ClientProject::where('project_id',$project->id)->get();
+            //                foreach($clients as $client){
+            //                    $clients = new ClientProject();
+            //                    $clients['client_id'] = $client->client_id;
+            //                    $clients['project_id'] = $duplicate->id;
+            //                    $clients->save();
+            //                }
+            //            }
 
-            if(isset($request->task) && in_array("task", $request->task)){
+            if (isset($request->task) && in_array("task", $request->task)) {
 
-                $tasks = ProjectTask::where('project_id',$project->id)->get();
+                $tasks = ProjectTask::where('project_id', $project->id)->get();
 
-                foreach($tasks as $task){
+                foreach ($tasks as $task) {
                     $project_task                   = new ProjectTask();
                     $project_task['name']          = $task->name;
                     $project_task['description']          = $task->description;
@@ -1265,39 +1160,38 @@ class ProjectController extends Controller
                     $project_task['progress']         = $task->progress;
                     $project_task->save();
 
-//                    if(in_array("sub_task",$request->task)){
-//                        $sub_tasks = SubTask::where('task_id',$task->id)->get();
-//                        foreach($sub_tasks as $sub_task){
-//                            $subtask                = new SubTask();
-//                            $subtask['name']        = $sub_task->name;
-//                            $subtask['due_date']    = $sub_task->due_date;
-//                            $subtask['task_id']     = $project_task->id;
-//                            $subtask['user_type']   = $sub_task->user_type;
-//                            $subtask['created_by']  = $sub_task->created_by;
-//                            $subtask['status']      = $sub_task->status;
-//                            $subtask->save();
-//                        }
-//                    }
+                    //                    if(in_array("sub_task",$request->task)){
+                    //                        $sub_tasks = SubTask::where('task_id',$task->id)->get();
+                    //                        foreach($sub_tasks as $sub_task){
+                    //                            $subtask                = new SubTask();
+                    //                            $subtask['name']        = $sub_task->name;
+                    //                            $subtask['due_date']    = $sub_task->due_date;
+                    //                            $subtask['task_id']     = $project_task->id;
+                    //                            $subtask['user_type']   = $sub_task->user_type;
+                    //                            $subtask['created_by']  = $sub_task->created_by;
+                    //                            $subtask['status']      = $sub_task->status;
+                    //                            $subtask->save();
+                    //                        }
+                    //                    }
 
-                    if(in_array("task_comment",$request->task)){
-                        $task_comments = TaskComment::where('task_id',$task->id)->get();
+                    if (in_array("task_comment", $request->task)) {
+                        $task_comments = TaskComment::where('task_id', $task->id)->get();
 
 
-                        foreach($task_comments as $task_comment){
+                        foreach ($task_comments as $task_comment) {
                             $comment                = new TaskComment();
                             $comment['comment']     = $task_comment->comment;
                             $comment['task_id']     = $project_task->id;
-                            $comment['user_id']     = !empty($task_comment)? $task_comment->user_id :0;
+                            $comment['user_id']     = !empty($task_comment) ? $task_comment->user_id : 0;
                             $comment['user_type']   = $task_comment->user_type;
                             $comment['created_by']  = $task_comment->created_by;
                             $comment->save();
                         }
-
                     }
-                    if(in_array("task_files",$request->task)){
-                        $task_files = TaskFile::where('task_id',$task->id)->get();
+                    if (in_array("task_files", $request->task)) {
+                        $task_files = TaskFile::where('task_id', $task->id)->get();
 
-                        foreach($task_files as $task_file){
+                        foreach ($task_files as $task_file) {
                             $file               = new TaskFile();
                             $file['file']       = $task_file->file;
                             $file['name']       = $task_file->name;
@@ -1311,10 +1205,10 @@ class ProjectController extends Controller
                     }
                 }
             }
-            if(isset($request->bug) && in_array("bug", $request->bug)){
-                $bugs = Bug::where('project_id',$project->id)->get();
+            if (isset($request->bug) && in_array("bug", $request->bug)) {
+                $bugs = Bug::where('project_id', $project->id)->get();
 
-                foreach($bugs as $bug){
+                foreach ($bugs as $bug) {
                     $project_bug                   = new Bug();
                     $project_bug['bug_id']          = $bug->bug_id;
                     $project_bug['project_id']     = $duplicate->id;
@@ -1329,10 +1223,10 @@ class ProjectController extends Controller
                     $project_bug['created_by']         = \Auth::user()->creatorId();
                     $project_bug->save();
 
-                    if(in_array("bug_comment",$request->bug)){
-                        $bug_comments = BugComment::where('bug_id',$bug->id)->get();
+                    if (in_array("bug_comment", $request->bug)) {
+                        $bug_comments = BugComment::where('bug_id', $bug->id)->get();
 
-                        foreach($bug_comments as $bug_comment){
+                        foreach ($bug_comments as $bug_comment) {
                             $bugcomment                 = new BugComment();
                             $bugcomment['comment']      = $bug_comment->comment;
                             $bugcomment['bug_id']       = $project_bug->id;
@@ -1340,12 +1234,11 @@ class ProjectController extends Controller
                             $bugcomment['created_by']   = $bug_comment->created_by;
                             $bugcomment->save();
                         }
-
                     }
-                    if(in_array("bug_files",$request->bug)){
-                        $bug_files = BugFile::where('bug_id',$bug->id)->get();
+                    if (in_array("bug_files", $request->bug)) {
+                        $bug_files = BugFile::where('bug_id', $bug->id)->get();
 
-                        foreach($bug_files as $bug_file){
+                        foreach ($bug_files as $bug_file) {
                             $bugfile               = new BugFile();
                             $bugfile['file']       = $bug_file->file;
                             $bugfile['name']       = $bug_file->name;
@@ -1359,8 +1252,8 @@ class ProjectController extends Controller
                     }
                 }
             }
-            if(isset($request->milestone) && in_array("milestone", $request->milestone)){
-                $milestones = Milestone::where('project_id',$project->id)->get();
+            if (isset($request->milestone) && in_array("milestone", $request->milestone)) {
+                $milestones = Milestone::where('project_id', $project->id)->get();
 
                 foreach ($milestones as $milestone) {
                     $post                   = new Milestone();
@@ -1374,9 +1267,9 @@ class ProjectController extends Controller
                     $post->save();
                 }
             }
-            if(isset($request->project_file) && in_array("project_file",$request->project_file)){
-                $project_files = TaskFile::where('task_id',$task->id)->get();
-//                dd($project_files);
+            if (isset($request->project_file) && in_array("project_file", $request->project_file)) {
+                $project_files = TaskFile::where('task_id', $task->id)->get();
+                //                dd($project_files);
                 foreach ($project_files as $project_file) {
                     $ProjectFile                = new TaskFile();
                     $ProjectFile['task_id']  = $duplicate->id;
@@ -1389,38 +1282,30 @@ class ProjectController extends Controller
                     $ProjectFile->save();
                 }
             }
-            if(isset($request->activity) && in_array('activity',$request->activity))
-            {
+            if (isset($request->activity) && in_array('activity', $request->activity)) {
                 $where_in_array = [];
-                if( isset($request->milestone) && in_array("milestone", $request->milestone))
-                {
-                    array_push($where_in_array,"Create Milestone");
+                if (isset($request->milestone) && in_array("milestone", $request->milestone)) {
+                    array_push($where_in_array, "Create Milestone");
                 }
-                if(isset($request->task) && in_array("task", $request->task))
-                {
-                    array_push($where_in_array,"Create Task","Move");
+                if (isset($request->task) && in_array("task", $request->task)) {
+                    array_push($where_in_array, "Create Task", "Move");
                 }
-                if(isset($request->bug) && in_array("bug", $request->bug))
-                {
-                    array_push($where_in_array,"Create Bug","Move Bug");
+                if (isset($request->bug) && in_array("bug", $request->bug)) {
+                    array_push($where_in_array, "Create Bug", "Move Bug");
                 }
-                if(isset($request->client) && in_array("client", $request->client))
-                {
-                    array_push($where_in_array,"Share with Client");
+                if (isset($request->client) && in_array("client", $request->client)) {
+                    array_push($where_in_array, "Share with Client");
                 }
-                if(isset($request->user) && in_array("user", $request->user))
-                {
-                    array_push($where_in_array,"Invite User");
+                if (isset($request->user) && in_array("user", $request->user)) {
+                    array_push($where_in_array, "Invite User");
                 }
-                if(isset($request->project_file) && in_array("project_file", $request->project_file))
-                {
-                    array_push($where_in_array,"Upload File");
+                if (isset($request->project_file) && in_array("project_file", $request->project_file)) {
+                    array_push($where_in_array, "Upload File");
                 }
-                if(count($where_in_array) > 0)
-                {
-                    $activities = ActivityLog::where('project_id',$project->id)->whereIn('log_type',$where_in_array)->get();
+                if (count($where_in_array) > 0) {
+                    $activities = ActivityLog::where('project_id', $project->id)->whereIn('log_type', $where_in_array)->get();
 
-                    foreach($activities as $activity){
+                    foreach ($activities as $activity) {
                         $activitylog                = new ActivityLog();
                         $activitylog['user_id']     = $activity->user_id;
                         $activitylog['project_id']  = $duplicate->id;
@@ -1432,15 +1317,8 @@ class ProjectController extends Controller
                 }
             }
             return redirect()->back()->with('success', 'Project Created Successfully');
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
-
     }
-
-
-
-
 }
