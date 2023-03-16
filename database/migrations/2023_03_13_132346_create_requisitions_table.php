@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('title');
             $table->date('requisition_date');
             $table->string('document')->nullable();
+            $table->string('ref_number');
             $table->string('status');
             $table->timestamps();
         });

@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('quantity');
             $table->float('rate')->default('0.00');
             $table->float('amount')->default('0.00');
-            $table->string('ref_number');
             $table->timestamps();
         });
     }

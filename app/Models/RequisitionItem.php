@@ -14,7 +14,6 @@ class RequisitionItem extends Model
         'quantity',
         'rate',
         'amount',
-        'ref_number',
     ];
 
     public function requisition(){

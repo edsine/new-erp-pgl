@@ -14,6 +14,7 @@ class Requisition extends Model
         'document',
         'status',
         'title',
+        'ref_number'
        
     ];
     
