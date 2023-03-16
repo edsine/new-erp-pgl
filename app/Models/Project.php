@@ -26,7 +26,8 @@ class Project extends Model
         'description',
         'status',
         'tags',
-        'created_by'
+        'created_by',
+        'amount_paid'
     ];
 
     public static $project_status=[

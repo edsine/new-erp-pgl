@@ -19,8 +19,8 @@ class CreateJournalItemsTable extends Migration
             $table->integer('journal')->default(0);
             $table->integer('account')->default(0);
             $table->text('description')->nullable();
-            $table->float('debit')->default(0.0);
-            $table->float('credit')->default(0.0);
+            $table->float('debit', 50, 2)->default(0.0);
+            $table->float('credit', 50, 2)->default(0.0);
             $table->timestamps();
         }
         );

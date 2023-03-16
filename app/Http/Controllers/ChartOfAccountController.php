@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\ChartOfAccount;
 use App\Models\ChartOfAccountSubType;
+use App\Models\ChartOfAccountSubTypeLevel2;
+use App\Models\ChartOfAccountSubTypeLevel3;
 use App\Models\ChartOfAccountType;
 use App\Models\User;
 use App\Models\Utility;
@@ -16,22 +18,19 @@ class ChartOfAccountController extends Controller
     {
 
 
-        if(\Auth::user()->can('manage chart of account'))
-        {
+        if (\Auth::user()->can('manage chart of account')) {
             $types = ChartOfAccountType::where('created_by', '=', \Auth::user()->creatorId())->get();
 
+            // dd($types);
+
             $chartAccounts = [];
-            foreach($types as $type)
-            {
+            foreach ($types as $type) {
                 $accounts = ChartOfAccount::where('type', $type->id)->where('created_by', '=', \Auth::user()->creatorId())->get();
 
                 $chartAccounts[$type->name] = $accounts;
-
             }
             return view('chartOfAccount.index', compact('chartAccounts', 'types'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -39,7 +38,7 @@ class ChartOfAccountController extends Controller
 
     public function create()
     {
-        $types = ChartOfAccountType::where('created_by',\Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $types = ChartOfAccountType::get()->pluck('name', 'id');
         $types->prepend('--', 0);
 
         return view('chartOfAccount.create', compact('types'));
@@ -49,16 +48,15 @@ class ChartOfAccountController extends Controller
     public function store(Request $request)
     {
 
-        if(\Auth::user()->can('create chart of account'))
-        {
+        if (\Auth::user()->can('create chart of account')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required',
-                                   'type' => 'required',
-                               ]
+                $request->all(),
+                [
+                    'name' => 'required',
+                    'type' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
@@ -75,9 +73,7 @@ class ChartOfAccountController extends Controller
             $account->save();
 
             return redirect()->route('chart-of-account.index')->with('success', __('Account successfully created.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -101,15 +97,14 @@ class ChartOfAccountController extends Controller
     public function update(Request $request, ChartOfAccount $chartOfAccount)
     {
 
-        if(\Auth::user()->can('edit chart of account'))
-        {
+        if (\Auth::user()->can('edit chart of account')) {
             $validator = \Validator::make(
-                $request->all(), [
-                                   'name' => 'required',
-                               ]
+                $request->all(),
+                [
+                    'name' => 'required',
+                ]
             );
-            if($validator->fails())
-            {
+            if ($validator->fails()) {
                 $messages = $validator->getMessageBag();
 
                 return redirect()->back()->with('error', $messages->first());
@@ -123,9 +118,7 @@ class ChartOfAccountController extends Controller
             $chartOfAccount->save();
 
             return redirect()->route('chart-of-account.index')->with('success', __('Account successfully updated.'));
-        }
-        else
-        {
+        } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
     }
@@ -133,14 +126,11 @@ class ChartOfAccountController extends Controller
 
     public function destroy(ChartOfAccount $chartOfAccount)
     {
-        if(\Auth::user()->can('delete chart of account'))
-        {
+        if (\Auth::user()->can('delete chart of account')) {
             $chartOfAccount->delete();
 
             return redirect()->route('chart-of-account.index')->with('success', __('Account successfully deleted.'));
-        }
-        else
-        {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -150,5 +140,19 @@ class ChartOfAccountController extends Controller
         $types = ChartOfAccountSubType::where('type', $request->type)->get()->pluck('name', 'id')->toArray();
 
         return response()->json($types);
+    }
+
+    public function getSubTypeLevel2(Request $request)
+    {
+        $sub_types_level_2 = ChartOfAccountSubTypeLevel2::where('sub_type', $request->sub_type)->get()->pluck('name', 'id')->toArray();
+
+        return response()->json($sub_types_level_2);
+    }
+
+    public function getSubTypeLevel3(Request $request)
+    {
+        $sub_types_level_3 = ChartOfAccountSubTypeLevel3::where('sub_type_level_2', $request->subTypeLevel2)->get()->pluck('name', 'id')->toArray();
+
+        return response()->json($sub_types_level_3);
     }
 }

@@ -29,6 +29,6 @@ class NocCertificate extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('noc_certificates');
     }
 }

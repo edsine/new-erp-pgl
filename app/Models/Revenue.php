@@ -17,6 +17,8 @@ class Revenue extends Model
         'reference',
         'description',
         'created_by',
+        'revenue_type',
+        'project_id'
     ];
 
     public function category()
@@ -27,6 +29,11 @@ class Revenue extends Model
     public function customer()
     {
         return $this->hasOne('App\Models\Customer', 'id', 'customer_id');
+    }
+
+    public function project()
+    {
+        return $this->hasOne('App\Models\Project', 'id', 'project_id');
     }
 
     public function bankAccount()

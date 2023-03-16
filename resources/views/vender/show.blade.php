@@ -13,11 +13,11 @@
 
 @section('action-btn')
     <div class="float-end">
-        @can('create bill')
+        {{-- @can('create bill')
             <a href="{{ route('bill.create',$vendor->id) }}" class="btn btn-sm btn-primary">
                 {{__('Create Bill')}}
             </a>
-        @endcan
+        @endcan --}}
 
         @can('edit vender')
             <a href="#" class="btn btn-sm btn-primary" data-size="xl" data-url="{{ route('vender.edit',$vendor['id']) }}" data-ajax-popup="true" title="{{__('Edit')}}" data-bs-toggle="tooltip" data-original-title="{{__('Edit')}}">
@@ -119,7 +119,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12">
             <div class="card">
 
@@ -217,5 +217,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
