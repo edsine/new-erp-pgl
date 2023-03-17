@@ -36,8 +36,8 @@ class PaymentController extends Controller
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
             $account->prepend('Select Bank Account', '');
 
-            $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 2)->get()->pluck('name', 'id');
-            $category->prepend('Select Category', '');
+            $category = ChartOfAccount::get()->pluck('name', 'id');
+            $category->prepend('Select Ledger Account', '');
 
 
             $query = Payment::where('created_by', '=', \Auth::user()->creatorId());
@@ -69,7 +69,7 @@ class PaymentController extends Controller
             }
 
             if (!empty($request->category)) {
-                $query->where('category_id', '=', $request->category);
+                $query->where('expense_head_credit', '=', $request->category)->orWhere('expense_head_debit', '=', $request->category);
             }
 
 
@@ -117,7 +117,7 @@ class PaymentController extends Controller
                     'date' => 'required',
                     'amount' => 'required',
                     'account_id' => 'required',
-                    'category_id' => 'required',
+                    // 'category_id' => 'required',
                 ]
             );
             if ($validator->fails()) {
@@ -131,9 +131,9 @@ class PaymentController extends Controller
             $payment->amount         = $request->amount;
             $payment->account_id     = $request->account_id;
             $payment->vender_id      = $request->vender_id;
-            $payment->category_id    = $request->category_id;
+            $payment->category_id    = 0;
             $payment->payment_method = 0;
-            $payment->reference      = $request->reference;
+            $payment->reference      = time();
 
             $payment->expense_type   = $request->expense_type;
             if ($request->expense_type == 1) {
@@ -206,7 +206,8 @@ class PaymentController extends Controller
 
             //End Journal Entry
 
-            $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            // $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            $category            = ChartOfAccount::where('id', $request->expense_head_debit)->first();
             $payment->payment_id = $payment->id;
             $payment->type       = 'Payment';
             $payment->category   = $category->name;
@@ -290,7 +291,7 @@ class PaymentController extends Controller
                     'amount' => 'required',
                     'account_id' => 'required',
                     'vender_id' => 'required',
-                    'category_id' => 'required',
+                    // 'category_id' => 'required',
                 ]
             );
             if ($validator->fails()) {
@@ -311,7 +312,7 @@ class PaymentController extends Controller
             $payment->amount         = $request->amount;
             $payment->account_id     = $request->account_id;
             $payment->vender_id      = $request->vender_id;
-            $payment->category_id    = $request->category_id;
+            // $payment->category_id    = $request->category_id;
             $payment->payment_method = 0;
             // $payment->reference      = $request->reference;
 
@@ -403,7 +404,8 @@ class PaymentController extends Controller
             } catch (Exception $e) {
             }
 
-            $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            // $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            $category            = ChartOfAccount::where('id', $request->expense_head_debit)->first();
             $payment->category   = $category->name;
             $payment->payment_id = $payment->id;
             $payment->type       = 'Payment';

@@ -89,6 +89,7 @@ class ProjectController extends Controller
             }
             $project->client_id = $request->client;
             $project->budget = !empty($request->budget) ? $request->budget : 0;
+            $project->project_type = $request->project_type;
             $project->description = $request->description;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
@@ -380,6 +381,7 @@ class ProjectController extends Controller
             $project->budget = $request->budget;
             $project->client_id = $request->client;
             $project->description = $request->description;
+            $project->project_type = $request->project_type;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
             $project->tags = $request->tag;

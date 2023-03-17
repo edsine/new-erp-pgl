@@ -18,12 +18,24 @@ class Revenue extends Model
         'description',
         'created_by',
         'revenue_type',
+        'expense_head_debit',
+        'expense_head_credit',
         'project_id'
     ];
 
     public function category()
     {
         return $this->hasOne('App\Models\ProductServiceCategory', 'id', 'category_id');
+    }
+
+    public function expenseHeadDebit()
+    {
+        return $this->hasOne('App\Models\ChartOfAccount', 'id', 'expense_head_debit');
+    }
+
+    public function expenseHeadCredit()
+    {
+        return $this->hasOne('App\Models\ChartOfAccount', 'id', 'expense_head_credit');
     }
 
     public function customer()

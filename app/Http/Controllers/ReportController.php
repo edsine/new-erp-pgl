@@ -388,7 +388,7 @@ class ReportController extends Controller
                 // end revenue
                 $data['contract_sum'] = $project->budget;
 
-                $vatTAX = Tax::where('name', 'VAT')->first();
+                $vatTAX = Tax::where('id', $project->project_type)->first();
                 $tax_rate = !empty($vatTAX) ? floatval($vatTAX->rate) : 13.5;
 
 
@@ -1406,7 +1406,7 @@ class ReportController extends Controller
                 $end   = date('Y-m-t');
             }
 
-            $types         = ChartOfAccountType::where('created_by', \Auth::user()->creatorId())->get();
+            $types         = ChartOfAccountType::where('created_by', \Auth::user()->creatorId())->take(3)->get();
             $chartAccounts = [];
             foreach ($types as $type) {
                 $subTypes     = ChartOfAccountSubType::where('type', $type->id)->get();
@@ -1449,6 +1449,71 @@ class ReportController extends Controller
 
 
             return view('report.balance_sheet', compact('filter', 'chartAccounts'));
+        } else {
+            return redirect()->back()->with('error', __('Permission Denied.'));
+        }
+    }
+
+
+    public function profitAndLossStatement(Request $request)
+    {
+        if (\Auth::user()->can('bill report')) {
+
+            if (!empty($request->start_date) && !empty($request->end_date)) {
+                $start = $request->start_date;
+                $end   = $request->end_date;
+            } else {
+                $start = date('Y-m-01');
+                $end   = date('Y-m-t');
+            }
+
+            $types         = ChartOfAccountType::where('created_by', \Auth::user()->creatorId())->orderBy('id', 'desc')->take(2)->get()->reverse();
+            $chartAccounts = [];
+            $amounts = [];
+            foreach ($types as $type) {
+                $amount = 0;
+                $subTypes     = ChartOfAccountSubType::where('type', $type->id)->get();
+                $subTypeArray = [];
+                foreach ($subTypes as $subType) {
+                    $subTypesLevel2     = ChartOfAccountSubTypeLevel2::where('sub_type', $subType->id)->get();
+                    $subTypesLevel2Array = [];
+
+                    foreach ($subTypesLevel2 as $subTypeLevel2) {
+                        $accounts     = ChartOfAccount::where('type', $type->id)->where('sub_type', $subType->id)->where('sub_type_level_2', $subTypeLevel2->id)->get();
+                        $accountArray = [];
+                        foreach ($accounts as $account) {
+
+                            $journalItem = JournalItem::select(\DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'))->where('account', $account->id);
+                            $journalItem->where('created_at', '>=', $start);
+                            $journalItem->where('created_at', '<=', $end);
+                            $journalItem          = $journalItem->first();
+                            $data['account_name'] = $account->name;
+                            $data['totalCredit']  = $journalItem->totalCredit;
+                            $data['totalDebit']   = $journalItem->totalDebit;
+                            $data['netAmount']    = $journalItem->netAmount;
+                            $amount               += $journalItem->netAmount;
+                            $accountArray[]       = $data;
+                        }
+                        // $subTypeData['subType'] = $subType->name;
+                        // $subTypeData['account'] = $accountArray;
+                        // $subTypeArray[]         = $subTypeData;
+                        $subTypeLevel2Data['subTypeLevel2'] = $subTypeLevel2->name;
+                        $subTypeLevel2Data['account'] = $accountArray;
+                        $subTypesLevel2Array[]         = $subTypeLevel2Data;
+                    }
+                    $subTypeData['subType'] = $subType->name;
+                    $subTypeData['subTypeLevel2'] = $subTypesLevel2Array;
+                    $subTypeArray[]         = $subTypeData;
+                }
+                $chartAccounts[$type->name] = $subTypeArray;
+                $amounts[$type->name] = $amount;
+            }
+
+            $filter['startDateRange'] = $start;
+            $filter['endDateRange']   = $end;
+
+
+            return view('report.profit_loss_statement', compact('filter', 'chartAccounts', 'amounts'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }

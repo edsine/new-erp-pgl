@@ -470,6 +470,7 @@ Route::group(
     Route::get('report/invoice-report', [ReportController::class, 'invoiceReport'])->name('report.invoice');
     Route::get('report/account-statement-report', [ReportController::class, 'accountStatement'])->name('report.account.statement');
     Route::get('report/balance-sheet', [ReportController::class, 'balanceSheet'])->name('report.balance.sheet');
+    Route::get('report/profit-loss-statement', [ReportController::class, 'profitAndLossStatement'])->name('report.profit.loss.statement');
     Route::get('report/ledger', [ReportController::class, 'ledgerSummary'])->name('report.ledger');
     Route::get('report/trial-balance', [ReportController::class, 'trialBalanceSummary'])->name('trial.balance');
 }

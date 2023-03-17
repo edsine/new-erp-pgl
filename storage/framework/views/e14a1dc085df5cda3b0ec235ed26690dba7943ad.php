@@ -1,11 +1,12 @@
-<?php echo e(Form::open(['url' => 'projects', 'method' => 'post','enctype' => 'multipart/form-data'])); ?>
+<?php echo e(Form::open(['url' => 'projects', 'method' => 'post', 'enctype' => 'multipart/form-data'])); ?>
 
 <div class="modal-body">
     <div class="row">
         <div class="col-sm-12 col-md-12">
             <div class="form-group">
-                <?php echo e(Form::label('project_name', __('Project Name'), ['class' => 'form-label'])); ?><span class="text-danger">*</span>
-                <?php echo e(Form::text('project_name', null, ['class' => 'form-control','required'=>'required'])); ?>
+                <?php echo e(Form::label('project_name', __('Project Name'), ['class' => 'form-label'])); ?><span
+                    class="text-danger">*</span>
+                <?php echo e(Form::text('project_name', null, ['class' => 'form-control', 'required' => 'required'])); ?>
 
             </div>
         </div>
@@ -30,7 +31,8 @@
     </div>
     <div class="row">
         <div class="form-group col-sm-12 col-md-12">
-            <?php echo e(Form::label('project_image', __('Project Image'), ['class' => 'form-label'])); ?><span class="text-danger">*</span>
+            <?php echo e(Form::label('project_image', __('Project Image'), ['class' => 'form-label'])); ?><span
+                class="text-danger">*</span>
             <div class="form-file mb-3">
                 <input type="file" class="form-control" name="project_image" required="">
             </div>
@@ -38,15 +40,15 @@
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                <?php echo e(Form::label('client', __('Client'),['class'=>'form-label'])); ?><span class="text-danger">*</span>
-                <?php echo Form::select('client', $clients, null,array('class' => 'form-control','required'=>'required')); ?>
+                <?php echo e(Form::label('client', __('Client'), ['class' => 'form-label'])); ?><span class="text-danger">*</span>
+                <?php echo Form::select('client', $clients, null, ['class' => 'form-control', 'required' => 'required']); ?>
 
             </div>
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                <?php echo e(Form::label('user', __('User'),['class'=>'form-label'])); ?><span class="text-danger">*</span>
-                <?php echo Form::select('user[]', $users, null,array('class' => 'form-control','required'=>'required')); ?>
+                <?php echo e(Form::label('user', __('User'), ['class' => 'form-label'])); ?><span class="text-danger">*</span>
+                <?php echo Form::select('user[]', $users, null, ['class' => 'form-control', 'required' => 'required']); ?>
 
             </div>
         </div>
@@ -60,9 +62,17 @@
         </div>
         <div class="col-6 col-md-6">
             <div class="form-group">
-                <?php echo e(Form::label('estimated_hrs', __('Estimated Hours'),['class' => 'form-label'])); ?>
+                <?php echo e(Form::label('estimated_hrs', __('Estimated Hours'), ['class' => 'form-label'])); ?>
 
-                <?php echo e(Form::number('estimated_hrs', null, ['class' => 'form-control','min'=>'0','maxlength' => '8'])); ?>
+                <?php echo e(Form::number('estimated_hrs', null, ['class' => 'form-control', 'min' => '0', 'maxlength' => '8'])); ?>
+
+            </div>
+        </div>
+        <div class="col-6 col-md-6">
+            <div class="form-group">
+                <?php echo e(Form::label('project_type', __('Type'), ['class' => 'form-label'])); ?>
+
+                <?php echo e(Form::select('project_type', ['1' => 'Works/Construction', '2' => 'Consultancy/ICT', '3' => 'Goods/Supply'], null, ['class' => 'form-control', 'min' => '0', 'maxlength' => '8'])); ?>
 
             </div>
         </div>

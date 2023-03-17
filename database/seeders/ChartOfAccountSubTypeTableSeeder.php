@@ -21,6 +21,8 @@ class ChartOfAccountSubTypeTableSeeder extends Seeder
             ['name' => 'Current Liabilities', 'type' => 2],
             ['name' => 'Non-Current Liabilities', 'type' => 2],
             ['name' => 'Equity', 'type' => 3],
+            ['name' => 'Income', 'type' => 4],
+            ['name' => 'Expense', 'type' => 5],
         ];
 
         ChartOfAccountSubType::insert($data);

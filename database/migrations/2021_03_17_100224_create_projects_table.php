@@ -13,22 +13,23 @@ class CreateProjectsTable extends Migration
      */
     public function up()
     {
-        if(!Schema::hasTable('projects')){
-            Schema::create('projects', function (Blueprint $table) {
-                $table->id();
-                $table->string('project_name');
-                $table->date('start_date')->nullable();
-                $table->date('end_date')->nullable();
-                $table->string('project_image')->nullable();
-                $table->integer('budget')->nullable();
-                $table->integer('client_id');
-                $table->text('description')->nullable();
-                $table->string('status');
-                $table->text('tags')->nullable();
-                $table->unsignedBigInteger('created_by');
-                $table->timestamps();
-            });
-        }
+        // if(!Schema::hasTable('projects')){
+
+        // }
+        Schema::create('projects', function (Blueprint $table) {
+            $table->id();
+            $table->string('project_name');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->string('project_image')->nullable();
+            $table->integer('budget')->nullable();
+            $table->integer('client_id');
+            $table->text('description')->nullable();
+            $table->string('status');
+            $table->text('tags')->nullable();
+            $table->unsignedBigInteger('created_by');
+            $table->timestamps();
+        });
     }
 
     /**
@@ -38,6 +39,6 @@ class CreateProjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pojects');
+        Schema::dropIfExists('projects');
     }
 }

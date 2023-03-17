@@ -53,8 +53,9 @@
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create chart of account')): ?>
-            <a href="#" data-url="<?php echo e(route('chart-of-account.create')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
-                data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Create New Account')); ?>" class="btn btn-sm btn-primary">
+            <a href="#" data-url="<?php echo e(route('chart-of-account.create')); ?>" data-bs-toggle="tooltip"
+                title="<?php echo e(__('Create')); ?>" data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Create New Account')); ?>"
+                class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         <?php endif; ?>
@@ -92,7 +93,9 @@
                                             </td>
                                             <td><?php echo e(!empty($account->types) ? $account->types->name : '-'); ?></td>
                                             <td><?php echo e(!empty($account->subType) ? $account->subType->name : '-'); ?></td>
-                                            <td><?php echo e(!empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-'); ?></td>
+                                            <td><?php echo e(!empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-'); ?>
+
+                                            </td>
                                             <td>
                                                 <?php if(!empty($account->balance()) && $account->balance()['netAmount'] < 0): ?>
                                                     <?php echo e(__('Dr') . '. ' . \Auth::user()->priceFormat(abs($account->balance()['netAmount']))); ?>

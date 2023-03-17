@@ -152,10 +152,14 @@
                                     </tr>
                                     <tr>
                                         <td>Revenue received</td>
+                                        <td></td>
                                         <td>{{ !empty($data['revenue']) ? \Auth::user()->priceFormat($data['revenue']) : '0' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Expense</td>
+                                        <td>{{ !empty($data['expense']) ? \Auth::user()->priceFormat($data['expense']) : '0' }}</td>
                                         <td></td>
                                     </tr>
-
                                     <tr>
                                         <td>Balance to be paid</td>
                                         <td>{{ !empty($data['balance_to_be_paid']) ? \Auth::user()->priceFormat($data['balance_to_be_paid']) : '0' }}</td>

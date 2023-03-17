@@ -33,6 +33,10 @@ class ChartOfAccountSubTypeLevel2TableSeeder extends Seeder
             ['name' => 'Bonds', 'sub_type' => 4],
             ['name' => 'Capital', 'sub_type' => 5],
             ['name' => 'Retained earnings', 'sub_type' => 5],
+            ['name' => 'Revenue', 'sub_type' => 6],
+            ['name' => 'Other Income', 'sub_type' => 6],
+            ['name' => 'Project Expense', 'sub_type' => 7],
+            ['name' => 'Administrative Expense', 'sub_type' => 7],
         ];
 
         ChartOfAccountSubTypeLevel2::insert($data);

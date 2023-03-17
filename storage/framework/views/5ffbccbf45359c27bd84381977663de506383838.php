@@ -70,12 +70,7 @@
             <?php echo e(Form::textarea('description', '', ['class' => 'form-control', 'rows' => 3])); ?>
 
         </div>
-        <div class="form-group col-md-6">
-            <?php echo e(Form::label('category_id', __('Category'), ['class' => 'form-label'])); ?>
-
-            <?php echo e(Form::select('category_id', $categories, null, ['class' => 'form-control select', 'required' => 'required'])); ?>
-
-        </div>
+        
         
 
         <div class="form-group col-md-6">

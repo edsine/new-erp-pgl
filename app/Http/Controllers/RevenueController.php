@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BankAccount;
-use App\Models\Customer;
-use App\Models\InvoicePayment;
-use App\Models\ProductServiceCategory;
 use App\Models\Revenue;
-use App\Models\Transaction;
 use App\Models\Utility;
+use App\Models\Customer;
+use App\Models\BankAccount;
+use App\Models\JournalItem;
+use App\Models\Transaction;
+use App\Models\JournalEntry;
 use Illuminate\Http\Request;
+use App\Models\ChartOfAccount;
+use App\Models\InvoicePayment;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ProductServiceCategory;
 
 class RevenueController extends Controller
 {
@@ -24,8 +27,8 @@ class RevenueController extends Controller
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
             $account->prepend('Select Bank Account', '');
 
-            $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
-            $category->prepend('Select Category', '');
+            $category = ChartOfAccount::get()->pluck('name', 'id');
+            $category->prepend('Select Ledger Account', '');
 
 
             $query = Revenue::where('created_by', '=', \Auth::user()->creatorId());
@@ -43,7 +46,7 @@ class RevenueController extends Controller
             }
 
             if (!empty($request->category)) {
-                $query->where('category_id', '=', $request->category);
+                $query->where('expense_head_credit', '=', $request->category)->orWhere('expense_head_debit', '=', $request->category);
             }
 
             if (!empty($request->payment)) {
@@ -64,10 +67,12 @@ class RevenueController extends Controller
         if (\Auth::user()->can('create revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))->where('created_by', \Auth::user()->creatorId())->get()->pluck('code_name', 'id');
+            $chart_of_accounts->prepend('--', '');
             $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('revenue.create', compact('customers', 'categories', 'accounts'));
+            return view('revenue.create', compact('customers', 'categories', 'accounts', 'chart_of_accounts'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -84,7 +89,7 @@ class RevenueController extends Controller
                     'date' => 'required',
                     'amount' => 'required',
                     'account_id' => 'required',
-                    'category_id' => 'required',
+                    // 'category_id' => 'required',
                     'revenue_type' => 'required',
                 ]
             );
@@ -106,10 +111,12 @@ class RevenueController extends Controller
                 $revenue->customer_id    = $request->customer_id;
                 $revenue->project_id    = $request->project_id;;
             }
-            $revenue->category_id    = $request->category_id;
+            $revenue->category_id    = 0;
             $revenue->payment_method = 0;
             $revenue->reference      = time();
             $revenue->description    = $request->description;
+            $revenue->expense_head_debit     = $request->expense_head_debit;
+            $revenue->expense_head_credit     = $request->expense_head_credit;
             if (!empty($request->add_receipt)) {
                 $fileName = time() . "_" . $request->add_receipt->getClientOriginalName();
                 // $request->add_receipt->storeAs('uploads/revenue', $fileName);
@@ -127,7 +134,47 @@ class RevenueController extends Controller
             $revenue->created_by     = \Auth::user()->creatorId();
             $revenue->save();
 
-            $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            // Journal Entry
+
+            $journal              = new JournalEntry();
+            $journal->journal_id  = $this->journalNumber();
+            $journal->date        = $request->date;
+            $journal->reference   = time();
+            $journal->description = $request->description;
+            $journal->created_by  = \Auth::user()->creatorId();
+            $journal->save();
+
+            $revenue->journal_id = $journal->id;
+            $revenue->save();
+
+            //Expense Head Debit
+
+            $journalItem              = new JournalItem();
+            $journalItem->journal     = $journal->id;
+            $journalItem->account     = $request->expense_head_debit;
+            $journalItem->description = $request->description;
+            $journalItem->debit       = $request->amount;
+            $journalItem->credit      = 0;
+            $journalItem->save();
+
+            //End expense Head Debit
+
+            //Expense Head Credit
+
+            $journalItem              = new JournalItem();
+            $journalItem->journal     = $journal->id;
+            $journalItem->account     = $request->expense_head_credit;
+            $journalItem->description = $request->description;
+            $journalItem->credit       = $request->amount;
+            $journalItem->debit      = 0;
+            $journalItem->save();
+
+            //End expense Head Credit
+
+            //End Journal Entry
+
+            // $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            $category            = ChartOfAccount::where('id', $request->expense_head_credit)->first();
             $revenue->payment_id = $revenue->id;
             $revenue->type       = 'Revenue';
             $revenue->category   = $category->name;
@@ -198,10 +245,12 @@ class RevenueController extends Controller
         if (\Auth::user()->can('edit revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))->where('created_by', \Auth::user()->creatorId())->get()->pluck('code_name', 'id');
+            $chart_of_accounts->prepend('--', '');
             $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
-            return view('revenue.edit', compact('customers', 'categories', 'accounts', 'revenue'));
+            return view('revenue.edit', compact('customers', 'categories', 'accounts', 'revenue', 'chart_of_accounts'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
@@ -218,7 +267,7 @@ class RevenueController extends Controller
                     'date' => 'required',
                     'amount' => 'required',
                     'account_id' => 'required',
-                    'category_id' => 'required',
+                    // 'category_id' => 'required',
                     'revenue_type' => 'required',
                 ]
             );
@@ -235,6 +284,9 @@ class RevenueController extends Controller
 
             Utility::bankAccountBalance($revenue->account_id, $revenue->amount, 'debit');
 
+            $old_expense_head_debit = $revenue->expense_head_debit;
+            $old_expense_head_credit = $revenue->expense_head_credit;
+
             if ($revenue->project_id) {
                 Utility::projectAmountPaid($revenue->project_id, $revenue->amount, 'debit');
             }
@@ -250,10 +302,12 @@ class RevenueController extends Controller
                 $revenue->customer_id    = $request->customer_id;
                 $revenue->project_id    = $request->project_id;;
             }
-            $revenue->category_id    = $request->category_id;
+            $revenue->category_id    = 0;
             $revenue->payment_method = 0;
             // $revenue->reference      = $request->reference;
             $revenue->description    = $request->description;
+            $revenue->expense_head_debit     = $request->expense_head_debit;
+            $revenue->expense_head_credit     = $request->expense_head_credit;
             if (!empty($request->add_receipt)) {
 
                 if ($revenue->add_receipt) {
@@ -275,7 +329,61 @@ class RevenueController extends Controller
 
             $revenue->save();
 
-            $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            try {
+                // Journal Entry
+
+                $journal              = JournalEntry::find($revenue->journal_id);
+                $journal->date        = $request->date;
+                $journal->reference   = $request->reference;
+                $journal->description = $request->description;
+                $journal->created_by  = \Auth::user()->creatorId();
+                $journal->save();
+
+                //Expense Head Debit
+
+                $journalItem = JournalItem::where("journal", $journal->id)->where("account", $old_expense_head_debit)->first();
+
+                if ($journalItem == null) {
+                    $journalItem          = new JournalItem();
+                    $journalItem->journal = $journal->id;
+                }
+
+                if (isset($request->expense_head_debit)) {
+                    $journalItem->account = $request->expense_head_debit;
+                }
+                $journalItem->description = $request->description;
+                $journalItem->debit       = $request->amount;
+                $journalItem->credit      = 0;
+                $journalItem->save();
+
+                //End expense Head Debit
+
+                //Expense Head Credit
+
+                $journalItem = JournalItem::where("journal", $journal->id)->where("account", $old_expense_head_credit)->first();
+                if ($journalItem == null) {
+                    $journalItem          = new JournalItem();
+                    $journalItem->journal = $journal->id;
+                }
+
+                if (isset($request->expense_head_credit)) {
+                    $journalItem->account = $request->expense_head_credit;
+                }
+
+                $journalItem->journal     = $journal->id;
+                $journalItem->description = $request->description;
+                $journalItem->credit       = $request->amount;
+                $journalItem->debit      = 0;
+                $journalItem->save();
+
+                //End expense Head Credit
+
+                //End Journal Entry
+            } catch (Exception $e) {
+            }
+
+            // $category            = ProductServiceCategory::where('id', $request->category_id)->first();
+            $category            = ChartOfAccount::where('id', $request->expense_head_credit)->first();
             $revenue->category   = $category->name;
             $revenue->payment_id = $revenue->id;
             $revenue->type       = 'Revenue';
