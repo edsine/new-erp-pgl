@@ -230,7 +230,7 @@ class LeaveController extends Controller
         $leave = Leave::find($request->leave_id);
 
         $leave->status = $request->status;
-        if($leave->status == 'Approval')
+        if($leave->status == 'Approved')
         {
             $startDate               = new \DateTime($leave->start_date);
             $endDate                 = new \DateTime($leave->end_date);
