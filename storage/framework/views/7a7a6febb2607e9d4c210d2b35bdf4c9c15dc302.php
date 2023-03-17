@@ -38,26 +38,29 @@
             <?php echo e(Form::select('project_id', ['' => 'Select...'], null, ['class' => 'form-control select', 'required' => 'required', 'id' => 'project_id'])); ?>
 
         </div>
+        <div class="form-group row col-md-12">
+            <div id="expense_head_debit" class="form-group col-md-6">
+                <?php echo e(Form::label('expense_head_debit', __('Expense Head (Debit)'), ['class' => 'form-label'])); ?>
+
+                <?php echo e(Form::select('expense_head_debit', $chart_of_accounts, null, ['class' => 'form-control select', 'id' => 'expense_head_debit'])); ?>
+
+            </div>
+            <div id="expense_head_credit" class="form-group col-md-6">
+                <?php echo e(Form::label('expense_head_credit', __('Expense Head (Credit)'), ['class' => 'form-label'])); ?>
+
+                <?php echo e(Form::select('expense_head_credit', $chart_of_accounts, null, ['class' => 'form-control select', 'id' => 'expense_head_credit'])); ?>
+
+            </div>
+        </div>
         <div class="form-group  col-md-12">
             <?php echo e(Form::label('description', __('Description'), ['class' => 'form-label'])); ?>
 
             <?php echo e(Form::textarea('description', null, ['class' => 'form-control', 'rows' => 3])); ?>
 
         </div>
-        <div class="form-group  col-md-6">
-            <?php echo e(Form::label('category_id', __('Category'), ['class' => 'form-label'])); ?>
+        
 
-            <?php echo e(Form::select('category_id', $categories, null, ['class' => 'form-control select', 'required' => 'required'])); ?>
-
-        </div>
-
-        <div class="form-group  col-md-6">
-            <?php echo e(Form::label('reference', __('Reference'), ['class' => 'form-label'])); ?>
-
-            <?php echo e(Form::text('reference', null, ['class' => 'form-control'])); ?>
-
-
-        </div>
+        
 
 
         <div class="form-group col-md-6">

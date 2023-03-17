@@ -30,6 +30,16 @@ class Payment extends Model
         return $this->hasOne('App\Models\ProductServiceCategory', 'id', 'category_id');
     }
 
+    public function expenseHeadDebit()
+    {
+        return $this->hasOne('App\Models\ChartOfAccount', 'id', 'expense_head_debit');
+    }
+
+    public function expenseHeadCredit()
+    {
+        return $this->hasOne('App\Models\ChartOfAccount', 'id', 'expense_head_credit');
+    }
+
     public function client()
     {
         return $this->hasOne('App\Models\Customer', 'id', 'client_id');

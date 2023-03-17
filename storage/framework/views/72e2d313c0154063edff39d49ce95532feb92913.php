@@ -703,6 +703,11 @@
                                                         href="<?php echo e(route('report.balance.sheet')); ?>"><?php echo e(__('Balance Sheet')); ?></a>
                                                 </li>
                                                 <li
+                                                class="dash-item <?php echo e(Request::route()->getName() == 'report.profit.loss.statement' ? ' active' : ''); ?>">
+                                                <a class="dash-link"
+                                                    href="<?php echo e(route('report.profit.loss.statement')); ?>"><?php echo e(__('Profit and Loss Statement')); ?></a>
+                                            </li>
+                                                <li
                                                     class="dash-item <?php echo e(Request::route()->getName() == 'trial.balance' ? ' active' : ''); ?>">
                                                     <a class="dash-link"
                                                         href="<?php echo e(route('trial.balance')); ?>"><?php echo e(__('Trial Balance')); ?></a>

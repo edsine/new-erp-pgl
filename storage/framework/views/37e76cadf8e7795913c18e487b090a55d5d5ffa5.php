@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Transaction Summary')); ?>
 
@@ -92,7 +91,7 @@
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            <?php echo e(Form::label('account', __('Account'),['class'=>'form-label'])); ?>
+                                            <?php echo e(Form::label('account', __('Bank Account'),['class'=>'form-label'])); ?>
 
                                             <?php echo e(Form::select('account', $account,isset($_GET['account'])?$_GET['account']:'', array('class' => 'form-control select'))); ?>
 
@@ -100,7 +99,7 @@
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            <?php echo e(Form::label('category', __('Category'),['class'=>'form-label'])); ?>
+                                            <?php echo e(Form::label('category', __('Ledger Account'),['class'=>'form-label'])); ?>
 
                                             <?php echo e(Form::select('category', $category,isset($_GET['category'])?$_GET['category']:'', array('class' => 'form-control select'))); ?>
 
@@ -195,9 +194,9 @@
                             <thead>
                             <tr>
                                 <th><?php echo e(__('Date')); ?></th>
-                                <th><?php echo e(__('Account')); ?></th>
+                                <th><?php echo e(__('Bank Account')); ?></th>
                                 <th><?php echo e(__('Type')); ?></th>
-                                <th><?php echo e(__('Category')); ?></th>
+                                <th><?php echo e(__('Ledger Account')); ?></th>
                                 <th><?php echo e(__('Description')); ?></th>
                                 <th><?php echo e(__('Amount')); ?></th>
                             </tr>

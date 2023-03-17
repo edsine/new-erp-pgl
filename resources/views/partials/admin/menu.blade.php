@@ -807,6 +807,11 @@
                                                         href="{{ route('report.balance.sheet') }}">{{ __('Balance Sheet') }}</a>
                                                 </li>
                                                 <li
+                                                class="dash-item {{ Request::route()->getName() == 'report.profit.loss.statement' ? ' active' : '' }}">
+                                                <a class="dash-link"
+                                                    href="{{ route('report.profit.loss.statement') }}">{{ __('Profit and Loss Statement') }}</a>
+                                            </li>
+                                                <li
                                                     class="dash-item {{ Request::route()->getName() == 'trial.balance' ? ' active' : '' }}">
                                                     <a class="dash-link"
                                                         href="{{ route('trial.balance') }}">{{ __('Trial Balance') }}</a>
