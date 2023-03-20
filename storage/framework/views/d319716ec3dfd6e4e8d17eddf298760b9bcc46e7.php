@@ -78,9 +78,10 @@
 
                                             <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 
-                                                <?php if($account->accounts->code == 100 && $account->debit != 0): ?>
+                                                <?php if(count($accounts) > 1 && $account->accounts->code == 100 && $account->debit != 0): ?>
                                                     <?php continue; ?>
                                                 <?php endif; ?>
+                                                
                                                 <tr>
                                                     <td><?php echo e($key + 1); ?></td>
                                                     <td><?php echo e(!empty($account->accounts) ? $account->accounts->code . ' - ' . $account->accounts->name : ''); ?>

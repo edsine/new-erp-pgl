@@ -79,7 +79,7 @@
                                         <th> {{ __('Type') }}</th>
                                         <th> {{ __('Group') }}</th>
                                         <th> {{ __('Sub-Group') }}</th>
-                                        <th> {{ __('Balance') }}</th>
+                                        {{-- <th> {{ __('Balance') }}</th> --}}
                                         <th> {{ __('Status') }}</th>
                                         <th width="10%"> {{ __('Action') }}</th>
                                     </tr>
@@ -95,7 +95,7 @@
                                             <td>{{ !empty($account->subType) ? $account->subType->name : '-' }}</td>
                                             <td>{{ !empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-' }}
                                             </td>
-                                            <td>
+                                            {{-- <td>
                                                 @if (!empty($account->balance()) && $account->balance()['netAmount'] < 0)
                                                     {{ __('Dr') . '. ' . \Auth::user()->priceFormat(abs($account->balance()['netAmount'])) }}
                                                 @elseif(!empty($account->balance()) && $account->balance()['netAmount'] > 0)
@@ -103,7 +103,7 @@
                                                 @else
                                                     -
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 @if ($account->is_enabled == 1)
                                                     <span

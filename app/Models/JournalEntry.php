@@ -35,7 +35,7 @@ class JournalEntry extends Model
         $total = 0;
         foreach ($this->accounts as $account) {
             // Exclude Bank Account
-            if ($account->accounts->code == 100) {
+            if (count($this->accounts) > 1 && $account->accounts->code == 100) {
                 continue;
             }
             $total += $account->debit;

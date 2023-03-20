@@ -1585,7 +1585,7 @@ class ReportController extends Controller
                 $end   = date('Y-m-t');
             }
 
-            $journalItem = JournalItem::select('chart_of_accounts.name', \DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'));
+            $journalItem = JournalItem::select('chart_of_accounts.id', 'chart_of_accounts.name', \DB::raw('sum(credit) as totalCredit'), \DB::raw('sum(debit) as totalDebit'), \DB::raw('sum(credit) - sum(debit) as netAmount'));
             $journalItem->leftjoin('journal_entries', 'journal_entries.id', 'journal_items.journal');
             $journalItem->leftjoin('chart_of_accounts', 'journal_items.account', 'chart_of_accounts.id');
             $journalItem->where('chart_of_accounts.created_by', \Auth::user()->creatorId());

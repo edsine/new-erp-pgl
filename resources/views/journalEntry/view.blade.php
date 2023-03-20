@@ -72,9 +72,10 @@
 
                                             @foreach ($accounts as $key => $account)
                                                 {{-- Exclude Bank Account --}}
-                                                @if ($account->accounts->code == 100 && $account->debit != 0)
+                                                @if (count($accounts) > 1 && $account->accounts->code == 100 && $account->debit != 0)
                                                     @continue
                                                 @endif
+                                                
                                                 <tr>
                                                     <td>{{ $key + 1 }}</td>
                                                     <td>{{ !empty($account->accounts) ? $account->accounts->code . ' - ' . $account->accounts->name : '' }}

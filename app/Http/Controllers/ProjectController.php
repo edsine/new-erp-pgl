@@ -152,7 +152,7 @@ class ProjectController extends Controller
             $journal->journal_id  = $this->journalNumber();
             $journal->date        = now();
             $journal->reference   = time();
-            $journal->description = $request->description;
+            $journal->description = "Project added";
             $journal->created_by  = \Auth::user()->creatorId();
             $journal->save();
 
@@ -165,7 +165,7 @@ class ProjectController extends Controller
                 $journalItem              = new JournalItem();
                 $journalItem->journal     = $journal->id;
                 $journalItem->account     = $account->id;
-                $journalItem->description = $request->description;
+                $journalItem->description = "Project added";
                 $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
                 $journalItem->credit      = 0;
                 $journalItem->save();
