@@ -76,7 +76,7 @@
 @endpush
 @section('content')
 <div class="row">
-{{Form::open(array('url'=>'store','method'=>'post', 'enctype' => "multipart/form-data"))}}
+{{Form::open(array('url'=>'requisition/store','method'=>'post', 'enctype' => "multipart/form-data"))}}
 <div class="col-12">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <div class="card">
@@ -191,7 +191,7 @@
                             <div class="choose-file ">
                                 <label for="document" class="form-label">
                                     <input type="file" class="form-control" name="document" id="document" data-filename="document_create">
-                                    <img id="image" class="mt-3" style="width:25%;"/>
+                                    {{-- <img id="image" class="mt-3" style="width:25%;"/> --}}
                                 </label>
                             </div>
                         </td>

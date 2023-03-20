@@ -125,7 +125,7 @@
                         </div>
                         <div class="col-auto text-end">
                             <h4 class="m-0">{{ $home_data['total_project']['total'] }}</h4>
-                            <small class="text-muted"><span class="text-success">{{ $home_data['total_project']['percentage'] }}%</span> {{__('completd')}}</small>
+                            <small class="text-muted"><span class="text-success">{{ $home_data['total_project']['percentage'] }}%</span> {{__('completed')}}</small>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                         </div>
                         <div class="col-auto text-end">
                             <h4 class="m-0">{{ $home_data['total_task']['total'] }}</h4>
-                            <small class="text-muted"><span class="text-success">{{ $home_data['total_task']['percentage'] }}%</span> {{__('completd')}}</small>
+                            <small class="text-muted"><span class="text-success">{{ $home_data['total_task']['percentage'] }}%</span> {{__('completed')}}</small>
                         </div>
                     </div>
                 </div>

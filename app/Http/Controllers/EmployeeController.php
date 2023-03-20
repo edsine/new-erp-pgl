@@ -85,11 +85,6 @@ class EmployeeController extends Controller
                 $request->all(), [
                                    'name' => 'required',
                                    'dob' => 'required',
-                                   // 'gender' => 'required',
-                                   'phone' => 'required',
-                                   'address' => 'required',
-                                   'email' => 'required|unique:users',
-                                   'password' => 'required',
                                    'department_id' => 'required',
                                    'designation_id' => 'required',
 //                                   'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
@@ -254,9 +249,7 @@ class EmployeeController extends Controller
                 $request->all(), [
                                    'name' => 'required',
                                    'dob' => 'required',
-                                   'gender' => 'required',
-                                   'phone' => 'required|numeric',
-                                   'address' => 'required',
+                                   
 //                                   'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
                                ]
             );

@@ -1,10 +1,11 @@
+
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(ucwords($project->project_name)); ?>
 
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('script-page'); ?>
     <script>
-        (function () {
+        (function() {
             var options = {
                 chart: {
                     type: 'area',
@@ -23,7 +24,7 @@
                 },
                 series: [{
                     name: 'Bandwidth',
-                    data:<?php echo e(json_encode(array_map('intval',$project_data['timesheet_chart']['chart']))); ?>
+                    data: <?php echo e(json_encode(array_map('intval', $project_data['timesheet_chart']['chart']))); ?>
 
                 }],
 
@@ -37,7 +38,7 @@
                     },
                     y: {
                         title: {
-                            formatter: function (seriesName) {
+                            formatter: function(seriesName) {
                                 return ''
                             }
                         }
@@ -51,7 +52,7 @@
             chart.render();
         })();
 
-        (function () {
+        (function() {
             var options = {
                 chart: {
                     type: 'area',
@@ -70,7 +71,7 @@
                 },
                 series: [{
                     name: 'Bandwidth',
-                    data:<?php echo e(json_encode($project_data['task_chart']['chart'])); ?>
+                    data: <?php echo e(json_encode($project_data['task_chart']['chart'])); ?>
 
                 }],
 
@@ -84,7 +85,7 @@
                     },
                     y: {
                         title: {
-                            formatter: function (seriesName) {
+                            formatter: function(seriesName) {
                                 return ''
                             }
                         }
@@ -98,9 +99,9 @@
             chart.render();
         })();
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             loadProjectUser();
-            $(document).on('click', '.invite_usr', function () {
+            $(document).on('click', '.invite_usr', function() {
                 var project_id = $('#project_id').val();
                 var user_id = $(this).attr('data-id');
 
@@ -113,7 +114,7 @@
                         'user_id': user_id,
                         "_token": "<?php echo e(csrf_token()); ?>"
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.code == '200') {
                             show_toastr(data.status, data.success, 'success')
                             setInterval('location.reload()', 5000);
@@ -132,18 +133,20 @@
 
             $.ajax({
                 url: '<?php echo e(route('project.user')); ?>',
-                data: {project_id: project_id},
-                beforeSend: function () {
-                    $('#project_users').html('<tr><th colspan="2" class="h6 text-center pt-5"><?php echo e(__('Loading...')); ?></th></tr>');
+                data: {
+                    project_id: project_id
                 },
-                success: function (data) {
+                beforeSend: function() {
+                    $('#project_users').html(
+                        '<tr><th colspan="2" class="h6 text-center pt-5"><?php echo e(__('Loading...')); ?></th></tr>');
+                },
+                success: function(data) {
                     mainEle.html(data.html);
                     $('[id^=fire-modal]').remove();
                     loadConfirm();
                 }
             });
         }
-
     </script>
 <?php $__env->stopPush(); ?>
 <?php $__env->startSection('breadcrumb'); ?>
@@ -154,45 +157,41 @@
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view grant chart')): ?>
-            <a href="<?php echo e(route('projects.gantt',$project->id)); ?>" class="btn btn-sm btn-primary">
+            <a href="<?php echo e(route('projects.gantt', $project->id)); ?>" class="btn btn-sm btn-primary">
                 <?php echo e(__('Gantt Chart')); ?>
 
             </a>
         <?php endif; ?>
-        <?php if(\Auth::user()->type!='client' || (\Auth::user()->type=='client' )): ?>
-            <a href="<?php echo e(route('projecttime.tracker',$project->id)); ?>" class="btn btn-sm btn-primary">
+        <?php if(\Auth::user()->type != 'client' || \Auth::user()->type == 'client'): ?>
+            <a href="<?php echo e(route('projecttime.tracker', $project->id)); ?>" class="btn btn-sm btn-primary">
                 <?php echo e(__('Tracker')); ?>
 
             </a>
         <?php endif; ?>
-        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view expense')): ?>
-            <a href="<?php echo e(route('projects.expenses.index',$project->id)); ?>" class="btn btn-sm btn-primary">
-                <?php echo e(__('Expense')); ?>
-
-            </a>
-        <?php endif; ?>
+        
         <?php if(\Auth::user()->type != 'client'): ?>
             <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view timesheet')): ?>
-                <a href="<?php echo e(route('timesheet.index',$project->id)); ?>" class="btn btn-sm btn-primary">
+                <a href="<?php echo e(route('timesheet.index', $project->id)); ?>" class="btn btn-sm btn-primary">
                     <?php echo e(__('Timesheet')); ?>
 
                 </a>
             <?php endif; ?>
         <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage bug report')): ?>
-            <a href="<?php echo e(route('task.bug',$project->id)); ?>" class="btn btn-sm btn-primary">
+            <a href="<?php echo e(route('task.bug', $project->id)); ?>" class="btn btn-sm btn-primary">
                 <?php echo e(__('Bug Report')); ?>
 
             </a>
         <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create project task')): ?>
-            <a href="<?php echo e(route('projects.tasks.index',$project->id)); ?>" class="btn btn-sm btn-primary">
+            <a href="<?php echo e(route('projects.tasks.index', $project->id)); ?>" class="btn btn-sm btn-primary">
                 <?php echo e(__('Task')); ?>
 
             </a>
         <?php endif; ?>
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit project')): ?>
-            <a href="#" data-size="lg" data-url="<?php echo e(route('projects.edit', $project->id)); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Edit Project')); ?>" class="btn btn-sm btn-primary">
+            <a href="#" data-size="lg" data-url="<?php echo e(route('projects.edit', $project->id)); ?>" data-ajax-popup="true"
+                data-bs-toggle="tooltip" title="<?php echo e(__('Edit Project')); ?>" class="btn btn-sm btn-primary">
                 <i class="ti ti-pencil"></i>
             </a>
         <?php endif; ?>
@@ -237,7 +236,7 @@
                                 </div>
                                 <div class="ms-3">
                                     <small class="text-muted"><?php echo e(__('Total')); ?></small>
-                                    <h6 class="m-0"><?php echo e(__('Budget')); ?></h6>
+                                    <h6 class="m-0"><?php echo e(__('Contract Sum')); ?></h6>
                                 </div>
                             </div>
                         </div>
@@ -248,7 +247,29 @@
                 </div>
             </div>
         </div>
-        <?php if(Auth::user()->type !='client'): ?>
+        <div class="col-lg-4 col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row align-items-center justify-content-between">
+                        <div class="col-auto mb-3 mb-sm-0">
+                            <div class="d-flex align-items-center">
+                                <div class="theme-avtar bg-danger">
+                                    <i class="ti ti-report-money"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <small class="text-muted"><?php echo e(__('Amount')); ?></small>
+                                    <h6 class="m-0"><?php echo e(__('Paid')); ?></h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto text-end">
+                            <h4 class="m-0"><?php echo e(\Auth::user()->priceFormat($project_data['revenue']['total'])); ?></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php if(Auth::user()->type != 'client'): ?>
             <div class="col-lg-4 col-md-6">
                 <div class="card">
                     <div class="card-body">
@@ -286,9 +307,14 @@
                                 <h5 class="mb-1"> <?php echo e($project->project_name); ?></h5>
                                 <p class="mb-0 text-sm">
                                 <div class="progress-wrapper">
-                                    <span class="progress-percentage"><small class="font-weight-bold"><?php echo e(__('Completed:')); ?> : </small><?php echo e($project->project_progress()['percentage']); ?></span>
+                                    <span class="progress-percentage"><small
+                                            class="font-weight-bold"><?php echo e(__('Completed:')); ?> :
+                                        </small><?php echo e($project->project_progress()['percentage']); ?></span>
                                     <div class="progress progress-xs mt-2">
-                                        <div class="progress-bar bg-info" role="progressbar" aria-valuenow="<?php echo e($project->project_progress()['percentage']); ?>" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo e($project->project_progress()['percentage']); ?>;"></div>
+                                        <div class="progress-bar bg-info" role="progressbar"
+                                            aria-valuenow="<?php echo e($project->project_progress()['percentage']); ?>"
+                                            aria-valuemin="0" aria-valuemax="100"
+                                            style="width: <?php echo e($project->project_progress()['percentage']); ?>;"></div>
                                     </div>
                                 </div>
                                 </p>
@@ -306,17 +332,21 @@
                             <div class="d-block d-sm-flex align-items-center justify-content-between">
                                 <div class="row align-items-center">
                                     <span class="text-white text-sm"><?php echo e(__('Start Date')); ?></span>
-                                    <h5 class="text-white text-nowrap"><?php echo e(Utility::getDateFormated($project->start_date)); ?></h5>
+                                    <h5 class="text-white text-nowrap">
+                                        <?php echo e(Utility::getDateFormated($project->start_date)); ?></h5>
                                 </div>
                                 <div class="row align-items-center">
                                     <span class="text-white text-sm"><?php echo e(__('End Date')); ?></span>
-                                    <h5 class="text-white text-nowrap"><?php echo e(Utility::getDateFormated($project->end_date)); ?></h5>
+                                    <h5 class="text-white text-nowrap"><?php echo e(Utility::getDateFormated($project->end_date)); ?>
+
+                                    </h5>
                                 </div>
 
                             </div>
                             <div class="row">
                                 <span class="text-white text-sm"><?php echo e(__('Client')); ?></span>
-                                <h5 class="text-white text-nowrap"><?php echo e((!empty($project->client)?$project->client->name:'-')); ?></h5>
+                                <h5 class="text-white text-nowrap">
+                                    <?php echo e(!empty($project->client) ? $project->client->name : '-'); ?></h5>
                             </div>
                         </div>
                     </div>
@@ -347,7 +377,8 @@
                         <span><?php echo e($project_data['day_left']['day']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['day_left']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['day_left']['percentage']); ?>%"></div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center">
@@ -357,7 +388,8 @@
                         <span><?php echo e($project_data['open_task']['tasks']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['open_task']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['open_task']['percentage']); ?>%"></div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center">
@@ -366,7 +398,8 @@
                         <span><?php echo e($project_data['milestone']['total']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['milestone']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['milestone']['percentage']); ?>%"></div>
                     </div>
                 </div>
             </div>
@@ -395,7 +428,8 @@
                         <span><?php echo e($project_data['time_spent']['total']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['time_spent']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['time_spent']['percentage']); ?>%"></div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center">
@@ -405,7 +439,8 @@
                         <span><?php echo e($project_data['task_allocated_hrs']['hrs']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['task_allocated_hrs']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['task_allocated_hrs']['percentage']); ?>%"></div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="d-flex align-items-center">
@@ -414,7 +449,8 @@
                         <span><?php echo e($project_data['user_assigned']['total']); ?></span>
                     </div>
                     <div class="progress mb-3">
-                        <div class="progress-bar bg-primary" style="width: <?php echo e($project_data['user_assigned']['percentage']); ?>%"></div>
+                        <div class="progress-bar bg-primary"
+                            style="width: <?php echo e($project_data['user_assigned']['percentage']); ?>%"></div>
                     </div>
                 </div>
             </div>
@@ -427,7 +463,10 @@
                         <h5><?php echo e(__('Members')); ?></h5>
                         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit project')): ?>
                             <div class="float-end">
-                                <a href="#" data-size="lg" data-url="<?php echo e(route('invite.project.member.view', $project->id)); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Add Member')); ?>">
+                                <a href="#" data-size="lg"
+                                    data-url="<?php echo e(route('invite.project.member.view', $project->id)); ?>" data-ajax-popup="true"
+                                    data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary"
+                                    data-bs-original-title="<?php echo e(__('Add Member')); ?>">
                                     <i class="ti ti-plus"></i>
                                 </a>
                             </div>
@@ -448,7 +487,9 @@
                             <h5><?php echo e(__('Milestones')); ?> (<?php echo e(count($project->milestones)); ?>)</h5>
 
                             <div class="float-end">
-                                <a href="#" data-size="md" data-url="<?php echo e(route('project.milestone', $project->id)); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="" class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Create New Milestone')); ?>">
+                                <a href="#" data-size="md" data-url="<?php echo e(route('project.milestone', $project->id)); ?>"
+                                    data-ajax-popup="true" data-bs-toggle="tooltip" title=""
+                                    class="btn btn-sm btn-primary" data-bs-original-title="<?php echo e(__('Create New Milestone')); ?>">
                                     <i class="ti ti-plus"></i>
                                 </a>
                             </div>
@@ -467,27 +508,37 @@
                                                 <div class="div">
                                                     <h6 class="m-0"><?php echo e($milestone->title); ?>
 
-                                                        <span class="badge-xs badge bg-<?php echo e(\App\Models\Project::$status_color[$milestone->status]); ?> p-2 px-3 rounded"><?php echo e(__(\App\Models\Project::$project_status[$milestone->status])); ?></span>
+                                                        <span
+                                                            class="badge-xs badge bg-<?php echo e(\App\Models\Project::$status_color[$milestone->status]); ?> p-2 px-3 rounded"><?php echo e(__(\App\Models\Project::$project_status[$milestone->status])); ?></span>
                                                     </h6>
-                                                    <small class="text-muted"><?php echo e($milestone->tasks->count().' '. __('Tasks')); ?></small>
+                                                    <small
+                                                        class="text-muted"><?php echo e($milestone->tasks->count() . ' ' . __('Tasks')); ?></small>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-auto text-sm-end d-flex align-items-center">
                                             <div class="action-btn bg-warning ms-2">
-                                                <a href="#" data-size="md" data-url="<?php echo e(route('project.milestone.show',$milestone->id)); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('View')); ?>" class="btn btn-sm">
+                                                <a href="#" data-size="md"
+                                                    data-url="<?php echo e(route('project.milestone.show', $milestone->id)); ?>"
+                                                    data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                    title="<?php echo e(__('View')); ?>" class="btn btn-sm">
                                                     <i class="ti ti-eye text-white"></i>
                                                 </a>
                                             </div>
                                             <div class="action-btn bg-info ms-2">
-                                                <a href="#" data-size="md" data-url="<?php echo e(route('project.milestone.edit',$milestone->id)); ?>" data-ajax-popup="true" data-bs-toggle="tooltip" title="<?php echo e(__('Edit')); ?>" class="btn btn-sm">
+                                                <a href="#" data-size="md"
+                                                    data-url="<?php echo e(route('project.milestone.edit', $milestone->id)); ?>"
+                                                    data-ajax-popup="true" data-bs-toggle="tooltip"
+                                                    title="<?php echo e(__('Edit')); ?>" class="btn btn-sm">
                                                     <i class="ti ti-pencil text-white"></i>
                                                 </a>
                                             </div>
                                             <div class="action-btn bg-danger ms-2">
                                                 <?php echo Form::open(['method' => 'DELETE', 'route' => ['project.milestone.destroy', $milestone->id]]); ?>
 
-                                                <a href="#" class="mx-3 btn btn-sm  align-items-center bs-pass-para" data-bs-toggle="tooltip" title="<?php echo e(__('Delete')); ?>"><i class="ti ti-trash text-white"></i></a>
+                                                <a href="#" class="mx-3 btn btn-sm  align-items-center bs-pass-para"
+                                                    data-bs-toggle="tooltip" title="<?php echo e(__('Delete')); ?>"><i
+                                                        class="ti ti-trash text-white"></i></a>
 
                                                 <?php echo Form::close(); ?>
 
@@ -556,7 +607,9 @@
                                         </div>
                                         <div class="col-auto text-sm-end d-flex align-items-center">
                                             <div class="action-btn bg-info ms-2">
-                                                <a href="<?php echo e(asset(Storage::url('tasks/'.$attachment->file))); ?>" download data-bs-toggle="tooltip" title="<?php echo e(__('Download')); ?>" class="btn btn-sm">
+                                                <a href="<?php echo e(asset(Storage::url('tasks/' . $attachment->file))); ?>" download
+                                                    data-bs-toggle="tooltip" title="<?php echo e(__('Download')); ?>"
+                                                    class="btn btn-sm">
                                                     <i class="ti ti-download text-white"></i>
                                                 </a>
                                             </div>

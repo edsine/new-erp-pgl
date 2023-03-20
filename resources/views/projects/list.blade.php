@@ -56,6 +56,11 @@
                                     </td>
                                     <td class="text-end">
                                          <span>
+                                            <div class="action-btn bg-warning ms-2">
+                                                <a href="{{ route('projects.show',$project) }}" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-size="lg" data-bs-toggle="tooltip" title="{{__('View Project')}}" data-title="{{__('View Project')}}">
+                                                    <i class="ti ti-list text-white"></i>
+                                                </a>
+                                            </div>
                                              @can('edit project')
                                                  <div class="action-btn bg-warning ms-2">
                                                     <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-url="{{ route('invite.project.member.view', $project->id) }}" data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip" title="{{__('Invite User')}}" data-title="{{__('Invite User')}}">

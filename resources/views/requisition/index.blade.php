@@ -14,7 +14,6 @@
             <a href="{{ route('requisition.create')}}"  data-bs-toggle="tooltip" title="{{__('Create')}}"  class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
-
         @endcan
     </div>
 @endsection
@@ -53,6 +52,27 @@
                                 @endif
                             <td> {{$item->status}} </td>
                             <td>  
+                                
+                                {{-- <div class="action-btn bg-warning ms-2">
+                                    <a href="#"
+                                        data-url="{{ URL::to('requisition/' . $item->id . '/action') }}"
+                                        data-size="lg" data-ajax-popup="true"
+                                        data-title="{{ __('Requisition Action') }}"
+                                        class="mx-3 btn btn-sm  align-items-center" data-bs-toggle="tooltip"
+                                        title="{{ __('Requisition Action') }}"
+                                        data-original-title="{{ __('Requisition Action') }}">
+                                        <i class="ti ti-caret-right text-white"></i> </a>
+                                </div> --}}
+                                <div class="action-btn bg-info ms-2">
+                                    <a href="#"
+                                        data-url="{{ URL::to('requisition/' . $item->id . '/view') }}"
+                                        data-size="lg" data-ajax-popup="true"
+                                        data-title="{{ __('Requisition Action') }}"
+                                        class="mx-3 btn btn-sm  align-items-center" data-bs-toggle="tooltip"
+                                        title="{{ __('View Approval') }}"
+                                        data-original-title="{{ __('View Approval') }}">
+                                        <i class="ti ti-caret-right text-white"></i> </a>
+                                </div>
                                 <div class="action-btn bg-primary ms-2">
                                     <a href="{{ route('requisition.edit', $item->id)}}"  data-size="lg" class="mx-3 btn btn-sm align-items-center" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil text-white"></i></a>
                                 </div>
