@@ -169,6 +169,19 @@ class RevenueController extends Controller
             $journalItem->debit      = 0;
             $journalItem->save();
 
+            // // Account receivables credited
+            // $account = ChartOfAccount::where('code', 300)->first();
+            // if ($account != null) {
+            //     $journalItem              = new JournalItem();
+            //     $journalItem->journal     = $journal->id;
+            //     $journalItem->account     = $account->id;
+            //     $journalItem->description = $request->description;
+            //     $journalItem->credit       = $request->amount;
+            //     $journalItem->debit      = 0;
+            //     $journalItem->save();
+            // }
+
+
             //End expense Head Credit
 
             //End Journal Entry
@@ -378,6 +391,26 @@ class RevenueController extends Controller
 
                 //End expense Head Credit
 
+                // // Account Receivables
+
+                // $account = ChartOfAccount::where('code', 300)->first();
+                // if ($account != null) {
+                //     $journalItem = JournalItem::where("journal", $journal->id)->where("account", $account->id)->first();
+                //     if ($journalItem == null) {
+                //         $journalItem          = new JournalItem();
+                //         $journalItem->journal = $journal->id;
+                //     }
+
+                //     $journalItem->account = $account->id;
+                //     $journalItem->journal     = $journal->id;
+                //     $journalItem->description = $request->description;
+                //     $journalItem->credit       = $request->amount;
+                //     $journalItem->debit      = 0;
+                //     $journalItem->save();
+                // }
+
+                // // End Account Receivables
+
                 //End Journal Entry
             } catch (Exception $e) {
             }
@@ -434,5 +467,15 @@ class RevenueController extends Controller
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
+    }
+
+    function journalNumber()
+    {
+        $latest = JournalEntry::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        if (!$latest) {
+            return 1;
+        }
+
+        return $latest->journal_id + 1;
     }
 }

@@ -28,7 +28,8 @@ class Project extends Model
         'tags',
         'created_by',
         'amount_paid',
-        'project_type'
+        'project_type',
+        'initial_journal_item_id'
     ];
 
     public static $project_status=[
