@@ -275,7 +275,7 @@
 
         <div class="card p-4 mb-4">
             <h6 class="mb-0"><?php echo e(__('Net Profit/Loss')); ?> :
-                <?php echo e(\Auth::user()->priceFormat($amounts['Income'] + $amounts['Expense'])); ?></h6>
+                <?php echo e(\Auth::user()->priceFormat($amounts['Expense'] - $amounts['Income'])); ?></h6>
         </div>
 
         

@@ -1589,6 +1589,18 @@ class ReportController extends Controller
             $journalItem->leftjoin('journal_entries', 'journal_entries.id', 'journal_items.journal');
             $journalItem->leftjoin('chart_of_accounts', 'journal_items.account', 'chart_of_accounts.id');
             $journalItem->where('chart_of_accounts.created_by', \Auth::user()->creatorId());
+
+
+            // Exclude incomes
+            $journalItem->where('chart_of_accounts.code', '!=',  2000);
+            $journalItem->where('chart_of_accounts.code', '!=',  2100);
+            $journalItem->where('chart_of_accounts.code', '!=',  2200);
+            $journalItem->where('chart_of_accounts.code', '!=',  2300);
+            $journalItem->where('chart_of_accounts.code', '!=',  2400);
+            $journalItem->where('chart_of_accounts.code', '!=',  2500);
+            // End Exclude incomes
+
+
             $journalItem->where('journal_items.created_at', '>=', $start);
             $journalItem->where('journal_items.created_at', '<=', $end);
             $journalItem->groupBy('account');

@@ -23,8 +23,7 @@ class JournalEntry extends Model
     public function totalCredit()
     {
         $total = 0;
-        foreach($this->accounts as $account)
-        {
+        foreach ($this->accounts as $account) {
             $total += $account->credit;
         }
 
@@ -34,13 +33,14 @@ class JournalEntry extends Model
     public function totalDebit()
     {
         $total = 0;
-        foreach($this->accounts as $account)
-        {
+        foreach ($this->accounts as $account) {
+            // Exclude Bank Account
+            if ($account->accounts->code == 100) {
+                continue;
+            }
             $total += $account->debit;
         }
 
         return $total;
     }
-
-
 }

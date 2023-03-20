@@ -141,11 +141,11 @@
                                         <td><?php echo e(!empty($revenue->customer) ? $revenue->customer->name : '-'); ?></td>
                                         <td><?php echo e(!empty($revenue->project) ? $revenue->project->project_name : '-'); ?></td>
                                         
-                                        <td><?php echo e(!empty($payment->expenseHeadDebit) ? $payment->expenseHeadDebit->name : '-'); ?>
+                                        <td><?php echo e(!empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadDebit->name : '-'); ?>
 
                                             (DR)
                                             <br>
-                                            <?php echo e(!empty($payment->expenseHeadDebit) ? $payment->expenseHeadCredit->name : '-'); ?>
+                                            <?php echo e(!empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadCredit->name : '-'); ?>
 
                                             (CR)
                                         </td>

@@ -130,10 +130,10 @@
                                         <td>{{ !empty($revenue->customer) ? $revenue->customer->name : '-' }}</td>
                                         <td>{{ !empty($revenue->project) ? $revenue->project->project_name : '-' }}</td>
                                         {{-- <td>{{ !empty($revenue->category) ? $revenue->category->name : '-' }}</td> --}}
-                                        <td>{{ !empty($payment->expenseHeadDebit) ? $payment->expenseHeadDebit->name : '-' }}
+                                        <td>{{ !empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadDebit->name : '-' }}
                                             (DR)
                                             <br>
-                                            {{ !empty($payment->expenseHeadDebit) ? $payment->expenseHeadCredit->name : '-' }}
+                                            {{ !empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadCredit->name : '-' }}
                                             (CR)
                                         </td>
                                         <td>{{ !empty($revenue->reference) ? $revenue->reference : '-' }}</td>

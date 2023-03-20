@@ -67,7 +67,11 @@ class RevenueController extends Controller
         if (\Auth::user()->can('create revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))->where('created_by', \Auth::user()->creatorId())->get()->pluck('code_name', 'id');
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+                ->where('created_by', \Auth::user()->creatorId())
+                ->where('code', '!=', 100)
+                ->get()
+                ->pluck('code_name', 'id');
             $chart_of_accounts->prepend('--', '');
             $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -169,6 +173,24 @@ class RevenueController extends Controller
             $journalItem->debit      = 0;
             $journalItem->save();
 
+
+            // Bank Account debited
+            $debitAccount = ChartOfAccount::where('id', $request->expense_head_debit)->first();
+            $code = $debitAccount->code;
+            if ($code == 2000 || $code == 2100 || $code == 2200 || $code == 2300 || $code == 2400 || $code == 2500) {
+                $account = ChartOfAccount::where('code', 100)->first();
+                if ($account != null) {
+                    $journalItem              = new JournalItem();
+                    $journalItem->journal     = $journal->id;
+                    $journalItem->account     = $account->id;
+                    $journalItem->description = $request->description;
+                    $journalItem->debit       = $request->amount;
+                    $journalItem->credit      = 0;
+                    $journalItem->save();
+                }
+            }
+
+
             // // Account receivables credited
             // $account = ChartOfAccount::where('code', 300)->first();
             // if ($account != null) {
@@ -258,7 +280,11 @@ class RevenueController extends Controller
         if (\Auth::user()->can('edit revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))->where('created_by', \Auth::user()->creatorId())->get()->pluck('code_name', 'id');
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+                ->where('created_by', \Auth::user()->creatorId())
+                ->where('code', '!=', 100)
+                ->get()
+                ->pluck('code_name', 'id');
             $chart_of_accounts->prepend('--', '');
             $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
@@ -391,6 +417,27 @@ class RevenueController extends Controller
 
                 //End expense Head Credit
 
+
+                // Bank Account debited
+                $debitAccount = ChartOfAccount::where('id', $request->expense_head_debit)->first();
+                $code = $debitAccount->code;
+                if ($code == 2000 || $code == 2100 || $code == 2200 || $code == 2300 || $code == 2400 || $code == 2500) {
+                    $account = ChartOfAccount::where('code', 100)->first();
+                    if ($account != null) {
+                        $journalItem              = JournalItem::where("journal", $journal->id)->where("account", $account->id)->first();
+                        if ($journalItem == null) {
+                            $journalItem          = new JournalItem();
+                            $journalItem->journal = $journal->id;
+                        }
+                        $journalItem->journal     = $journal->id;
+                        $journalItem->account     = $account->id;
+                        $journalItem->description = $request->description;
+                        $journalItem->debit       = $request->amount;
+                        $journalItem->credit      = 0;
+                        $journalItem->save();
+                    }
+                }
+
                 // // Account Receivables
 
                 // $account = ChartOfAccount::where('code', 300)->first();
@@ -445,6 +492,14 @@ class RevenueController extends Controller
     {
         if (\Auth::user()->can('delete revenue')) {
             if ($revenue->created_by == \Auth::user()->creatorId()) {
+
+                $journalEntry = JournalEntry::where('id', $revenue->journal_id)->first();
+
+                if ($journalEntry != null) {
+                    $journalEntry->delete();
+                    JournalItem::where('journal', '=', $journalEntry->id)->delete();
+                }
+
                 $revenue->delete();
                 $type = 'Revenue';
                 $user = 'Customer';

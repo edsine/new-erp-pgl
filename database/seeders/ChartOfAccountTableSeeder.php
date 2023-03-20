@@ -18,9 +18,9 @@ class ChartOfAccountTableSeeder extends Seeder
         $data = [
             ['name' => 'Bank account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 100],
             // ['name' => 'Bank savings account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 110],
-            ['name' => 'Online savings account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 120],
-            ['name' => 'Petty cash account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 130],
-            ['name' => 'Paypal account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 140],
+            // ['name' => 'Online savings account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 120],
+            // ['name' => 'Petty cash account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 130],
+            // ['name' => 'Paypal account', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 1, 'created_by' => 1, 'code' => 140],
 
 
             ['name' => 'Short term marketable securities', 'type' => 1, 'sub_type' => 1, 'sub_type_level_2' => 2, 'created_by' => 1, 'code' => 200],
