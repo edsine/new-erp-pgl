@@ -21,7 +21,7 @@
                                 </div>
                                 <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create set salary')): ?>
                                     <div class="col text-end">
-                                        <a href="#" data-url="<?php echo e(route('employee.basic.salary',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Set Basic Sallary')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Basic Salary')); ?>" class="btn btn-sm btn-primary">
+                                        <a href="#" data-url="<?php echo e(route('employee.basic.salary',$employee->id)); ?>" data-size="md" data-ajax-popup="true" data-title="<?php echo e(__('Set Basic Salary')); ?>" data-toggle="tooltip" data-original-title="<?php echo e(__('Basic Salary')); ?>" class="btn btn-sm btn-primary">
                                             <i class="ti ti-plus"></i>
                                         </a>
                                     </div>

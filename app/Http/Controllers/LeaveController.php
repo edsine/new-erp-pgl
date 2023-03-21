@@ -16,22 +16,35 @@ class LeaveController extends Controller
     public function index()
     {
         // dd(\Auth::user()->creatorId());
-        $user = Auth::user();
+        $user = \Auth::user();
 
         if(\Auth::user()->can('manage leave'))
         {
-            $leaves = Leave::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $leaves = Leave::where('created_by', '=', \Auth::user()->id)->get();
             $employee = Employee::where('user_id', $user->id)->first();
 
-            if(isset($employee->is_active ) && (\Auth::user()->type != 'HR'))
+            // if(isset($employee->is_active ) && (\Auth::user()->type != 'HR'))
+            // {
+            //     $user     = \Auth::user();
+            //     $employee = Employee::where('user_id', '=', $user->id)->first();
+            //     $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
+            // }
+            // else
+            // {
+            //     $leaves = Leave::orderBy('created_at', 'DESC')->get();
+        
+            // }
+            if((\Auth::user()->type == 'admin') || (\Auth::user()->type == 'HR') || (\Auth::user()->type == 'company'))
+            {
+                $leaves = Leave::orderBy('created_at', 'DESC')->get();
+                
+            }
+            else
             {
                 $user     = \Auth::user();
                 $employee = Employee::where('user_id', '=', $user->id)->first();
                 $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
-            }
-            else
-            {
-                $leaves = Leave::where('created_by', '=', \Auth::user()->creatorId())->get();
+        
             }
 
             return view('leave.index', compact('leaves'));
@@ -97,7 +110,7 @@ class LeaveController extends Controller
             else
             {
                 $leave->employee_id = $request->employee_id;
-                $leave->reliever_id = $employee->id;
+                $leave->reliever_id = $request->reliever_id;
             }
             $leave->leave_type_id    = $request->leave_type_id;
             $leave->applied_on       = date('Y-m-d');
@@ -107,7 +120,7 @@ class LeaveController extends Controller
             $leave->leave_reason     = $request->leave_reason;
             $leave->remark           = $request->remark;
             $leave->status           = 'Pending';
-            $leave->created_by       = \Auth::user()->creatorId();
+            $leave->created_by       = \Auth::user()->id;
 
             $leave->save();
 
@@ -128,11 +141,12 @@ class LeaveController extends Controller
     {
         if(\Auth::user()->can('edit leave'))
         {
-            if($leave->created_by == \Auth::user()->creatorId())
+
+            if($leave->created_by == \Auth::user()->id || \Auth::user()->type == 'admin' || \Auth::user()->type == 'HR')
             {
+               
                 $employees  = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $leavetypes = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
-
                 return view('leave.edit', compact('leave', 'employees', 'leavetypes'));
             }
             else
@@ -152,7 +166,7 @@ class LeaveController extends Controller
         $leave = Leave::find($leave);
         if(\Auth::user()->can('edit leave'))
         {
-            if($leave->created_by == Auth::user()->creatorId())
+            if($leave->created_by == Auth::user()->id)
             {
                 $validator = \Validator::make(
                     $request->all(), [
@@ -160,7 +174,6 @@ class LeaveController extends Controller
                                        'start_date' => 'required',
                                        'end_date' => 'required',
                                        'leave_reason' => 'required',
-                                       'remark' => 'required',
                                    ]
                 );
                 if($validator->fails())
@@ -177,6 +190,7 @@ class LeaveController extends Controller
                 $leave->total_leave_days = 0;
                 $leave->leave_reason     = $request->leave_reason;
                 $leave->remark           = $request->remark;
+                $leave->reliever_id = $request->reliever_id;
 
                 $leave->save();
 
@@ -197,7 +211,7 @@ class LeaveController extends Controller
     {
         if(\Auth::user()->can('delete leave'))
         {
-            if($leave->created_by == \Auth::user()->creatorId())
+            if($leave->created_by == \Auth::user()->id)
             {
                 $leave->delete();
 
@@ -230,7 +244,7 @@ class LeaveController extends Controller
         $leave = Leave::find($request->leave_id);
 
         $leave->status = $request->status;
-        if($leave->status == 'Approval')
+        if($leave->status == 'Approved')
         {
             $startDate               = new \DateTime($leave->start_date);
             $endDate                 = new \DateTime($leave->end_date);
@@ -251,7 +265,7 @@ class LeaveController extends Controller
                 $employee     = Employee::where('id', $leave->employee_id)->where('created_by', '=', \Auth::user()->creatorId())->first();
                 $leave->name  = !empty($employee->name) ? $employee->name : '';
                 $leave->email = !empty($employee->email) ? $employee->email : '';
-//            dd($leave);
+
 
                 $actionArr = [
 
@@ -263,7 +277,6 @@ class LeaveController extends Controller
                     'total_leave_days' => $leave->total_leave_days,
 
                 ];
-//            dd($actionArr);
                 $resp = Utility::sendEmailTemplate('leave_action_sent', [$employee->id => $employee->email], $actionArr);
 
 

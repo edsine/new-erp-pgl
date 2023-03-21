@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exports\TransactionExport;
 use App\Models\BankAccount;
+use App\Models\ChartOfAccount;
 use App\Models\ProductServiceCategory;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
@@ -22,23 +23,18 @@ class TransactionController extends Controller
             $filter['category'] = __('All');
 
             $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
-            $account->prepend(__('Stripe / Paypal'), 'strip-paypal');
-            $account->prepend('Select Account', '');
+            // $account->prepend(__('Stripe / Paypal'), 'strip-paypal');
+            $account->prepend('Select Bank Account', '');
 
             $accounts = Transaction::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')
                                    ->leftjoin('bank_accounts', 'transactions.account', '=', 'bank_accounts.id')
                                    ->groupBy('transactions.account')->selectRaw('sum(amount) as total');
 
-            $category = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->whereIn(
-                'type', [
-                          1,
-                          2,
-                      ]
-            )->get()->pluck('name', 'name');
+            $category = ChartOfAccount::get()->pluck('name', 'name');
 
-            $category->prepend('Invoice', 'Invoice');
-            $category->prepend('Bill', 'Bill');
-            $category->prepend('Select Category', '');
+            // $category->prepend('Revenue', 'Revenue');
+            // $category->prepend('Payment', 'Payment');
+            $category->prepend('Select Ledger Account', '');
 
             $transactions = Transaction::orderBy('id', 'desc');
 

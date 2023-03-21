@@ -226,7 +226,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-6">
+                                {{-- <div class="col-lg-3 col-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="theme-avtar bg-warning">
@@ -237,8 +237,8 @@
                                             <h3 class="mb-0">{{\Auth::user()->countInvoices()}} </h3>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-6">
+                                </div> --}}
+                                {{-- <div class="col-lg-3 col-6">
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="theme-avtar bg-danger">
@@ -249,7 +249,7 @@
                                             <h3 class="mb-0">{{\Auth::user()->countBills()}} </h3>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="col-xxl-12">
@@ -339,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mt-1 mb-0">{{__('Recent Invoices')}}</h5>
@@ -393,8 +393,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xxl-12">
+                        </div> --}}
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mt-1 mb-0">{{__('Recent Bills')}}</h5>
@@ -448,7 +448,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
@@ -520,7 +520,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h5>{{__('Income By Category')}}
@@ -532,8 +532,8 @@
                                     <div id="incomeByCategory"></div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xxl-12">
+                        </div> --}}
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
                                     <h5>{{__('Expense By Category')}}
@@ -545,7 +545,7 @@
                                     <div id="expenseByCategory"></div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
@@ -583,7 +583,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-body">
 
@@ -672,8 +672,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xxl-12">
+                        </div> --}}
+                        {{-- <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-body">
 
@@ -762,7 +762,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-xxl-12">

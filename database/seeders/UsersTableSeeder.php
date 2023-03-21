@@ -3018,82 +3018,136 @@ class UsersTableSeeder extends Seeder
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s'),
             ],
+            [
+                'name' => 'manage approval',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage requisition approval',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage hod remark',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage admin remark',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage chairman remark',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage hod approval',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage admin approval',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage chairman approval',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
+            [
+                'name' => 'manage payment status',
+                'guard_name' => 'web',
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ],
         ];
 
         Permission::insert($arrPermissions);
 
         // Super admin
 
-        $superAdminRole        = Role::create(
-            [
-                'name' => 'super admin',
-                'created_by' => 0,
-            ]
-        );
-        $superAdminPermissions = [
-            ['name' => 'manage super admin dashboard'],
-            ['name' => 'manage user'],
-            ['name' => 'create user'],
-            ['name' => 'edit user'],
-            ['name' => 'delete user'],
-            ['name' => 'create language'],
-            ['name' => 'manage system settings'],
-            ['name' => 'manage stripe settings'],
-            ['name' => 'manage role'],
-            ['name' => 'create role'],
-            ['name' => 'edit role'],
-            ['name' => 'delete role'],
-            ['name' => 'manage permission'],
-            ['name' => 'create permission'],
-            ['name' => 'edit permission'],
-            ['name' => 'delete permission'],
-            ['name' => 'manage plan'],
-            ['name' => 'create plan'],
-            ['name' => 'edit plan'],
-            ['name' => 'manage order'],
-            ['name' => 'manage coupon'],
-            ['name' => 'create coupon'],
-            ['name' => 'edit coupon'],
-            ['name' => 'delete coupon'],
-        ];
+        // $superAdminRole        = Role::create(
+        //     [
+        //         'name' => 'super admin',
+        //         'created_by' => 0,
+        //     ]
+        // );
+        // $superAdminPermissions = [
+        //     ['name' => 'manage super admin dashboard'],
+        //     ['name' => 'manage user'],
+        //     ['name' => 'create user'],
+        //     ['name' => 'edit user'],
+        //     ['name' => 'delete user'],
+        //     ['name' => 'create language'],
+        //     ['name' => 'manage system settings'],
+        //     ['name' => 'manage stripe settings'],
+        //     ['name' => 'manage role'],
+        //     ['name' => 'create role'],
+        //     ['name' => 'edit role'],
+        //     ['name' => 'delete role'],
+        //     ['name' => 'manage permission'],
+        //     ['name' => 'create permission'],
+        //     ['name' => 'edit permission'],
+        //     ['name' => 'delete permission'],
+        //     ['name' => 'manage plan'],
+        //     ['name' => 'create plan'],
+        //     ['name' => 'edit plan'],
+        //     ['name' => 'manage order'],
+        //     ['name' => 'manage coupon'],
+        //     ['name' => 'create coupon'],
+        //     ['name' => 'edit coupon'],
+        //     ['name' => 'delete coupon'],
+        // ];
 
 
 
         // custome
-        $customerRole       = Role::create(
-            [
-                'name' => 'customer',
-                'created_by' => 0,
-            ]
-        );
-        $customerPermission = [
-            ['name' => 'manage customer payment'],
-            ['name' => 'manage customer transaction'],
-            ['name' => 'manage customer invoice'],
-            ['name' => 'show invoice'],
-            ['name' => 'show proposal'],
-            ['name' => 'manage customer proposal'],
-            ['name' => 'show customer'],
-        ];
-        $customerRole->givePermissionTo($customerPermission);
+        // $customerRole       = Role::create(
+        //     [
+        //         'name' => 'customer',
+        //         'created_by' => 0,
+        //     ]
+        // );
+        // $customerPermission = [
+        //     ['name' => 'manage customer payment'],
+        //     ['name' => 'manage customer transaction'],
+        //     ['name' => 'manage customer invoice'],
+        //     ['name' => 'show invoice'],
+        //     ['name' => 'show proposal'],
+        //     ['name' => 'manage customer proposal'],
+        //     ['name' => 'show customer'],
+        // ];
+        // $customerRole->givePermissionTo($customerPermission);
 
-        // vender
-        $venderRole       = Role::create(
-            [
-                'name' => 'vender',
-                'created_by' => 0,
-            ]
-        );
-        $venderPermission = [
-            ['name' => 'vender manage bill'],
-            ['name' => 'manage vender bill'],
-            ['name' => 'manage vender payment'],
-            ['name' => 'manage vender transaction'],
-            ['name' => 'show vender'],
-            ['name' => 'show bill'],
-        ];
+        // // vender
+        // $venderRole       = Role::create(
+        //     [
+        //         'name' => 'vender',
+        //         'created_by' => 0,
+        //     ]
+        // );
+        // $venderPermission = [
+        //     ['name' => 'vender manage bill'],
+        //     ['name' => 'manage vender bill'],
+        //     ['name' => 'manage vender payment'],
+        //     ['name' => 'manage vender transaction'],
+        //     ['name' => 'show vender'],
+        //     ['name' => 'show bill'],
+        // ];
 
-        $venderRole->givePermissionTo($venderPermission);
+        // $venderRole->givePermissionTo($venderPermission);
 
         // company
 
@@ -3588,15 +3642,24 @@ class UsersTableSeeder extends Seeder
             ['name' => 'delete contract'],
             ['name' => 'show contract'],
             ['name' => 'create barcode'],
+            ['name' => 'manage approval'],
+            ['name' => 'manage requisition approval'],
+            ['name' => 'manage hod remark'],
+            ['name' => 'manage admin remark'],
+            ['name' => 'manage chairman remark'],
+            ['name' => 'manage hod approval'],
+            ['name' => 'manage admin approval' ],
+            ['name' => 'manage chairman approval'],
+            ['name' => 'manage payment status'],
         ];
 
         $companyRole->givePermissionTo($companyPermissions);
 
         $company = User::create(
             [
-                'name' => 'company',
-                'email' => 'company@example.com',
-                'password' => Hash::make('1234'),
+                'name' => 'admin',
+                'email' => 'admin@pglnigeria.com',
+                'password' => Hash::make('password'),
                 'type' => 'company',
                 'default_pipeline' => 1,
                 'plan' => 1,
@@ -3769,62 +3832,47 @@ class UsersTableSeeder extends Seeder
         );
 
         // accountant
-        $clientRole       = Role::create(
-            [
-                'name' => 'client',
-                'created_by' => $company->id,
-            ]
-        );
-        $clientPermission = [
-            ['name' => 'manage client dashboard'],
-            ['name' => 'manage bug report'],
-            ['name' => 'create bug report'],
-            ['name' => 'edit bug report'],
-            ['name' => 'delete bug report'],
-            ['name' => 'move bug report'],
-            ['name' => 'view deal'],
-            ['name' => 'manage deal'],
-            ['name' => 'manage project'],
-            ['name' => 'view project'],
-            ['name' => 'view grant chart'],
-            ['name' => 'view timesheet'],
-            ['name' => 'manage timesheet'],
-            ['name' => 'manage project task'],
-            ['name' => 'create project task'],
-            ['name' => 'edit project task'],
-            ['name' => 'view project task'],
-            ['name' => 'delete project task'],
-            ['name' => 'view activity'],
-            ['name' => 'view task'],
-            ['name' => 'manage pipeline'],
-            ['name' => 'manage lead stage'],
-            ['name' => 'manage label'],
-            ['name' => 'manage source'],
-            ['name' => 'move deal'],
-            ['name' => 'manage stage'],
-            ['name' => 'manage contract'],
-            ['name' => 'show contract'],
-        ];
+        // $clientRole       = Role::create(
+        //     [
+        //         'name' => 'client',
+        //         'created_by' => $company->id,
+        //     ]
+        // );
+        // $clientPermission = [
+        //     ['name' => 'manage client dashboard'],
+        //     ['name' => 'manage bug report'],
+        //     ['name' => 'create bug report'],
+        //     ['name' => 'edit bug report'],
+        //     ['name' => 'delete bug report'],
+        //     ['name' => 'move bug report'],
+        //     ['name' => 'view deal'],
+        //     ['name' => 'manage deal'],
+        //     ['name' => 'manage project'],
+        //     ['name' => 'view project'],
+        //     ['name' => 'view grant chart'],
+        //     ['name' => 'view timesheet'],
+        //     ['name' => 'manage timesheet'],
+        //     ['name' => 'manage project task'],
+        //     ['name' => 'create project task'],
+        //     ['name' => 'edit project task'],
+        //     ['name' => 'view project task'],
+        //     ['name' => 'delete project task'],
+        //     ['name' => 'view activity'],
+        //     ['name' => 'view task'],
+        //     ['name' => 'manage pipeline'],
+        //     ['name' => 'manage lead stage'],
+        //     ['name' => 'manage label'],
+        //     ['name' => 'manage source'],
+        //     ['name' => 'move deal'],
+        //     ['name' => 'manage stage'],
+        //     ['name' => 'manage contract'],
+        //     ['name' => 'show contract'],
+        // ];
 
-        $clientRole->givePermissionTo($clientPermission);
-
-        $client = User::create(
-            [
-                'name' => 'client',
-                'email' => 'client@example.com',
-                'password' => Hash::make('1234'),
-                'type' => 'client',
-                'default_pipeline' => 1,
-                'lang' => 'en',
-                'avatar' => '',
-                'created_by' => $company->id,
-            ]
-        );
-        $client->assignRole($clientRole);
         Utility::employeeDetails($accountant->id, $company->id);
         // Utility::employeeDetails($client->id,$company->id);
-        Utility::chartOfAccountTypeData($company->id);
-        Utility::chartOfAccountData($company);
+        // Utility::chartOfAccountTypeData($company->id);
+        // Utility::chartOfAccountData($company);
         Utility::pipeline_lead_deal_Stage($company->id);
         Utility::project_task_stages($company->id);
         Utility::labels($company->id);

@@ -28,7 +28,7 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    @if (\Auth::user()->type != 'employee')
+                                    @if (\Auth::user()->type == 'HR' || \Auth::user()->type == 'admin')
                                         <th>{{ __('Employee') }}</th>
                                     @endif
                                     <th>{{ __('Leave Type') }}</th>
@@ -44,7 +44,7 @@
                             <tbody>
                                 @foreach ($leaves as $leave)
                                     <tr>
-                                        @if (\Auth::user()->type != 'employee')
+                                        @if (\Auth::user()->type == 'HR' || \Auth::user()->type == 'admin')
                                             <td>{{ !empty(\Auth::user()->getEmployee($leave->employee_id)) ? \Auth::user()->getEmployee($leave->employee_id)->name : '' }}
                                             </td>
                                         @endif
@@ -68,6 +68,9 @@
                                             @elseif($leave->status == 'Approved')
                                                 <div class="status_badge badge bg-success p-2 px-3 rounded">
                                                     {{ $leave->status }}</div>
+                                            @elseif($leave->status == 'Under Review')
+                                            <div class="status_badge badge bg-info p-2 px-3 rounded">
+                                                {{ $leave->status }}</div>
                                             @else($leave->status=="Reject")
                                                 <div class="status_badge badge bg-danger p-2 px-3 rounded">
                                                     {{ $leave->status }}</div>

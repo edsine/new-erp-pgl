@@ -18,10 +18,10 @@
             {{Form::date('date',null,array('class'=>'form-control','required'=>'required'))}}
         </div>
 
-        <div class="form-group  col-md-6">
+        {{-- <div class="form-group  col-md-6">
             {{ Form::label('reference', __('Reference'),['class'=>'form-label']) }}
             {{ Form::text('reference', null, array('class' => 'form-control')) }}
-        </div>
+        </div> --}}
 
         <div class="form-group  col-md-12">
             {{ Form::label('description', __('Description'),['class'=>'form-label']) }}

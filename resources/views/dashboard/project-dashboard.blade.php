@@ -125,7 +125,7 @@
                         </div>
                         <div class="col-auto text-end">
                             <h4 class="m-0">{{ $home_data['total_project']['total'] }}</h4>
-                            <small class="text-muted"><span class="text-success">{{ $home_data['total_project']['percentage'] }}%</span> {{__('completd')}}</small>
+                            <small class="text-muted"><span class="text-success">{{ $home_data['total_project']['percentage'] }}%</span> {{__('completed')}}</small>
                         </div>
                     </div>
                 </div>
@@ -148,13 +148,13 @@
                         </div>
                         <div class="col-auto text-end">
                             <h4 class="m-0">{{ $home_data['total_task']['total'] }}</h4>
-                            <small class="text-muted"><span class="text-success">{{ $home_data['total_task']['percentage'] }}%</span> {{__('completd')}}</small>
+                            <small class="text-muted"><span class="text-success">{{ $home_data['total_task']['percentage'] }}%</span> {{__('completed')}}</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-12">
+        {{-- <div class="col-lg-4 col-md-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row align-items-center justify-content-between">
@@ -176,7 +176,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-lg-4">
             <div class="card">

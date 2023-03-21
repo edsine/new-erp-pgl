@@ -27,7 +27,7 @@
                         <table class="table datatable">
                             <thead>
                                 <tr>
-                                    <?php if(\Auth::user()->type != 'employee'): ?>
+                                    <?php if(\Auth::user()->type == 'HR' || \Auth::user()->type == 'admin'): ?>
                                         <th><?php echo e(__('Employee')); ?></th>
                                     <?php endif; ?>
                                     <th><?php echo e(__('Leave Type')); ?></th>
@@ -43,7 +43,7 @@
                             <tbody>
                                 <?php $__currentLoopData = $leaves; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leave): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <?php if(\Auth::user()->type != 'employee'): ?>
+                                        <?php if(\Auth::user()->type == 'HR' || \Auth::user()->type == 'admin'): ?>
                                             <td><?php echo e(!empty(\Auth::user()->getEmployee($leave->employee_id)) ? \Auth::user()->getEmployee($leave->employee_id)->name : ''); ?>
 
                                             </td>
@@ -69,6 +69,9 @@
                                             <?php elseif($leave->status == 'Approved'): ?>
                                                 <div class="status_badge badge bg-success p-2 px-3 rounded">
                                                     <?php echo e($leave->status); ?></div>
+                                            <?php elseif($leave->status == 'Under Review'): ?>
+                                            <div class="status_badge badge bg-info p-2 px-3 rounded">
+                                                <?php echo e($leave->status); ?></div>
                                             <?php else: ?>
                                                 <div class="status_badge badge bg-danger p-2 px-3 rounded">
                                                     <?php echo e($leave->status); ?></div>

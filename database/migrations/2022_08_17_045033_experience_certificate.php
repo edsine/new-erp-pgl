@@ -29,6 +29,6 @@ class ExperienceCertificate extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('experience_certificates');
     }
 }

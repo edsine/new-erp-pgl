@@ -6,7 +6,7 @@
                     <div class="card-header border-0 pb-0">
                         <div class="d-flex align-items-center">
                             <img <?php echo e($project->img_image); ?> class="img-fluid wid-30 me-2" alt="">
-                            <h5 class="mb-0"><a class="text-dark" href="<?php echo e(route('projects.show',$project)); ?>"><?php echo e($project->project_name); ?></a></h5>
+                            <h5 class="mb-0"><a class="link-success" href="<?php echo e(route('projects.show',$project)); ?>"><?php echo e($project->project_name); ?></a></h5>
                         </div>
                         <div class="card-header-right">
                             <div class="btn-group card-option">
@@ -83,6 +83,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: center;margin-top: 10px;">
+                            <a href="<?php echo e(route('projects.show',$project)); ?>" class="btn btn-sm btn-primary action-item" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="btn-inner--icon"><?php echo e(__('View Project')); ?></span>
+                            </a>
+                        </div>
+                      
                     </div>
                 </div>
             </div>
