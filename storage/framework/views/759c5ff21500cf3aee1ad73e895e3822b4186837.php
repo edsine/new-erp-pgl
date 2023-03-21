@@ -83,6 +83,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: center;margin-top: 10px;">
+                            <a href="<?php echo e(route('projects.show',$project)); ?>" class="btn btn-sm btn-primary action-item" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="btn-inner--icon"><?php echo e(__('View Project')); ?></span>
+                            </a>
+                        </div>
+                      
                     </div>
                 </div>
             </div>

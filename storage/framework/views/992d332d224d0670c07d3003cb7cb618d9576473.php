@@ -57,6 +57,11 @@
                                     </td>
                                     <td class="text-end">
                                          <span>
+                                            <div class="action-btn bg-warning ms-2">
+                                                <a href="<?php echo e(route('projects.show',$project)); ?>" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-size="lg" data-bs-toggle="tooltip" title="<?php echo e(__('View Project')); ?>" data-title="<?php echo e(__('View Project')); ?>">
+                                                    <i class="ti ti-list text-white"></i>
+                                                </a>
+                                            </div>
                                              <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('edit project')): ?>
                                                  <div class="action-btn bg-warning ms-2">
                                                     <a href="#" class="mx-3 btn btn-sm d-inline-flex align-items-center" data-url="<?php echo e(route('invite.project.member.view', $project->id)); ?>" data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip" title="<?php echo e(__('Invite User')); ?>" data-title="<?php echo e(__('Invite User')); ?>">

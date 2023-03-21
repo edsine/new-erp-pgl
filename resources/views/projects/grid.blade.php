@@ -81,6 +81,12 @@
                                 </div>
                             </div>
                         </div>
+                        <div style="text-align: center;margin-top: 10px;">
+                            <a href="{{ route('projects.show',$project) }}" class="btn btn-sm btn-primary action-item" role="button" aria-haspopup="true" aria-expanded="false">
+                                <span class="btn-inner--icon">{{__('View Project')}}</span>
+                            </a>
+                        </div>
+                      
                     </div>
                 </div>
             </div>
