@@ -1,7 +1,7 @@
 <?php
     // $logo=asset(Storage::url('uploads/logo/'));
     $logo = \App\Models\Utility::get_file('uploads/logo/');
-
+    
     $company_logo = Utility::getValByName('company_logo_dark');
     $company_logos = Utility::getValByName('company_logo_light');
     $setting = \App\Models\Utility::colorset();
@@ -1034,7 +1034,7 @@
 
                     
 
-                        
+                    <?php if(Gate::check('manage approval')): ?>
                         <li class="dash-item dash-hasmenu">
                             <a href="#!" class="dash-link ">
                                 <span class="dash-micon"><i class="ti ti-check"></i></span><span
@@ -1042,28 +1042,28 @@
                                     <i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="dash-submenu">
-                                
-                                    <li
-                                        class="dash-item <?php echo e(Request::segment(1) == 'requisition-approval' ? 'active' : ''); ?>">
-                                        <a href="<?php echo e(route('requisition-approval')); ?>"
-                                            class="dash-link"><?php echo e(__('Requisition')); ?>
+                                <?php if(Gate::check('manage requisition approval')): ?>
+                                <li
+                                    class="dash-item <?php echo e(Request::segment(1) == 'requisition-approval' ? 'active' : ''); ?>">
+                                    <a href="<?php echo e(route('requisition-approval')); ?>"
+                                        class="dash-link"><?php echo e(__('Requisition')); ?>
 
-                                        </a>
-                                    </li>
+                                    </a>
+                                </li>
+                                <?php endif; ?>
                                 
                                 
-                                    
                                 
                             </ul>
                         </li>
-                    
+                    <?php endif; ?>
 
-                        <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'requisition' ? 'active' : ''); ?>">
-                            <a href="<?php echo e(route('requisition.index')); ?>" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-file"></i></span><span
-                                    class="dash-mtext"><?php echo e(__('Requisition Manager')); ?></span>
-                            </a>
-                        </li> 
+                    <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'requisition' ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('requisition.index')); ?>" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext"><?php echo e(__('Requisition Manager')); ?></span>
+                        </a>
+                    </li>
                     <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('manage document')): ?>
                         <li
                             class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'document-upload' ? 'active' : ''); ?>">

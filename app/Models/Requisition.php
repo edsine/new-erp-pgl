@@ -23,7 +23,7 @@ class Requisition extends Model
         'hod_remark',
         'admin_remark',
         'chairman_remark',
-
+        'payment_status',
        
     ];
     

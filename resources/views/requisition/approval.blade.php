@@ -19,9 +19,11 @@
                             <tr>
                                 <th>{{__('Date')}}</th>
                                 <th>{{__('Title')}}</th>
-                                <th>{{__('Total Amount')}}</th>
-                                <th>{{__('Additional Document')}}</th>
-                                <th>{{__('Status')}}</th>
+                                <th>{{__('Amount')}}</th>
+                                <th>{{__('Document')}}</th>
+                                <th>{{__('Workflow')}}</th>
+                                <th>{{__('Requisition Status')}}</th>
+                                <th>{{__('Payment Status')}}</th>
                                 <th>{{__('Action')}}</th>
                             </tr>
                             </thead>
@@ -40,7 +42,24 @@
                                     </a>
                                 </div>
                                 @endif
+                            </td>
+                            <td>
+                                @if($item->hod_approval == 'Pending')
+                                Awaiting HOD Approval
+                                @elseif($item->admin_approval == 'Pending')
+                                Awaiting Admin Approval
+                                @elseif($item->chairman_approval == 'Pending')
+                                Awaiting Chairman Approval
+                                @endif
+                            </td>
                             <td> {{$item->status}} </td>
+                            <td>
+                                @if($item->payment_status == 'Paid')
+                                <span class="text-success"><i class="fas fa-check-circle"></i> @lang('Paid')</span>
+                                @else
+                                <span class="text-danger"><i class="fas fa-times-circle"></i> @lang('Not Paid')</span>
+                                @endif
+                            </td>
                             <td>  
                                 
                                 <div class="action-btn bg-warning ms-2">

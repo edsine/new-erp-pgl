@@ -113,14 +113,18 @@
                                 </tr>
                                 @if($requisition->hod_approval == 'Pending')
                                 <tr>
+                                    @can('manage hod remark')
                                     <td>
+                                        
                                         <div>
                                             <div class="form-group">
                                                 {{Form::label('hod_remark',__('HOD Remark') ,['class'=>'form-label'])}}
                                                 {!! Form::text('hod_remark', '', array('class' => 'form-control')) !!}
                                             </div>
                                         </div>
+                                      
                                     </td>
+                                    @endcan
                                 </tr>
                                 @endif
                                 @if($requisition->hod_approval == 'Approved' && $requisition->admin_approval == 'Pending')
@@ -133,12 +137,14 @@
                                                     {!! Form::textarea('hod_remark', $requisition->hod_remark, array('class' => 'form-control', 'readonly')) !!}
                                                 </div>
                                             </div>
+                                            @can('manage admin remark')
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     {{Form::label('admin_remark',__('Admin Remark') ,['class'=>'form-label'])}}
                                                     {!! Form::text('admin_remark', '', array('class' => 'form-control')) !!}
                                                 </div>
                                             </div>
+                                            @endcan
                                         </div>
                                     </td>
                                 </tr>
@@ -158,12 +164,14 @@
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, array('class' => 'form-control', 'readonly')) !!}
                                             </div>
                                         </div>
+                                        @can('manage chairman remark')
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 {{Form::label('chairman_remark',__('Chairman Remark') ,['class'=>'form-label'])}}
                                                 {!! Form::text('chairman_remark', '', array('class' => 'form-control')) !!}
                                             </div>
                                         </div>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endif
@@ -218,24 +226,38 @@
     </div>
 </div>
 @if($requisition->hod_approval == 'Pending')
+@can('manage hod approval')
 <div class="modal-footer">
     <h3>HOD Approval: </h3>
     <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="hod_approval">
     <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="hod_approval">
 </div>
+@endcan
 @endif
 @if($requisition->hod_approval == 'Approved' && $requisition->admin_approval == 'Pending')
+@can('manage admin approval')
 <div class="modal-footer">
     <h3>Admin Approval: </h3>
     <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="admin_approval">
     <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="admin_approval">
 </div>
+@endcan
 @endif
 @if($requisition->hod_approval == 'Approved' && $requisition->admin_approval == 'Approved' && $requisition->chairman_approval == 'Pending')
+@can('manage chairman approval')
 <div class="modal-footer">
     <h3>Chairman Approval: </h3>
     <input type="submit" value="{{__('Approved')}}" class="btn btn-success" data-bs-dismiss="modal" name="chairman_approval">
     <input type="submit" value="{{__('Rejected')}}" class="btn btn-danger" name="chairman_approval">
 </div>
+@endcan
+@endif
+@if($requisition->chairman_approval == 'Approved' && $requisition->payment_status !== 'Paid')
+@can('manage payment status')
+<div class="modal-footer">
+<h4>Finance Payment: </h4>
+    <input type="submit" value="{{__('Paid')}}" class="btn btn-success" data-bs-dismiss="modal" name="payment_status">
+</div>
+@endcan
 @endif
 {{Form::close()}}

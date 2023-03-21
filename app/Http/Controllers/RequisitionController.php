@@ -41,27 +41,35 @@ class RequisitionController extends Controller
 
     public function approval(Request $request)
     {
-        $employee      = Employee::where('user_id', \Auth::user()->id)->first();
+        if(\Auth::user()->can('manage requisition approval'))
+        {
+            $employee      = Employee::where('user_id', \Auth::user()->id)->first();
 
-        if(\Auth::user()->type == 'company' || \Auth::user()->type == 'admin')
-        {
-            $query = Requisition::orderBy('created_at', 'DESC');
-        }
-        else
-        {
-            if(isset($employee->department))
+            if(\Auth::user()->type == 'company' || \Auth::user()->type == 'office admin')
             {
-                $query = Requisition::where('department_id', '=', $employee->department->id);
+                $query = Requisition::orderBy('updated_at', 'DESC');
             }
             else
             {
-                $query = Requisition::where('created_by', '=', \Auth::user()->id);
-            }
-            
-        }  
-
-        $requisitions = $query->get();
-        return view('requisition.approval', compact('requisitions'));
+                if(isset($employee->department))
+                {
+                    $query = Requisition::where('department_id', '=', $employee->department->id)->orderBy('updated_at', 'DESC');
+                }
+                else
+                {
+                    $query = Requisition::where('created_by', '=', \Auth::user()->id);
+                }
+                
+            }  
+    
+            $requisitions = $query->get();
+            return view('requisition.approval', compact('requisitions'));
+        }
+        else
+        {
+            return response()->json(['error' => __('Permission denied.')], 401);
+        }
+       
     }
 
     public function create()
@@ -214,11 +222,18 @@ class RequisitionController extends Controller
 
     public function action($id)
     {
-        $requisition     = Requisition::find($id);
-        $requisitionItem = RequisitionItem::where('requisition_id', $requisition->id)->get();
-        $employee  = Employee::find($requisition->employee_id);
-
-        return view('requisition.action', compact('requisition','employee','requisitionItem'));
+        if(\Auth::user()->can('manage requisition approval'))
+        {
+            $requisition     = Requisition::find($id);
+            $requisitionItem = RequisitionItem::where('requisition_id', $requisition->id)->get();
+            $employee  = Employee::find($requisition->employee_id);
+    
+            return view('requisition.action', compact('requisition','employee','requisitionItem'));
+        }
+        else{
+            return response()->json(['error' => __('Permission denied.')], 401);
+        }
+       
     }
 
     public function changeaction(Request $request)
@@ -229,10 +244,9 @@ class RequisitionController extends Controller
         $requisition->hod_approval = $request->hod_approval;
         $requisition->admin_approval = $request->admin_approval;
         $requisition->chairman_approval = $request->chairman_approval;
-
+        $requisition->payment_status = $request->payment_status ;
         
-       
-       
+            
         if($requisition->hod_approval == 'Approved')
         {
             $requisition->hod_remark = $request->hod_remark;
@@ -266,6 +280,15 @@ class RequisitionController extends Controller
         {
             $requisition->status = 'Approved';
         }
+
+        if($requisition->payment_status)
+        {
+            $requisition->chairman_approval = 'Approved' ;
+            $requisition->hod_approval           = 'Approved';
+            $requisition->admin_approval = 'Approved';
+        }
+
+
 
 
         $requisition->save();
@@ -301,6 +324,6 @@ class RequisitionController extends Controller
 
         // }
 
-        return redirect()->route('requisition.index')->with('success', __('Requisition Approval successfully updated.'));
+        return redirect()->route('requisition-approval')->with('success', __('Requisition Approval successfully updated.'));
     }
 }

@@ -82,15 +82,17 @@
     <div class="card">
         <div class="card-body">
             <div class="row">
+                @if(isset($employee))
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="col-md-6">
                         <div class="form-group">
                             {{Form::label('employee_id',__('Employee') ,['class'=>'form-label'])}}
-                            <input type="hidden" name="employee_id" class="form-control" required value="{{ $employee->id }}">
+                            <input type="hidden" name="employee_id" class="form-control" value="{{ $employee->id }}">
                             {!! Form::text('', $employee->name, ['class' => 'form-control disabled','readonly']) !!}
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="row">
                         <div class="col-md-6">
