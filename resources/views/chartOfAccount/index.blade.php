@@ -53,8 +53,9 @@
 @section('action-btn')
     <div class="float-end">
         @can('create chart of account')
-            <a href="#" data-url="{{ route('chart-of-account.create') }}" data-bs-toggle="tooltip" title="{{ __('Create') }}"
-                data-size="lg" data-ajax-popup="true" data-title="{{ __('Create New Account') }}" class="btn btn-sm btn-primary">
+            <a href="#" data-url="{{ route('chart-of-account.create') }}" data-bs-toggle="tooltip"
+                title="{{ __('Create') }}" data-size="lg" data-ajax-popup="true" data-title="{{ __('Create New Account') }}"
+                class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         @endcan
@@ -78,7 +79,7 @@
                                         <th> {{ __('Type') }}</th>
                                         <th> {{ __('Group') }}</th>
                                         <th> {{ __('Sub-Group') }}</th>
-                                        <th> {{ __('Balance') }}</th>
+                                        {{-- <th> {{ __('Balance') }}</th> --}}
                                         <th> {{ __('Status') }}</th>
                                         <th width="10%"> {{ __('Action') }}</th>
                                     </tr>
@@ -92,8 +93,9 @@
                                             </td>
                                             <td>{{ !empty($account->types) ? $account->types->name : '-' }}</td>
                                             <td>{{ !empty($account->subType) ? $account->subType->name : '-' }}</td>
-                                            <td>{{ !empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-' }}</td>
-                                            <td>
+                                            <td>{{ !empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-' }}
+                                            </td>
+                                            {{-- <td>
                                                 @if (!empty($account->balance()) && $account->balance()['netAmount'] < 0)
                                                     {{ __('Dr') . '. ' . \Auth::user()->priceFormat(abs($account->balance()['netAmount'])) }}
                                                 @elseif(!empty($account->balance()) && $account->balance()['netAmount'] > 0)
@@ -101,7 +103,7 @@
                                                 @else
                                                     -
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td>
                                                 @if ($account->is_enabled == 1)
                                                     <span

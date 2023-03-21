@@ -153,17 +153,6 @@
                 <div class="col-lg-12 mb-4">
                     <h3 class="text-muted mb-4"><?php echo e($type); ?>
 
-                        <?php $typeTotal = $typeTotalCredit-$typeTotalDebit; ?>
-                        <?php if($typeTotal < 0): ?>
-                            <?php echo e(__('Dr') . '. ' . \Auth::user()->priceFormat(abs($typeTotal))); ?>
-
-                        <?php elseif($typeTotal > 0): ?>
-                            <?php echo e(__('Cr') . '. ' . \Auth::user()->priceFormat($typeTotal)); ?>
-
-                        <?php else: ?>
-                            <?php echo e(\Auth::user()->priceFormat(0)); ?>
-
-                        <?php endif; ?>
                     </h3>
                     <div class="row">
                         <?php $__currentLoopData = $subTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subType): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

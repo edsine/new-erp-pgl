@@ -1,4 +1,3 @@
-
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Manage Bank Account')); ?>
 
@@ -61,17 +60,7 @@
                                                             </a>
                                                         </div>
                                                     <?php endif; ?>
-                                                    <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete bank account')): ?>
-                                                            <div class="action-btn bg-danger ms-2">
-                                                                <?php echo Form::open(['method' => 'DELETE', 'route' => ['bank-account.destroy', $account->id],'id'=>'delete-form-'.$account->id]); ?>
-
-                                                                <a href="#" class="mx-3 btn btn-sm align-items-center bs-pass-para" data-bs-toggle="tooltip" title="<?php echo e(__('Delete')); ?>" data-original-title="<?php echo e(__('Delete')); ?>" data-confirm="<?php echo e(__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')); ?>" data-confirm-yes="document.getElementById('delete-form-<?php echo e($account->id); ?>').submit();">
-                                                                    <i class="ti ti-trash text-white text-white"></i>
-                                                                </a>
-                                                                <?php echo Form::close(); ?>
-
-                                                            </div>
-                                                    <?php endif; ?>
+                                                    
                                                 <?php else: ?>
                                                     -
                                                 <?php endif; ?>

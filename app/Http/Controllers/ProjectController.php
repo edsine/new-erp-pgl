@@ -16,11 +16,14 @@ use App\Models\Milestone;
 use App\Models\TaskStage;
 use App\Models\BugComment;
 use App\Models\ActivityLog;
+use App\Models\JournalItem;
 use App\Models\ProjectTask;
 use App\Models\ProjectUser;
 use App\Models\TaskComment;
 use App\Models\TimeTracker;
+use App\Models\JournalEntry;
 use Illuminate\Http\Request;
+use App\Models\ChartOfAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -89,6 +92,7 @@ class ProjectController extends Controller
             }
             $project->client_id = $request->client;
             $project->budget = !empty($request->budget) ? $request->budget : 0;
+            $project->project_type = $request->project_type;
             $project->description = $request->description;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
@@ -140,6 +144,39 @@ class ProjectController extends Controller
                     }
                 }
             }
+
+
+            // Journal Entry
+
+            $journal              = new JournalEntry();
+            $journal->journal_id  = $this->journalNumber();
+            $journal->date        = now();
+            $journal->reference   = time();
+            $journal->description = "Project added";
+            $journal->created_by  = \Auth::user()->creatorId();
+            $journal->save();
+
+            //Expense Head Debit
+
+            // Get 'Account Receivable Account'
+            $account = ChartOfAccount::where('code', 300)->first();
+
+            if ($account != null) {
+                $journalItem              = new JournalItem();
+                $journalItem->journal     = $journal->id;
+                $journalItem->account     = $account->id;
+                $journalItem->description = "Project added";
+                $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
+                $journalItem->credit      = 0;
+                $journalItem->save();
+
+                $project->initial_journal_item_id = $journalItem->id;
+                $project->save();
+            }
+
+            //End expense Head Debit
+
+            //End Journal Entry
 
 
             //Slack Notification
@@ -380,10 +417,25 @@ class ProjectController extends Controller
             $project->budget = $request->budget;
             $project->client_id = $request->client;
             $project->description = $request->description;
+            $project->project_type = $request->project_type;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
             $project->tags = $request->tag;
             $project->save();
+
+
+            //Expense Head Debit
+
+            if ($project->initial_journal_item_id != null) {
+                $journalItem              = JournalItem::where('id', $project->initial_journal_item_id)->first();
+                if ($journalItem != null) {
+                    $journalItem->debit       = !empty($request->budget) ? $request->budget : $journalItem->debit;
+                    $journalItem->save();
+                }
+            }
+
+
+            //End expense Head Debit
             return redirect()->route('projects.index')->with('success', __('Project Updated Successfully'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
@@ -402,7 +454,18 @@ class ProjectController extends Controller
             if (!empty($project->image)) {
                 Utility::checkFileExistsnDelete([$project->project_image]);
             }
+
+            //Expense Head Debit
+
+            if ($project->initial_journal_item_id != null) {
+                $journalItem              = JournalItem::where('id', $project->initial_journal_item_id)->first();
+                if ($journalItem != null) {
+                    $journalItem->delete();
+                }
+            }
+
             $project->delete();
+
             return redirect()->back()->with('success', __('Project Successfully Deleted.'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
@@ -1320,5 +1383,15 @@ class ProjectController extends Controller
         } else {
             return redirect()->back()->with('error', 'permission Denied');
         }
+    }
+
+    function journalNumber()
+    {
+        $latest = JournalEntry::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        if (!$latest) {
+            return 1;
+        }
+
+        return $latest->journal_id + 1;
     }
 }

@@ -61,7 +61,7 @@
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            <?php echo e(Form::label('category', __('Category'), ['class' => 'form-label'])); ?>
+                                            <?php echo e(Form::label('category', __('Ledger Account'), ['class' => 'form-label'])); ?>
 
                                             <?php echo e(Form::select('category', $category, isset($_GET['category']) ? $_GET['category'] : '', ['class' => 'form-control select'])); ?>
 
@@ -117,7 +117,7 @@
                                     <th> <?php echo e(__('Account')); ?></th>
                                     <th> <?php echo e(__('Customer')); ?></th>
                                     <th> <?php echo e(__('Project')); ?></th>
-                                    <th> <?php echo e(__('Category')); ?></th>
+                                    <th> <?php echo e(__('Ledger Accounts')); ?></th>
                                     <th> <?php echo e(__('Reference')); ?></th>
                                     <th> <?php echo e(__('Description')); ?></th>
                                     <th><?php echo e(__('Payment Receipt')); ?></th>
@@ -140,7 +140,15 @@
                                         </td>
                                         <td><?php echo e(!empty($revenue->customer) ? $revenue->customer->name : '-'); ?></td>
                                         <td><?php echo e(!empty($revenue->project) ? $revenue->project->project_name : '-'); ?></td>
-                                        <td><?php echo e(!empty($revenue->category) ? $revenue->category->name : '-'); ?></td>
+                                        
+                                        <td><?php echo e(!empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadDebit->name : '-'); ?>
+
+                                            (DR)
+                                            <br>
+                                            <?php echo e(!empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadCredit->name : '-'); ?>
+
+                                            (CR)
+                                        </td>
                                         <td><?php echo e(!empty($revenue->reference) ? $revenue->reference : '-'); ?></td>
                                         <td><?php echo e(!empty($revenue->description) ? $revenue->description : '-'); ?></td>
                                         <td>

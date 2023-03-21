@@ -67,6 +67,8 @@ class ChartOfAccountController extends Controller
             $account->code        = $request->code;
             $account->type        = $request->type;
             $account->sub_type    = $request->sub_type;
+            $account->sub_type_level_2    = $request->sub_type_level_2;
+            $account->sub_type_level_3    = isset($request->sub_type_level_3) ? $request->sub_type_level_3 : 0;
             $account->description = $request->description;
             $account->is_enabled  = isset($request->is_enabled) ? 1 : 0;
             $account->created_by  = \Auth::user()->creatorId();
@@ -113,6 +115,10 @@ class ChartOfAccountController extends Controller
 
             $chartOfAccount->name        = $request->name;
             $chartOfAccount->code        = $request->code;
+            // $chartOfAccount->type        = $request->type;
+            // $chartOfAccount->sub_type    = $request->sub_type;
+            // $chartOfAccount->sub_type_level_2    = $request->sub_type_level_2;
+            // $chartOfAccount->sub_type_level_3    = $request->sub_type_level_3;
             $chartOfAccount->description = $request->description;
             $chartOfAccount->is_enabled  = isset($request->is_enabled) ? 1 : 0;
             $chartOfAccount->save();

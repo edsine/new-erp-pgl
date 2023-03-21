@@ -1,4 +1,3 @@
-
 <?php
  //   $profile=asset(Storage::url('uploads/avatar/'));
 $profile=\App\Models\Utility::get_file('uploads/avatar');
@@ -56,7 +55,7 @@ $profile=\App\Models\Utility::get_file('uploads/avatar');
                                 <th> <?php echo e(__('Contact')); ?></th>
                                 <th> <?php echo e(__('Email')); ?></th>
                                 <th> <?php echo e(__('Balance')); ?></th>
-                                <th> <?php echo e(__('Last Login')); ?></th>
+                                
                                 <th><?php echo e(__('Action')); ?></th>
                             </tr>
                             </thead>
@@ -80,10 +79,7 @@ $profile=\App\Models\Utility::get_file('uploads/avatar');
                                     <td><?php echo e($customer['contact']); ?></td>
                                     <td><?php echo e($customer['email']); ?></td>
                                     <td><?php echo e(\Auth::user()->priceFormat($customer['balance'])); ?></td>
-                                    <td>
-                                        <?php echo e((!empty($customer->last_login_at)) ? $customer->last_login_at : '-'); ?>
-
-                                    </td>
+                                    
                                     <td class="Action">
                                         <span>
                                         <?php if($customer['is_active']==0): ?>

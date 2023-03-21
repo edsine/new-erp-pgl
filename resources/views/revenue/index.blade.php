@@ -54,7 +54,7 @@
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('category', __('Category'), ['class' => 'form-label']) }}
+                                            {{ Form::label('category', __('Ledger Account'), ['class' => 'form-label']) }}
                                             {{ Form::select('category', $category, isset($_GET['category']) ? $_GET['category'] : '', ['class' => 'form-control select']) }}
                                         </div>
                                     </div>
@@ -107,7 +107,7 @@
                                     <th> {{ __('Account') }}</th>
                                     <th> {{ __('Customer') }}</th>
                                     <th> {{ __('Project') }}</th>
-                                    <th> {{ __('Category') }}</th>
+                                    <th> {{ __('Ledger Accounts') }}</th>
                                     <th> {{ __('Reference') }}</th>
                                     <th> {{ __('Description') }}</th>
                                     <th>{{ __('Payment Receipt') }}</th>
@@ -129,7 +129,13 @@
                                         </td>
                                         <td>{{ !empty($revenue->customer) ? $revenue->customer->name : '-' }}</td>
                                         <td>{{ !empty($revenue->project) ? $revenue->project->project_name : '-' }}</td>
-                                        <td>{{ !empty($revenue->category) ? $revenue->category->name : '-' }}</td>
+                                        {{-- <td>{{ !empty($revenue->category) ? $revenue->category->name : '-' }}</td> --}}
+                                        <td>{{ !empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadDebit->name : '-' }}
+                                            (DR)
+                                            <br>
+                                            {{ !empty($revenue->expenseHeadDebit) ? $revenue->expenseHeadCredit->name : '-' }}
+                                            (CR)
+                                        </td>
                                         <td>{{ !empty($revenue->reference) ? $revenue->reference : '-' }}</td>
                                         <td>{{ !empty($revenue->description) ? $revenue->description : '-' }}</td>
                                         <td>

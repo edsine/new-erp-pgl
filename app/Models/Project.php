@@ -27,7 +27,9 @@ class Project extends Model
         'status',
         'tags',
         'created_by',
-        'amount_paid'
+        'amount_paid',
+        'project_type',
+        'initial_journal_item_id'
     ];
 
     public static $project_status=[
@@ -35,6 +37,12 @@ class Project extends Model
         'on_hold' => 'On Hold',
         'complete' => 'Complete',
         'canceled' => 'Canceled'
+    ];
+
+    public static $project_types=[
+        1 => 'Works/Construction',
+        2 => 'Consultancy/ICT',
+        3 => 'Goods/Supply',
     ];
 
     public static $status_color = [

@@ -170,14 +170,6 @@
                 @endphp
                 <div class="col-lg-12 mb-4">
                     <h3 class="text-muted mb-4">{{ $type }}
-                        @php $typeTotal = $typeTotalCredit-$typeTotalDebit; @endphp
-                        @if ($typeTotal < 0)
-                            {{ __('Dr') . '. ' . \Auth::user()->priceFormat(abs($typeTotal)) }}
-                        @elseif($typeTotal > 0)
-                            {{ __('Cr') . '. ' . \Auth::user()->priceFormat($typeTotal) }}
-                        @else
-                            {{ \Auth::user()->priceFormat(0) }}
-                        @endif
                     </h3>
                     <div class="row">
                         @foreach ($subTypes as $subType)

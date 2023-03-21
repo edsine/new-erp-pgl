@@ -53,8 +53,9 @@
 <?php $__env->startSection('action-btn'); ?>
     <div class="float-end">
         <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('create chart of account')): ?>
-            <a href="#" data-url="<?php echo e(route('chart-of-account.create')); ?>" data-bs-toggle="tooltip" title="<?php echo e(__('Create')); ?>"
-                data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Create New Account')); ?>" class="btn btn-sm btn-primary">
+            <a href="#" data-url="<?php echo e(route('chart-of-account.create')); ?>" data-bs-toggle="tooltip"
+                title="<?php echo e(__('Create')); ?>" data-size="lg" data-ajax-popup="true" data-title="<?php echo e(__('Create New Account')); ?>"
+                class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         <?php endif; ?>
@@ -78,7 +79,7 @@
                                         <th> <?php echo e(__('Type')); ?></th>
                                         <th> <?php echo e(__('Group')); ?></th>
                                         <th> <?php echo e(__('Sub-Group')); ?></th>
-                                        <th> <?php echo e(__('Balance')); ?></th>
+                                        
                                         <th> <?php echo e(__('Status')); ?></th>
                                         <th width="10%"> <?php echo e(__('Action')); ?></th>
                                     </tr>
@@ -92,18 +93,10 @@
                                             </td>
                                             <td><?php echo e(!empty($account->types) ? $account->types->name : '-'); ?></td>
                                             <td><?php echo e(!empty($account->subType) ? $account->subType->name : '-'); ?></td>
-                                            <td><?php echo e(!empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-'); ?></td>
-                                            <td>
-                                                <?php if(!empty($account->balance()) && $account->balance()['netAmount'] < 0): ?>
-                                                    <?php echo e(__('Dr') . '. ' . \Auth::user()->priceFormat(abs($account->balance()['netAmount']))); ?>
+                                            <td><?php echo e(!empty($account->subTypeLevel2) ? $account->subTypeLevel2->name : '-'); ?>
 
-                                                <?php elseif(!empty($account->balance()) && $account->balance()['netAmount'] > 0): ?>
-                                                    <?php echo e(__('Cr') . '. ' . \Auth::user()->priceFormat($account->balance()['netAmount'])); ?>
-
-                                                <?php else: ?>
-                                                    -
-                                                <?php endif; ?>
                                             </td>
+                                            
                                             <td>
                                                 <?php if($account->is_enabled == 1): ?>
                                                     <span

@@ -383,10 +383,9 @@
                                             Gate::check('manage custom question') ||
                                             Gate::check('show interview schedule') ||
                                             Gate::check('show career')): ?>
-                                        <li
-                                            class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'job' || Request::segment(1) == 'job-application' || Request::segment(1) == 'candidates-job-applications' || Request::segment(1) == 'job-onboard' || Request::segment(1) == 'custom-question' || Request::segment(1) == 'interview-schedule' || Request::segment(1) == 'career' ? 'active dash-trigger' : ''); ?>    ">
-                                            <a class="dash-link" href="#"><?php echo e(__('Recruitment Setup')); ?><span
-                                                    class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                        <li>
+                                            
+                                            
                                             <ul class="dash-submenu">
                                                 
                                                 
@@ -394,13 +393,7 @@
                                                 
                                                 
                                                 
-                                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('show interview schedule')): ?>
-                                                    <li
-                                                        class="dash-item <?php echo e(request()->is('interview-schedule*') ? 'active' : ''); ?>">
-                                                        <a class="dash-link"
-                                                            href="<?php echo e(route('interview-schedule.index')); ?>"><?php echo e(__('Interview Schedule')); ?></a>
-                                                    </li>
-                                                <?php endif; ?>
+                                                
                                                 
                                             </ul>
                                         </li>
@@ -702,6 +695,11 @@
                                                     <a class="dash-link"
                                                         href="<?php echo e(route('report.balance.sheet')); ?>"><?php echo e(__('Balance Sheet')); ?></a>
                                                 </li>
+                                                <li
+                                                class="dash-item <?php echo e(Request::route()->getName() == 'report.profit.loss.statement' ? ' active' : ''); ?>">
+                                                <a class="dash-link"
+                                                    href="<?php echo e(route('report.profit.loss.statement')); ?>"><?php echo e(__('Profit and Loss Statement')); ?></a>
+                                            </li>
                                                 <li
                                                     class="dash-item <?php echo e(Request::route()->getName() == 'trial.balance' ? ' active' : ''); ?>">
                                                     <a class="dash-link"
@@ -1050,6 +1048,12 @@
                         </li>
                     <?php endif; ?>
 
+                    <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'requisition' ? 'active' : ''); ?>">
+                        <a href="<?php echo e(route('requisition.index')); ?>" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext"><?php echo e(__('Requisition Manager')); ?></span>
+                        </a>
+                    </li> 
                     <li class="dash-item dash-hasmenu <?php echo e(Request::segment(1) == 'support' ? 'active' : ''); ?>">
                         <a href="<?php echo e(route('support.index')); ?>" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-headphones"></i></span><span

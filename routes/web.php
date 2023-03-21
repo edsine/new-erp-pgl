@@ -457,22 +457,23 @@ Route::group(
             'XSS',
             'revalidate',
         ],
-    ],
-    function () {
-        Route::get('report/income-summary', [ReportController::class, 'incomeSummary'])->name('report.income.summary');
-        Route::get('report/expense-summary', [ReportController::class, 'expenseSummary'])->name('report.expense.summary');
-        Route::get('report/income-vs-expense-summary', [ReportController::class, 'incomeVsExpenseSummary'])->name('report.income.vs.expense.summary');
-        Route::get('report/tax-summary', [ReportController::class, 'taxSummary'])->name('report.tax.summary');
-        Route::get('report/profit-loss-summary', [ReportController::class, 'profitLossSummary'])->name('report.profit.loss.summary');
-        Route::get('report/invoice-summary', [ReportController::class, 'invoiceSummary'])->name('report.invoice.summary');
-        Route::get('report/bill-summary', [ReportController::class, 'billSummary'])->name('report.bill.summary');
-        Route::get('report/product-stock-report', [ReportController::class, 'productStock'])->name('report.product.stock.report');
-        Route::get('report/invoice-report', [ReportController::class, 'invoiceReport'])->name('report.invoice');
-        Route::get('report/account-statement-report', [ReportController::class, 'accountStatement'])->name('report.account.statement');
-        Route::get('report/balance-sheet', [ReportController::class, 'balanceSheet'])->name('report.balance.sheet');
-        Route::get('report/ledger', [ReportController::class, 'ledgerSummary'])->name('report.ledger');
-        Route::get('report/trial-balance', [ReportController::class, 'trialBalanceSummary'])->name('trial.balance');
-    }
+    ], function ()
+{
+    Route::get('report/income-summary', [ReportController::class, 'incomeSummary'])->name('report.income.summary');
+    Route::get('report/expense-summary', [ReportController::class, 'expenseSummary'])->name('report.expense.summary');
+    Route::get('report/income-vs-expense-summary', [ReportController::class, 'incomeVsExpenseSummary'])->name('report.income.vs.expense.summary');
+    Route::get('report/tax-summary', [ReportController::class, 'taxSummary'])->name('report.tax.summary');
+    Route::get('report/profit-loss-summary', [ReportController::class, 'profitLossSummary'])->name('report.profit.loss.summary');
+    Route::get('report/invoice-summary', [ReportController::class, 'invoiceSummary'])->name('report.invoice.summary');
+    Route::get('report/bill-summary', [ReportController::class, 'billSummary'])->name('report.bill.summary');
+    Route::get('report/product-stock-report', [ReportController::class, 'productStock'])->name('report.product.stock.report');
+    Route::get('report/invoice-report', [ReportController::class, 'invoiceReport'])->name('report.invoice');
+    Route::get('report/account-statement-report', [ReportController::class, 'accountStatement'])->name('report.account.statement');
+    Route::get('report/balance-sheet', [ReportController::class, 'balanceSheet'])->name('report.balance.sheet');
+    Route::get('report/profit-loss-statement', [ReportController::class, 'profitAndLossStatement'])->name('report.profit.loss.statement');
+    Route::get('report/ledger', [ReportController::class, 'ledgerSummary'])->name('report.ledger');
+    Route::get('report/trial-balance', [ReportController::class, 'trialBalanceSummary'])->name('trial.balance');
+}
 );
 
 Route::get('proposal/pdf/{id}', [ProposalController::class, 'proposal'])->name('proposal.pdf')->middleware(['XSS', 'revalidate']);

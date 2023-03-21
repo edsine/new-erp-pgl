@@ -19,6 +19,8 @@ class ChartOfAccountTypeTableSeeder extends Seeder
             ['name' => 'Assets', 'created_by' => 1],
             ['name' => 'Liabilities', 'created_by' => 1],
             ['name' => 'Equity', 'created_by' => 1],
+            ['name' => 'Income', 'created_by' => 1],
+            ['name' => 'Expense', 'created_by' => 1],
         ];
 
         ChartOfAccountType::insert($data);
