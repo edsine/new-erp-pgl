@@ -60,6 +60,7 @@
     <?php endif; ?>
 
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/customizer.css')); ?>">
+    
     <link rel="stylesheet" href="<?php echo e(asset('css/custom.css')); ?>" id="main-style-link">
 
     <?php echo $__env->yieldPushContent('css-page'); ?>

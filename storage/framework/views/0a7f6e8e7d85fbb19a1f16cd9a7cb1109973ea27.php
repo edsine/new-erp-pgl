@@ -32,6 +32,20 @@
             };
             html2pdf().set(opt).from(element).save();
         }
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tbl_exporttable_to_xls');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1"
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Trail_Balance.' + (type || 'xlsx')));
+        }
     </script>
 <?php $__env->stopPush(); ?>
 
@@ -40,6 +54,11 @@
         <a href="#" class="btn btn-sm btn-primary" onclick="saveAsPDF()"data-bs-toggle="tooltip"
             title="<?php echo e(__('Download')); ?>" data-original-title="<?php echo e(__('Download')); ?>">
             <span class="btn-inner--icon"><i class="ti ti-download"></i></span>
+        </a>
+
+        <a href="#" class="btn btn-sm btn-primary" onclick="ExportToExcel('xlsx')"data-bs-toggle="tooltip"
+            title="<?php echo e(__('Excel')); ?>" data-original-title="<?php echo e(__('Excel')); ?>">
+            <span class="btn-inner--icon"><i class="ti ti-file-export"></i></span>
         </a>
 
     </div>
@@ -157,7 +176,7 @@
                 <div class="card">
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-flush">
+                            <table id="tbl_exporttable_to_xls" class="table table-flush">
                                 <thead>
                                     <tr>
                                         <th> <?php echo e(__('Account Name')); ?></th>

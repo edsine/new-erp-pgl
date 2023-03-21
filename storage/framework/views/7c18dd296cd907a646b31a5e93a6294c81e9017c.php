@@ -32,6 +32,20 @@
             };
             html2pdf().set(opt).from(element).save();
         }
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('printableArea');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1"
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Profit_Loss.' + (type || 'xlsx')));
+        }
     </script>
 <?php $__env->stopPush(); ?>
 
@@ -41,6 +55,11 @@
         <a href="#" class="btn btn-sm btn-primary" onclick="saveAsPDF()"data-bs-toggle="tooltip"
             title="<?php echo e(__('Download')); ?>" data-original-title="<?php echo e(__('Download')); ?>">
             <span class="btn-inner--icon"><i class="ti ti-download"></i></span>
+        </a>
+
+        <a href="#" class="btn btn-sm btn-primary" onclick="ExportToExcel('xlsx')"data-bs-toggle="tooltip"
+            title="<?php echo e(__('Excel')); ?>" data-original-title="<?php echo e(__('Excel')); ?>">
+            <span class="btn-inner--icon"><i class="ti ti-file-export"></i></span>
         </a>
 
     </div>
@@ -144,7 +163,7 @@
 
         
 
-        <div class="row mb-4">
+        <div class="row" id="tbl_exporttable_to_xls">
             <?php $__currentLoopData = $chartAccounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $type => $subTypes): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <?php
                     $typeTotalCredit = 0;
@@ -247,7 +266,7 @@
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </div>
 
-                                    <h5><?php echo e(__('Total') . ' ' . $subType['subType']); ?>
+                                    <tr><?php echo e(__('Total') . ' ' . $subType['subType']); ?>
 
                                         <?php $subTypeTotal= $subTypeTotalCredit-$subTypeTotalDebit; ?>
                                         <?php if($subTypeTotal < 0): ?>
@@ -260,7 +279,7 @@
                                             <?php echo e(\Auth::user()->priceFormat(0)); ?>
 
                                         <?php endif; ?>
-                                    </h5>
+                                    </tr>
                                 </div>
                             </div>
                             <?php
@@ -274,11 +293,12 @@
         </div>
 
         <div class="card p-4 mb-4">
-            <h6 class="mb-0"><?php echo e(__('Net Profit/Loss')); ?> :
-                <?php echo e(\Auth::user()->priceFormat($amounts['Expense'] - $amounts['Income'])); ?></h6>
+            <tr class="mb-0"><?php echo e(__('Net Profit/Loss')); ?> :
+                <?php echo e(\Auth::user()->priceFormat($amounts['Expense'] - $amounts['Income'])); ?></tr>
         </div>
 
         
-    <?php $__env->stopSection(); ?>
+    </div>
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.admin', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\projects\new-erp-pgl\resources\views/report/profit_loss_statement.blade.php ENDPATH**/ ?>

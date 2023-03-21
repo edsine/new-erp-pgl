@@ -32,6 +32,21 @@
             };
             html2pdf().set(opt).from(element).save();
         }
+
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('tbl_exporttable_to_xls');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1"
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Financial_Project_Report.' + (type || 'xlsx')));
+        }
     </script>
 @endpush
 
@@ -42,6 +57,10 @@
             <span class="btn-inner--icon"><i class="ti ti-download"></i></span>
         </a>
 
+        <a href="#" class="btn btn-sm btn-primary" onclick="ExportToExcel('xlsx')"data-bs-toggle="tooltip"
+            title="{{ __('Excel') }}" data-original-title="{{ __('Excel') }}">
+            <span class="btn-inner--icon"><i class="ti ti-file-export"></i></span>
+        </a>
     </div>
 @endsection
 
@@ -126,7 +145,7 @@
                 <div class="card">
                     <div class="card-body table-border-style">
                         <div class="table-responsive">
-                            <table class="table table-flush">
+                            <table id="tbl_exporttable_to_xls" class="table table-flush">
                                 <thead>
                                     <tr>
                                         <th> {{ __('') }}</th>
@@ -138,45 +157,54 @@
                                     <tr>
                                         <td>Contract Sum</td>
                                         <td></td>
-                                        <td>{{ !empty($data['contract_sum']) ? \Auth::user()->priceFormat($data['contract_sum']) : '0' }}</td>
+                                        <td>{{ !empty($data['contract_sum']) ? \Auth::user()->priceFormat($data['contract_sum']) : '0' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Local Tax</td>
                                         <td></td>
-                                        <td>{{ !empty($data['tax_amount']) ? \Auth::user()->priceFormat($data['tax_amount']) : '0' }}</td>
+                                        <td>{{ !empty($data['tax_amount']) ? \Auth::user()->priceFormat($data['tax_amount']) : '0' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Net Contract Sum</td>
                                         <td></td>
-                                        <td>{{ !empty($data['net_contract_sum']) ? \Auth::user()->priceFormat($data['net_contract_sum']) : '0' }}</td>
+                                        <td>{{ !empty($data['net_contract_sum']) ? \Auth::user()->priceFormat($data['net_contract_sum']) : '0' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Revenue received</td>
                                         <td></td>
-                                        <td>{{ !empty($data['revenue']) ? \Auth::user()->priceFormat($data['revenue']) : '0' }}</td>
+                                        <td>{{ !empty($data['revenue']) ? \Auth::user()->priceFormat($data['revenue']) : '0' }}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Expense</td>
-                                        <td>{{ !empty($data['expense']) ? \Auth::user()->priceFormat($data['expense']) : '0' }}</td>
+                                        <td>{{ !empty($data['expense']) ? \Auth::user()->priceFormat($data['expense']) : '0' }}
+                                        </td>
                                         <td></td>
                                     </tr>
                                     <tr>
                                         <td>Balance to be paid</td>
-                                        <td>{{ !empty($data['balance_to_be_paid']) ? \Auth::user()->priceFormat($data['balance_to_be_paid']) : '0' }}</td>
+                                        <td>{{ !empty($data['balance_to_be_paid']) ? \Auth::user()->priceFormat($data['balance_to_be_paid']) : '0' }}
+                                        </td>
                                         <td></td>
                                     </tr>
 
                                     <tr>
                                         <td>Expected Net Profit</td>
-                                        <td>{{ !empty($data['expected_net_profit']) ? \Auth::user()->priceFormat($data['expected_net_profit']) : '0' }}</td>
+                                        <td>{{ !empty($data['expected_net_profit']) ? \Auth::user()->priceFormat($data['expected_net_profit']) : '0' }}
+                                        </td>
                                         <td></td>
                                     </tr>
 
                                 </tbody>
                                 <tfooter>
                                     <td class="text-dark"><strong>{{ __('Actual Net Profit') }}</strong></td>
-                                    <td>{{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] > 0 ? \Auth::user()->priceFormat($data['actual_net_profit']) : '') : '' }}</td>
-                                    <td>({{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] < 0 ? \Auth::user()->priceFormat(abs($data['actual_net_profit'])) : '') : '' }})</td>
+                                    <td>{{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] > 0 ? \Auth::user()->priceFormat($data['actual_net_profit']) : '') : '' }}
+                                    </td>
+                                    <td>({{ !empty($data['actual_net_profit']) ? ($data['actual_net_profit'] < 0 ? \Auth::user()->priceFormat(abs($data['actual_net_profit'])) : '') : '' }})
+                                    </td>
                                 </tfooter>
                             </table>
 
