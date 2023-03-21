@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call(ChartOfAccountTableSeeder::class);
         $this->call(ProductServiceIncomeExpenseCategorySeeder::class);
         $this->call(BankAccountSeeder::class);
+        $this->call(BranchSeeder::class);
+        $this->call(DepartmentSeeder::class);
+        $this->call(DesignationSeeder::class);
         $this->call(TaxSeeder::class);
     }
 }

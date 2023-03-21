@@ -14,7 +14,6 @@
             <a href="{{ route('requisition.create')}}"  data-bs-toggle="tooltip" title="{{__('Create')}}"  class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
-
         @endcan
     </div>
 @endsection
@@ -30,9 +29,10 @@
                             <tr>
                                 <th>{{__('Date')}}</th>
                                 <th>{{__('Title')}}</th>
-                                <th>{{__('Total Amount')}}</th>
-                                <th>{{__('Additional Document')}}</th>
+                                <th>{{__('Amount')}}</th>
+                                <th>{{__('Document')}}</th>
                                 <th>{{__('Status')}}</th>
+                                <th>{{__('Payment Status')}}</th>
                                 <th>{{__('Action')}}</th>
                             </tr>
                             </thead>
@@ -52,7 +52,36 @@
                                 </div>
                                 @endif
                             <td> {{$item->status}} </td>
+                            <td>
+                                @if($item->payment_status == 'Paid')
+                                <span class="text-success"><i class="fas fa-check-circle"></i> @lang('Paid')</span>
+                                @else
+                                <span class="text-danger"><i class="fas fa-times-circle"></i> @lang('Not Paid')</span>
+                                @endif
+                                
+                            </td>
                             <td>  
+                                
+                                {{-- <div class="action-btn bg-warning ms-2">
+                                    <a href="#"
+                                        data-url="{{ URL::to('requisition/' . $item->id . '/action') }}"
+                                        data-size="lg" data-ajax-popup="true"
+                                        data-title="{{ __('Requisition Action') }}"
+                                        class="mx-3 btn btn-sm  align-items-center" data-bs-toggle="tooltip"
+                                        title="{{ __('Requisition Action') }}"
+                                        data-original-title="{{ __('Requisition Action') }}">
+                                        <i class="ti ti-caret-right text-white"></i> </a>
+                                </div> --}}
+                                <div class="action-btn bg-info ms-2">
+                                    <a href="#"
+                                        data-url="{{ URL::to('requisition/' . $item->id . '/view') }}"
+                                        data-size="lg" data-ajax-popup="true"
+                                        data-title="{{ __('Requisition Action') }}"
+                                        class="mx-3 btn btn-sm  align-items-center" data-bs-toggle="tooltip"
+                                        title="{{ __('View Approval') }}"
+                                        data-original-title="{{ __('View Approval') }}">
+                                        <i class="ti ti-caret-right text-white"></i> </a>
+                                </div>
                                 <div class="action-btn bg-primary ms-2">
                                     <a href="{{ route('requisition.edit', $item->id)}}"  data-size="lg" class="mx-3 btn btn-sm align-items-center" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil text-white"></i></a>
                                 </div>

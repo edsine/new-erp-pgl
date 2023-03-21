@@ -45,7 +45,7 @@ unset($__errorArgs, $__bag); ?>
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="staff" role="tabpanel" aria-labelledby="pills-home-tab">
                     <?php
-                        $modules=['user','role','client','product & service','constant unit','constant tax','constant category','company settings'];
+                        $modules=['user','role','client','product & service','constant unit','constant tax','constant category','company settings', 'requisition'];
                        if(\Auth::user()->type == 'company'){
                            $modules[] = 'language';
                            $modules[] = 'permission';
@@ -73,6 +73,88 @@ unset($__errorArgs, $__bag); ?>
                                             <td><label class="ischeck staff_checkall" data-id="<?php echo e(str_replace(' ', '', str_replace('&', '', $module))); ?>"><?php echo e(ucfirst($module)); ?></label></td>
                                             <td>
                                                 <div class="row ">
+                                                    <?php if($module == 'requisition'): ?>
+                                                            <?php if(in_array('manage approval', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage approval', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Approval', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage requisition approval', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage requisition approval', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Requisition Approval', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage hod remark', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage hod remark', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage HOD Remark', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage admin remark', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage admin remark', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Admin Remark', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage chairman remark', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage chairman remark', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Chairman Remark', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage hod approval', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage hod approval', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage HOD Approval', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage admin approval', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage admin approval', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Admin Approval', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                            <?php if(in_array('manage chairman approval', (array) $permissions)): ?>
+                                                                <?php if($key = array_search('manage chairman approval', $permissions)): ?>
+                                                                    <div
+                                                                        class="col custom-control custom-checkbox">
+                                                                        <?php echo e(Form::checkbox('permissions[]', $key, $role->permission, ['class' => 'form-check-input isscheck staff_checkall isscheck_' . str_replace(' ', '', $module), 'id' => 'permission' . $key])); ?>
+
+                                                                        <?php echo e(Form::label('permission' . $key, 'Manage Chairman Approval', ['class' => 'custom-control-label'])); ?><br>
+                                                                    </div>
+                                                                <?php endif; ?>
+                                                            <?php endif; ?>
+                                                        <?php endif; ?>
                                                     <?php if(in_array('view '.$module,(array) $permissions)): ?>
                                                         <?php if($key = array_search('view '.$module,$permissions)): ?>
                                                             <div class="col-md-3 custom-control custom-checkbox">

@@ -33,7 +33,7 @@ class RoleController extends Controller
         if(\Auth::user()->can('create role'))
         {
             $user = \Auth::user();
-            if($user->type == 'super admin')
+            if($user->type == 'company')
             {
                 $permissions = Permission::all()->pluck('name', 'id')->toArray();
             }
@@ -106,7 +106,7 @@ class RoleController extends Controller
         {
 
             $user = \Auth::user();
-            if($user->type == 'super admin')
+            if($user->type == 'company')
             {
                 $permissions = Permission::all()->pluck('name', 'id')->toArray();
             }

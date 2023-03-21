@@ -76,21 +76,23 @@
 @endpush
 @section('content')
 <div class="row">
-{{Form::open(array('url'=>'store','method'=>'post', 'enctype' => "multipart/form-data"))}}
+{{Form::open(array('url'=>'requisition/store','method'=>'post', 'enctype' => "multipart/form-data"))}}
 <div class="col-12">
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <div class="card">
         <div class="card-body">
             <div class="row">
+                @if(isset($employee))
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="col-md-6">
                         <div class="form-group">
                             {{Form::label('employee_id',__('Employee') ,['class'=>'form-label'])}}
-                            <input type="hidden" name="employee_id" class="form-control" required value="{{ $employee->id }}">
+                            <input type="hidden" name="employee_id" class="form-control" value="{{ $employee->id }}">
                             {!! Form::text('', $employee->name, ['class' => 'form-control disabled','readonly']) !!}
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                     <div class="row">
                         <div class="col-md-6">
@@ -191,7 +193,7 @@
                             <div class="choose-file ">
                                 <label for="document" class="form-label">
                                     <input type="file" class="form-control" name="document" id="document" data-filename="document_create">
-                                    <img id="image" class="mt-3" style="width:25%;"/>
+                                    {{-- <img id="image" class="mt-3" style="width:25%;"/> --}}
                                 </label>
                             </div>
                         </td>

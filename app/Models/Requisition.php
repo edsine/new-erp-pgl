@@ -10,11 +10,20 @@ class Requisition extends Model
     use HasFactory;
     protected $fillable = [
         'employee_id',
+        'department_id',
         'requisition_date',
         'document',
         'status',
         'title',
-        'ref_number'
+        'ref_number',
+        'created_by',
+        'hod_appproval',
+        'admin_approval',
+        'chairman_approval',
+        'hod_remark',
+        'admin_remark',
+        'chairman_remark',
+        'payment_status',
        
     ];
     
@@ -22,6 +31,11 @@ class Requisition extends Model
     public function employee()
     {
         return $this->hasOne('App\Models\Employee', 'id', 'employee_id')->first();
+    }
+
+    public function department()
+    {
+        return $this->hasOne('App\Models\Department', 'id', 'department_id')->first();
     }
 
     public function totalAmount() {

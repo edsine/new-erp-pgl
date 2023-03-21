@@ -52,7 +52,7 @@
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
-                <?php echo e(Form::label('budget', __('Budget'), ['class' => 'form-label'])); ?>
+                <?php echo e(Form::label('budget', __('Contract Sum'), ['class' => 'form-label'])); ?>
 
                 <?php echo e(Form::number('budget', null, ['class' => 'form-control'])); ?>
 
