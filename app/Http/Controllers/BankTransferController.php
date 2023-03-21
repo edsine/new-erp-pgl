@@ -68,6 +68,7 @@ class BankTransferController extends Controller
                                    'to_account' => 'required|numeric',
                                    'amount' => 'required|numeric',
                                    'date' => 'required',
+                                   'description' => 'required'
                                ]
             );
             if($validator->fails())
@@ -126,6 +127,7 @@ class BankTransferController extends Controller
                                    'to_account' => 'required|numeric',
                                    'amount' => 'required|numeric',
                                    'date' => 'required',
+                                   'description' => 'required'
                                ]
             );
             if($validator->fails())

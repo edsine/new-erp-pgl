@@ -26,12 +26,7 @@
             <?php echo e(Form::date('date',null,array('class'=>'form-control','required'=>'required'))); ?>
 
         </div>
-        <div class="form-group  col-md-6">
-            <?php echo e(Form::label('reference', __('Reference'),['class'=>'form-label'])); ?>
-
-            <?php echo e(Form::text('reference', '', array('class' => 'form-control'))); ?>
-
-        </div>
+        
         <div class="form-group  col-md-12">
             <?php echo e(Form::label('description', __('Description'),['class'=>'form-label'])); ?>
 

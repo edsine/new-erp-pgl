@@ -20,7 +20,8 @@ class Revenue extends Model
         'revenue_type',
         'expense_head_debit',
         'expense_head_credit',
-        'project_id'
+        'project_id',
+        'journal_id'
     ];
 
     public function category()

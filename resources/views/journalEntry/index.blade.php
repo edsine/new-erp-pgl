@@ -32,7 +32,7 @@
                                 <th> {{__('Date')}}</th>
                                 <th> {{__('Amount')}}</th>
                                 <th> {{__('Description')}}</th>
-                                <th width="10%"> {{__('Action')}}</th>
+                                {{-- <th width="10%"> {{__('Action')}}</th> --}}
                             </tr>
                             </thead>
                             <tbody>
@@ -46,7 +46,7 @@
                                         {{ \Auth::user()->priceFormat($journalEntry->totalCredit())}}
                                     </td>
                                     <td>{{!empty($journalEntry->description)?$journalEntry->description:'-'}}</td>
-                                    <td>
+                                    {{-- <td>
                                         @can('edit journal entry')
                                             <div class="action-btn bg-primary ms-2">
                                                 <a data-title="{{__('Edit Journal')}}" href="{{ route('journal-entry.edit',[$journalEntry->id]) }}" class="mx-3 btn btn-sm align-items-center" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-original-title="{{__('Edit')}}">
@@ -64,7 +64,7 @@
                                                     {!! Form::close() !!}
                                                 </div>
                                         @endcan
-                                    </td>
+                                    </td> --}}
                                 </tr>
                             @endforeach
                             </tbody>
