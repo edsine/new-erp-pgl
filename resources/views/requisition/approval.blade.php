@@ -50,6 +50,10 @@
                                 Awaiting Admin Approval
                                 @elseif($item->chairman_approval == 'Pending')
                                 Awaiting Chairman Approval
+                                @elseif($item->chairman_approval == 'Approved' && $item->payment_status !== 'Paid')
+                                Awaiting Finance
+                                @elseif($item->payment_status == 'Paid')
+                                Funds Disbursed
                                 @endif
                             </td>
                             <td> {{$item->status}} </td>

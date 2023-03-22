@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('page-title'); ?>
     <?php echo e(__('Dashboard')); ?>
 
@@ -232,30 +233,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="theme-avtar bg-warning">
-                                                <i class="ti ti-report-money"></i>
-                                            </div>
-                                            <p class="text-muted text-sm mt-4 mb-2"><?php echo e(__('Total')); ?></p>
-                                            <h6 class="mb-3"><?php echo e(__('Invoices')); ?></h6>
-                                            <h3 class="mb-0"><?php echo e(\Auth::user()->countInvoices()); ?> </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-6">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="theme-avtar bg-danger">
-                                                <i class="ti ti-report-money"></i>
-                                            </div>
-                                            <p class="text-muted text-sm mt-4 mb-2"><?php echo e(__('Total')); ?></p>
-                                            <h6 class="mb-3"><?php echo e(__('Bills')); ?></h6>
-                                            <h3 class="mb-0"><?php echo e(\Auth::user()->countBills()); ?> </h3>
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                                
                             </div>
                         </div>
                         <div class="col-xxl-12">
@@ -346,116 +325,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mt-1 mb-0"><?php echo e(__('Recent Invoices')); ?></h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th><?php echo e(__('Customer')); ?></th>
-                                                <th><?php echo e(__('Issue Date')); ?></th>
-                                                <th><?php echo e(__('Due Date')); ?></th>
-                                                <th><?php echo e(__('Amount')); ?></th>
-                                                <th><?php echo e(__('Status')); ?></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php $__empty_1 = true; $__currentLoopData = $recentInvoice; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $invoice): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                <tr>
-                                                    <td><?php echo e(\Auth::user()->invoiceNumberFormat($invoice->invoice_id)); ?></td>
-                                                    <td><?php echo e(!empty($invoice->customer)? $invoice->customer->name:''); ?> </td>
-                                                    <td><?php echo e(Auth::user()->dateFormat($invoice->issue_date)); ?></td>
-                                                    <td><?php echo e(Auth::user()->dateFormat($invoice->due_date)); ?></td>
-                                                    <td><?php echo e(\Auth::user()->priceFormat($invoice->getTotal())); ?></td>
-                                                    <td>
-                                                        <?php if($invoice->status == 0): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-secondary"><?php echo e(__(\App\Models\Invoice::$statues[$invoice->status])); ?></span>
-                                                        <?php elseif($invoice->status == 1): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-warning"><?php echo e(__(\App\Models\Invoice::$statues[$invoice->status])); ?></span>
-                                                        <?php elseif($invoice->status == 2): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-danger"><?php echo e(__(\App\Models\Invoice::$statues[$invoice->status])); ?></span>
-                                                        <?php elseif($invoice->status == 3): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-info"><?php echo e(__(\App\Models\Invoice::$statues[$invoice->status])); ?></span>
-                                                        <?php elseif($invoice->status == 4): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-success"><?php echo e(__(\App\Models\Invoice::$statues[$invoice->status])); ?></span>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                <tr>
-                                                    <td colspan="6">
-                                                        <div class="text-center">
-                                                            <h6><?php echo e(__('there is no recent invoice')); ?></h6>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php endif; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mt-1 mb-0"><?php echo e(__('Recent Bills')); ?></h5>
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th><?php echo e(__('Vendor')); ?></th>
-                                                <th><?php echo e(__('Bill Date')); ?></th>
-                                                <th><?php echo e(__('Due Date')); ?></th>
-                                                <th><?php echo e(__('Amount')); ?></th>
-                                                <th><?php echo e(__('Status')); ?></th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <?php $__empty_1 = true; $__currentLoopData = $recentBill; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $bill): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                                                <tr>
-                                                    <td><?php echo e(\Auth::user()->billNumberFormat($bill->bill_id)); ?></td>
-                                                    <td><?php echo e(!empty($bill->vender)? $bill->vender->name:''); ?> </td>
-                                                    <td><?php echo e(Auth::user()->dateFormat($bill->bill_date)); ?></td>
-                                                    <td><?php echo e(Auth::user()->dateFormat($bill->due_date)); ?></td>
-                                                    <td><?php echo e(\Auth::user()->priceFormat($bill->getTotal())); ?></td>
-                                                    <td>
-                                                        <?php if($bill->status == 0): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-secondary"><?php echo e(__(\App\Models\Bill::$statues[$bill->status])); ?></span>
-                                                        <?php elseif($bill->status == 1): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-warning"><?php echo e(__(\App\Models\Bill::$statues[$bill->status])); ?></span>
-                                                        <?php elseif($bill->status == 2): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-danger"><?php echo e(__(\App\Models\Bill::$statues[$bill->status])); ?></span>
-                                                        <?php elseif($bill->status == 3): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-info"><?php echo e(__(\App\Models\Bill::$statues[$bill->status])); ?></span>
-                                                        <?php elseif($bill->status == 4): ?>
-                                                            <span class="p-2 px-3 rounded badge bg-success"><?php echo e(__(\App\Models\Bill::$statues[$bill->status])); ?></span>
-                                                        <?php endif; ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                                                <tr>
-                                                    <td colspan="6">
-                                                        <div class="text-center">
-                                                            <h6><?php echo e(__('there is no recent bill')); ?></h6>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php endif; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        
 
                     </div>
                 </div>
@@ -527,34 +398,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5><?php echo e(__('Income By Category')); ?>
-
-                                        <span class="float-end text-muted"><?php echo e(__('Year').' - '.$currentYear); ?></span>
-                                    </h5>
-
-                                </div>
-                                <div class="card-body">
-                                    <div id="incomeByCategory"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5><?php echo e(__('Expense By Category')); ?>
-
-                                        <span class="float-end text-muted"><?php echo e(__('Year').' - '.$currentYear); ?></span>
-                                    </h5>
-
-                                </div>
-                                <div class="card-body">
-                                    <div id="expenseByCategory"></div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        
                         <div class="col-xxl-12">
                             <div class="card">
                                 <div class="card-header">
@@ -592,186 +437,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-body">
-
-                                    <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#invoice_weekly_statistics" role="tab" aria-controls="pills-home" aria-selected="true"><?php echo e(__('Invoices Weekly Statistics')); ?></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#invoice_monthly_statistics" role="tab" aria-controls="pills-profile" aria-selected="false"><?php echo e(__('Invoices Monthly Statistics')); ?></a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="pills-tabContent">
-                                        <div class="tab-pane fade show active" id="invoice_weekly_statistics" role="tabpanel" aria-labelledby="pills-home-tab">
-                                            <div class="table-responsive">
-                                                <table class="table align-items-center mb-0 ">
-                                                    <tbody class="list">
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Invoice Generated')); ?></p>
-
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyInvoice['invoiceTotal'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Paid')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyInvoice['invoicePaid'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Due')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyInvoice['invoiceDue'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="invoice_monthly_statistics" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                            <div class="table-responsive">
-                                                <table class="table align-items-center mb-0 ">
-                                                    <tbody class="list">
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Invoice Generated')); ?></p>
-
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyInvoice['invoiceTotal'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Paid')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyInvoice['invoicePaid'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Due')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyInvoice['invoiceDue'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-12">
-                            <div class="card">
-                                <div class="card-body">
-
-                                    <ul class="nav nav-pills mb-5" id="pills-tab" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" href="#bills_weekly_statistics" role="tab" aria-controls="pills-home" aria-selected="true"><?php echo e(__('Bills Weekly Statistics')); ?></a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" href="#bills_monthly_statistics" role="tab" aria-controls="pills-profile" aria-selected="false"><?php echo e(__('Bills Monthly Statistics')); ?></a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content" id="pills-tabContent">
-                                        <div class="tab-pane fade show active" id="bills_weekly_statistics" role="tabpanel" aria-labelledby="pills-home-tab">
-                                            <div class="table-responsive">
-                                                <table class="table align-items-center mb-0 ">
-                                                    <tbody class="list">
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Bill Generated')); ?></p>
-
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyBill['billTotal'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Paid')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyBill['billPaid'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Due')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($weeklyBill['billDue'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="bills_monthly_statistics" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                            <div class="table-responsive">
-                                                <table class="table align-items-center mb-0 ">
-                                                    <tbody class="list">
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Bill Generated')); ?></p>
-
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyBill['billTotal'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Paid')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyBill['billPaid'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <h5 class="mb-0"><?php echo e(__('Total')); ?></h5>
-                                                            <p class="text-muted text-sm mb-0"><?php echo e(__('Due')); ?></p>
-                                                        </td>
-                                                        <td>
-                                                            <h4 class="text-muted"><?php echo e(\Auth::user()->priceFormat($monthlyBill['billDue'])); ?></h4>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
+                        
                     </div>
                 </div>
                 <div class="col-xxl-12">
