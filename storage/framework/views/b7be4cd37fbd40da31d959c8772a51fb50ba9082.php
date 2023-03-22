@@ -3,7 +3,7 @@
 <footer class="dash-footer">
     <div class="footer-wrapper">
         <div class="py-1">
-            <span class="text-muted">  <?php echo e((Utility::getValByName('footer_text')) ? Utility::getValByName('footer_text') :  __('Copyright ERPGO')); ?> <?php echo e(date('Y')); ?></span>
+            <span class="text-muted">  <?php echo e((Utility::getValByName('footer_text')) ? Utility::getValByName('footer_text') :  __('Copyright PGL')); ?> <?php echo e(date('Y')); ?></span>
         </div>
 
     </div>

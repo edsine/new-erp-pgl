@@ -45,7 +45,7 @@ class RequisitionController extends Controller
         {
             $employee      = Employee::where('user_id', \Auth::user()->id)->first();
 
-            if(\Auth::user()->type == 'company' || \Auth::user()->type == 'office admin')
+            if(\Auth::user()->type == 'company' || \Auth::user()->type == 'office admin' || \Auth::user()->type == 'chairman' || \Auth::user()->can('manage payment status'))
             {
                 $query = Requisition::orderBy('updated_at', 'DESC');
             }
