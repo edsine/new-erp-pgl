@@ -32,6 +32,20 @@
             };
             html2pdf().set(opt).from(element).save();
         }
+
+        function ExportToExcel(type, fn, dl) {
+            var elt = document.getElementById('printableArea');
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: "sheet1"
+            });
+            return dl ?
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
+                XLSX.writeFile(wb, fn || ('Profit_Loss.' + (type || 'xlsx')));
+        }
     </script>
 @endpush
 
@@ -41,6 +55,11 @@
         <a href="#" class="btn btn-sm btn-primary" onclick="saveAsPDF()"data-bs-toggle="tooltip"
             title="{{ __('Download') }}" data-original-title="{{ __('Download') }}">
             <span class="btn-inner--icon"><i class="ti ti-download"></i></span>
+        </a>
+
+        <a href="#" class="btn btn-sm btn-primary" onclick="ExportToExcel('xlsx')"data-bs-toggle="tooltip"
+            title="{{ __('Excel') }}" data-original-title="{{ __('Excel') }}">
+            <span class="btn-inner--icon"><i class="ti ti-file-export"></i></span>
         </a>
 
     </div>
@@ -162,7 +181,7 @@
             @endforeach
         </div> --}}
 
-        <div class="row mb-4">
+        <div class="row" id="tbl_exporttable_to_xls">
             @foreach ($chartAccounts as $type => $subTypes)
                 @php
                     $typeTotalCredit = 0;
@@ -254,7 +273,7 @@
                                         @endforeach
                                     </div>
 
-                                    <h5>{{ __('Total') . ' ' . $subType['subType'] }}
+                                    <tr>{{ __('Total') . ' ' . $subType['subType'] }}
                                         @php $subTypeTotal= $subTypeTotalCredit-$subTypeTotalDebit; @endphp
                                         @if ($subTypeTotal < 0)
                                             {{ __('Dr') . '. ' . \Auth::user()->priceFormat(abs($subTypeTotal)) }}
@@ -263,7 +282,7 @@
                                         @else
                                             {{ \Auth::user()->priceFormat(0) }}
                                         @endif
-                                    </h5>
+                                    </tr>
                                 </div>
                             </div>
                             @php
@@ -277,8 +296,8 @@
         </div>
 
         <div class="card p-4 mb-4">
-            <h6 class="mb-0">{{ __('Net Profit/Loss') }} :
-                {{ \Auth::user()->priceFormat($amounts['Expense'] - $amounts['Income']) }}</h6>
+            <tr class="mb-0">{{ __('Net Profit/Loss') }} :
+                {{ \Auth::user()->priceFormat($amounts['Expense'] - $amounts['Income']) }}</tr>
         </div>
 
         {{-- <div class="row">
@@ -317,4 +336,5 @@
                 </div>
             </div>
         </div> --}}
-    @endsection
+    </div>
+@endsection

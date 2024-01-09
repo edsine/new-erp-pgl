@@ -34,6 +34,9 @@
 
 
 
+
+<script type="text/javascript" src="<?php echo e(asset('js/xlsx.full.min.js')); ?>"></script>
+
 <script src="<?php echo e(asset('js/jscolor.js')); ?>"></script>
 <script src="<?php echo e(asset('js/custom.js')); ?>"></script>
 
