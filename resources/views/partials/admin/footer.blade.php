@@ -33,6 +33,9 @@
 <script src="{{ asset('assets/js/plugins/flatpickr.min.js') }}"></script>
 
 
+{{-- XLSX --}}
+
+<script type="text/javascript" src="{{ asset('js/xlsx.full.min.js') }}"></script>
 
 <script src="{{ asset('js/jscolor.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
