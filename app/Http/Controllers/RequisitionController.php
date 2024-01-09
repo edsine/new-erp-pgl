@@ -31,8 +31,8 @@ class RequisitionController extends Controller
             {
                 $query = Requisition::where('created_by', '=', \Auth::user()->id);
             }
-            
-        }  
+
+        }
 
         $requisitions = $query->get();
 
@@ -59,9 +59,9 @@ class RequisitionController extends Controller
                 {
                     $query = Requisition::where('created_by', '=', \Auth::user()->id);
                 }
-                
-            }  
-    
+
+            }
+
             $requisitions = $query->get();
             return view('requisition.approval', compact('requisitions'));
         }
@@ -69,7 +69,7 @@ class RequisitionController extends Controller
         {
             return response()->json(['error' => __('Permission denied.')], 401);
         }
-       
+
     }
 
     public function create()
@@ -94,7 +94,7 @@ class RequisitionController extends Controller
         $requisition->title    = $request->title;
         $requisition->ref_number     = 'req/' . $date->format('Ymd/His');
         $requisition->created_by       = \Auth::user()->id;
-        $requisition->department_id = $employee->department->id ;
+        $requisition->department_id = $employee->department ? $employee->department->id : 0;
 
         // $total_amount = 0;
 
@@ -227,13 +227,13 @@ class RequisitionController extends Controller
             $requisition     = Requisition::find($id);
             $requisitionItem = RequisitionItem::where('requisition_id', $requisition->id)->get();
             $employee  = Employee::find($requisition->employee_id);
-    
+
             return view('requisition.action', compact('requisition','employee','requisitionItem'));
         }
         else{
             return response()->json(['error' => __('Permission denied.')], 401);
         }
-       
+
     }
 
     public function changeaction(Request $request)
@@ -245,8 +245,8 @@ class RequisitionController extends Controller
         $requisition->admin_approval = $request->admin_approval;
         $requisition->chairman_approval = $request->chairman_approval;
         $requisition->payment_status = $request->payment_status ;
-        
-            
+
+
         if($requisition->hod_approval == 'Approved')
         {
             $requisition->hod_remark = $request->hod_remark;
@@ -254,7 +254,7 @@ class RequisitionController extends Controller
             $requisition->admin_approval = 'Pending';
             $requisition->chairman_approval = 'Pending' ;
         }
-        
+
         if($requisition->admin_approval == 'Approved')
         {
             $requisition->admin_remark = $request->admin_remark;
@@ -262,7 +262,7 @@ class RequisitionController extends Controller
             $requisition->admin_approval = 'Approved';
             $requisition->chairman_approval = 'Pending' ;
         }
-        
+
         if($requisition->chairman_approval == 'Approved')
         {
             $requisition->chairman_remark = $request->chairman_remark;
@@ -271,7 +271,7 @@ class RequisitionController extends Controller
             $requisition->hod_approval           = 'Approved';
             $requisition->admin_approval = 'Approved';
         }
-        
+
         if($requisition->hod_approval == 'Rejected' || $requisition->admin_approval == 'Rejected' || $requisition->chairman_approval == 'Rejected')
         {
             $requisition->status = 'Rejected';
