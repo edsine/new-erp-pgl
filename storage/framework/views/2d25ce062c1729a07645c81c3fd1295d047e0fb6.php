@@ -34,7 +34,7 @@
 
             <div class="form-icon-user">
                 <span><i class="ti ti-dollar-sign"></i></span>
-                <?php echo e(Form::number('opening_balance',null, array('readonly', 'class' => 'form-control','required'=>'required','step'=>'0.01'))); ?>
+                <?php echo e(Form::number('opening_balance',null, array('class' => 'form-control','required'=>'required','step'=>'0.01'))); ?>
 
             </div>
         </div>

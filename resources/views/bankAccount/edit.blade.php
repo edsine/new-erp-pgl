@@ -26,7 +26,7 @@
             {{ Form::label('opening_balance', __('Current Balance'),['class'=>'form-label']) }}
             <div class="form-icon-user">
                 <span><i class="ti ti-dollar-sign"></i></span>
-                {{ Form::number('opening_balance',null, array('readonly', 'class' => 'form-control','required'=>'required','step'=>'0.01')) }}
+                {{ Form::number('opening_balance',null, array('class' => 'form-control','required'=>'required','step'=>'0.01')) }}
             </div>
         </div>
         <div class="form-group  col-md-12">
