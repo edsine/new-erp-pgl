@@ -112,6 +112,8 @@ class StaffLeaveController extends Controller
         $leave->leave_reason    = $request->leave_reason;
         $leave->created_by       = \Auth::user()->id;
 
+        $leave->save();
+
 
 
         return redirect()->route('staff_leave.index')->with('success', __('Leave successfully created.'));
