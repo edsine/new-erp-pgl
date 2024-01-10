@@ -70,6 +70,7 @@ use App\Http\Controllers\CreditNoteController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\LoanOptionController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\StaffLeaveController;
 use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CustomFieldController;
 use App\Http\Controllers\DesignationController;
@@ -77,6 +78,7 @@ use App\Http\Controllers\FormBuilderController;
 use App\Http\Controllers\JobCategoryController;
 use App\Http\Controllers\PayslipTypeController;
 use App\Http\Controllers\ProjectTaskController;
+use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\ResignationController;
 use App\Http\Controllers\TerminationController;
 use App\Http\Controllers\TimeTrackerController;
@@ -95,7 +97,6 @@ use App\Http\Controllers\CompanyPolicyController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\MolliePaymentController;
 use App\Http\Controllers\ProjectReportController;
-use App\Http\Controllers\RequisitionController;
 use App\Http\Controllers\ProjectstagesController;
 use App\Http\Controllers\SkrillPaymentController;
 use App\Http\Controllers\StripePaymentController;
@@ -1245,6 +1246,22 @@ Route::group(
         Route::post('requisition/changeaction', [RequisitionController::class, 'changeaction'])->name('requisition.changeaction')->middleware(['auth', 'XSS']);
 
         Route::get('requisition-approval', [RequisitionController::class, 'approval'])->name('requisition-approval');
+
+        // Staff Leave
+
+        Route::get('staff_leave', [StaffLeaveController::class, 'index'])->name('staff_leave.index');
+        Route::get('staff_leave/create', [StaffLeaveController::class, 'create'])->name('staff_leave.create');
+        Route::post('staff_leave/store', [StaffLeaveController::class, 'store'])->name('staff_leave.store');
+        Route::get('staff_leave/edit/{id}', [StaffLeaveController::class, 'edit'])->name('staff_leave.edit');
+        Route::put('staff_leave/update/{id}', [StaffLeaveController::class, 'update'])->name('staff_leave.update');
+        Route::delete('staff_leave/{id}', [StaffLeaveController::class, 'destroy'])->name('staff_leave.destroy');
+
+
+        Route::get('staff_leave/{id}/action', [StaffLeaveController::class, 'action'])->name('staff_leave.action')->middleware(['auth', 'XSS']);
+        Route::get('staff_leave/{id}/view', [StaffLeaveController::class, 'view'])->name('staff_leave.view')->middleware(['auth', 'XSS']);
+        Route::post('staff_leave/changeaction', [StaffLeaveController::class, 'changeaction'])->name('staff_leave.changeaction')->middleware(['auth', 'XSS']);
+
+        Route::get('staff_leave-approval', [StaffLeaveController::class, 'approval'])->name('staff_leave-approval');
     }
 );
 Route::resource('competencies', CompetenciesController::class)->middleware(['auth', 'XSS']);
