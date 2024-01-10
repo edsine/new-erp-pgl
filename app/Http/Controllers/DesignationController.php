@@ -27,7 +27,7 @@ class DesignationController extends Controller
     {
         if(\Auth::user()->can('create designation'))
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $departments = Department::get();
             $departments = $departments->pluck('name', 'id');
 
             return view('designation.create', compact('departments'));

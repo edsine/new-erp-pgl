@@ -24,16 +24,16 @@ class PaymentController extends Controller
     public function index(Request $request)
     {
         if (\Auth::user()->can('manage payment')) {
-            $vender = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $vender = Vender::get()->pluck('name', 'id');
             $vender->prepend('Select Vendor', '');
 
-            $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('Select Client', '');
 
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::get()->pluck('name', 'id');
             $departments->prepend('Select Department', '');
 
-            $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
+            $account = BankAccount::get()->pluck('holder_name', 'id');
             $account->prepend('Select Bank Account', '');
 
             $category = ChartOfAccount::get()->pluck('name', 'id');
@@ -86,9 +86,9 @@ class PaymentController extends Controller
     public function create()
     {
         if (\Auth::user()->can('create payment')) {
-            $venders = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $venders = Vender::get()->pluck('name', 'id');
             $venders->prepend('--', 0);
-            $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
             $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
@@ -103,7 +103,7 @@ class PaymentController extends Controller
             $chart_of_accounts->prepend('--', '');
             $departments = Department::get()->pluck('name', 'id');
             $departments->prepend('--', 0);
-            $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 2)->get()->pluck('name', 'id');
+            $categories = ProductServiceCategory::where('type', '=', 2)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             return view('payment.create', compact('venders', 'categories', 'accounts', 'customers', 'departments', 'chart_of_accounts'));
@@ -270,9 +270,9 @@ class PaymentController extends Controller
     {
 
         if (\Auth::user()->can('edit payment')) {
-            $venders = Vender::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $venders = Vender::get()->pluck('name', 'id');
             $venders->prepend('--', 0);
-            $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
             $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
@@ -287,7 +287,7 @@ class PaymentController extends Controller
             $chart_of_accounts->prepend('--', '');
             $departments = Department::get()->pluck('name', 'id');
             $departments->prepend('--', 0);
-            $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->get()->where('type', '=', 2)->pluck('name', 'id');
+            $categories = ProductServiceCategory::get()->where('type', '=', 2)->pluck('name', 'id');
 
             $accounts = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
@@ -478,7 +478,7 @@ class PaymentController extends Controller
 
     function journalNumber()
     {
-        $latest = JournalEntry::where('created_by', '=', \Auth::user()->creatorId())->latest()->first();
+        $latest = JournalEntry::latest()->first();
         if (!$latest) {
             return 1;
         }

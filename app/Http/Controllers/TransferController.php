@@ -40,9 +40,9 @@ class TransferController extends Controller
     {
         if(\Auth::user()->can('create transfer'))
         {
-            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $branches    = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employees   = Employee::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::get()->pluck('name', 'id');
+            $branches    = Branch::get()->pluck('name', 'id');
+            $employees   = Employee::get()->pluck('name', 'id');
 
             return view('transfer.create', compact('employees', 'departments', 'branches'));
         }
@@ -124,9 +124,9 @@ class TransferController extends Controller
     {
         if(\Auth::user()->can('edit transfer'))
         {
-            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $branches    = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employees   = Employee::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::get()->pluck('name', 'id');
+            $branches    = Branch::get()->pluck('name', 'id');
+            $employees   = Employee::get()->pluck('name', 'id');
             if($transfer->created_by == \Auth::user()->creatorId())
             {
                 return view('transfer.edit', compact('transfer', 'employees', 'departments', 'branches'));

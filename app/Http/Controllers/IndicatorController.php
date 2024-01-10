@@ -37,9 +37,9 @@ class IndicatorController extends Controller
 
     public function create()
     {
-        $brances     = Branch::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $brances     = Branch::get()->pluck('name', 'id');
         $performance     = PerformanceType::where('created_by', '=', \Auth::user()->creatorId())->get();
-        $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $departments = Department::get()->pluck('name', 'id');
         $departments->prepend('Select Department', '');
         return view('indicator.create', compact( 'brances', 'departments','performance'));
     }
@@ -107,8 +107,8 @@ class IndicatorController extends Controller
         {
 
             $performance     = PerformanceType::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $brances        = Branch::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments    = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $brances        = Branch::get()->pluck('name', 'id');
+            $departments    = Department::get()->pluck('name', 'id');
             $departments->prepend('Select Department', '');
 
             $ratings = json_decode($indicator->rating,true);
