@@ -32,19 +32,19 @@ class LeaveController extends Controller
             // else
             // {
             //     $leaves = Leave::orderBy('created_at', 'DESC')->get();
-        
+
             // }
             if((\Auth::user()->type == 'admin') || (\Auth::user()->type == 'HR') || (\Auth::user()->type == 'company'))
             {
                 $leaves = Leave::orderBy('created_at', 'DESC')->get();
-                
+
             }
             else
             {
                 $user     = \Auth::user();
                 $employee = Employee::where('user_id', '=', $user->id)->first();
                 $leaves   = Leave::where('employee_id', '=', $employee->id)->get();
-        
+
             }
 
             return view('leave.index', compact('leaves'));
@@ -89,7 +89,7 @@ class LeaveController extends Controller
                                    'start_date' => 'required',
                                    'end_date' => 'required',
                                    'leave_reason' => 'required',
-                                   
+
                                ]
             );
             if($validator->fails())
@@ -144,7 +144,7 @@ class LeaveController extends Controller
 
             if($leave->created_by == \Auth::user()->id || \Auth::user()->type == 'admin' || \Auth::user()->type == 'HR')
             {
-               
+
                 $employees  = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
                 $leavetypes = LeaveType::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('title', 'id');
                 return view('leave.edit', compact('leave', 'employees', 'leavetypes'));
@@ -190,7 +190,7 @@ class LeaveController extends Controller
                 $leave->total_leave_days = 0;
                 $leave->leave_reason     = $request->leave_reason;
                 $leave->remark           = $request->remark;
-                $leave->reliever_id = $request->reliever_id;
+                $leave->reliever_id      = $request->reliever_id;
 
                 $leave->save();
 
