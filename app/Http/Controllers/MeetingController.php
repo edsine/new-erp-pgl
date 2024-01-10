@@ -54,9 +54,9 @@ class MeetingController extends Controller
             }
             else
             {
-                $branch      = Branch::where('created_by', '=', \Auth::user()->creatorId())->get();
+                $branch      = Branch::get();
                 $departments = Department::where('created_by', '=', Auth::user()->creatorId())->get();
-                $employees   = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+                $employees   = Employee::get()->pluck('name', 'id');
                 $settings = Utility::settings();
             }
 
@@ -172,7 +172,7 @@ class MeetingController extends Controller
             {
                 if(Auth::user()->type == 'employee')
                 {
-                    $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->where('user_id', '!=', Auth::user()->id)->get()->pluck('name', 'id');
+                    $employees = Employee::where('user_id', '!=', Auth::user()->id)->get()->pluck('name', 'id');
                 }
                 else
                 {
@@ -258,11 +258,11 @@ class MeetingController extends Controller
 
         if($request->branch_id == 0)
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
+            $departments = Department::get()->pluck('name', 'id')->toArray();
         }
         else
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
+            $departments = Department::where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
         }
 
         return response()->json($departments);
@@ -272,11 +272,11 @@ class MeetingController extends Controller
     {
         if(in_array('0', $request->department_id))
         {
-            $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
+            $employees = Employee::get()->pluck('name', 'id')->toArray();
         }
         else
         {
-            $employees = Employee::where('created_by', '=', \Auth::user()->creatorId())->whereIn('department_id', $request->department_id)->get()->pluck('name', 'id')->toArray();
+            $employees = Employee::whereIn('department_id', $request->department_id)->get()->pluck('name', 'id')->toArray();
         }
 
         return response()->json($employees);

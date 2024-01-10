@@ -63,10 +63,10 @@ class EmployeeController extends Controller
         {
             $company_settings = Utility::settings();
             $documents        = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments      = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $designations     = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
+            $branches         = Branch::get()->pluck('name', 'id');
+            $departments      = Department::get()->pluck('name', 'id');
+            $designations     = Designation::get()->pluck('name', 'id');
+            $employees        = User::get();
             $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
             return view('employee.create', compact('employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));
@@ -223,14 +223,13 @@ class EmployeeController extends Controller
         if(\Auth::user()->can('edit employee'))
         {
             $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+        $branches     = Branch::get()->pluck('name', 'id');
             $branches->prepend('Select Branch','');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments  = Department::get()->pluck('name', 'id');
+            $designations = Designation::get()->pluck('name', 'id');
             $employee     = Employee::find($id);
             $employeesId  = \Auth::user()->employeeIdFormat(!empty($employee->employee_id) ? $employee->employee_id :'');
-            $departmentData  = Department::where('created_by', \Auth::user()->creatorId())->where('branch_id',$employee->branch_id)->get()->pluck('name', 'id');
-
+            $departmentData  = Department::where('branch_id',$employee->branch_id)->get()->pluck('name', 'id');
 
             return view('employee.edit', compact('employee', 'employeesId', 'branches', 'departments', 'designations', 'documents','departmentData'));
         }
@@ -249,7 +248,7 @@ class EmployeeController extends Controller
                 $request->all(), [
                                    'name' => 'required',
                                    'dob' => 'required',
-                                   
+
 //                                   'document.*' => 'mimes:jpeg,png,jpg,gif,svg,pdf,doc,zip|max:20480',
                                ]
             );
@@ -382,10 +381,10 @@ class EmployeeController extends Controller
         {
             $empId        = Crypt::decrypt($id);
             $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $branches     = Branch::get()->pluck('name', 'id');
             $branches->prepend('Select Branch','');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments  = Department::get()->pluck('name', 'id');
+            $designations = Designation::get()->pluck('name', 'id');
 
             $employee     = Employee::where('id',$empId)->first();
 
@@ -437,13 +436,13 @@ class EmployeeController extends Controller
             }
             $employees = $employees->get();
 
-            $brances = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $brances = Branch::get()->pluck('name', 'id');
             $brances->prepend('All', '');
 
-            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments = Department::get()->pluck('name', 'id');
             $departments->prepend('All', '');
 
-            $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $designations = Designation::get()->pluck('name', 'id');
             $designations->prepend('All', '');
 
             return view('employee.profile', compact('employees', 'departments', 'designations', 'brances'));
@@ -461,9 +460,9 @@ class EmployeeController extends Controller
         {
             $empId        = Crypt::decrypt($id);
             $documents    = Document::where('created_by', \Auth::user()->creatorId())->get();
-            $branches     = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $departments  = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $designations = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $branches     = Branch::get()->pluck('name', 'id');
+            $departments  = Department::get()->pluck('name', 'id');
+            $designations = Designation::get()->pluck('name', 'id');
             $employee     = Employee::find($empId);
             $employeesId  = \Auth::user()->employeeIdFormat($employee->employee_id);
 
@@ -494,11 +493,11 @@ class EmployeeController extends Controller
 
         if($request->branch_id == 0)
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
+            $departments = Department::get()->pluck('name', 'id')->toArray();
         }
         else
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
+            $departments = Department::where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
         }
 
         return response()->json($departments);

@@ -52,9 +52,9 @@ class EventController extends Controller
     {
         if(\Auth::user()->can('create event'))
         {
-            $employees   = Employee::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-            $branch      = Branch::where('created_by', '=', \Auth::user()->creatorId())->get();
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $employees   = Employee::get()->pluck('name', 'id');
+            $branch      = Branch::get();
+            $departments = Department::get();
             $settings = Utility::settings();
 
 
@@ -245,11 +245,11 @@ class EventController extends Controller
 
         if($request->branch_id == 0)
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id')->toArray();
+            $departments = Department::get()->pluck('name', 'id')->toArray();
         }
         else
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
+            $departments = Department::where('branch_id', $request->branch_id)->get()->pluck('name', 'id')->toArray();
         }
 
         return response()->json($departments);
