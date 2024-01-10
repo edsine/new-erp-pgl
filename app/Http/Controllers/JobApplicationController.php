@@ -491,10 +491,10 @@ class JobApplicationController extends Controller
         $jobOnBoard       = JobOnBoard::find($id);
         $company_settings = Utility::settings();
         $documents        = Document::where('created_by', \Auth::user()->creatorId())->get();
-        $branches         = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $departments      = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $designations     = Designation::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
-        $employees        = User::where('created_by', \Auth::user()->creatorId())->get();
+        $branches         = Branch::get()->pluck('name', 'id');
+        $departments      = Department::get()->pluck('name', 'id');
+        $designations     = Designation::get()->pluck('name', 'id');
+        $employees        = User::get();
         $employeesId      = \Auth::user()->employeeIdFormat($this->employeeNumber());
 
         return view('jobApplication.convert', compact('jobOnBoard', 'employees', 'employeesId', 'departments', 'designations', 'documents', 'branches', 'company_settings'));

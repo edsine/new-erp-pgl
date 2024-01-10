@@ -12,7 +12,7 @@ class DepartmentController extends Controller
     {
         if(\Auth::user()->can('manage department'))
         {
-            $departments = Department::where('created_by', '=', \Auth::user()->creatorId())->get();
+            $departments = Department::get();
 
             return view('department.index', compact('departments'));
         }

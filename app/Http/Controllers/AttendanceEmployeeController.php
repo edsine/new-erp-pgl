@@ -20,10 +20,10 @@ class AttendanceEmployeeController extends Controller
         if(\Auth::user()->can('manage attendance'))
         {
 
-            $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $branch = Branch::get()->pluck('name', 'id');
             $branch->prepend('Select Branch', '');
 
-            $department = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $department = Department::get()->pluck('name', 'id');
             $department->prepend('Select Department', '');
 
             if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company' && \Auth::user()->type != 'HR')
@@ -286,7 +286,7 @@ class AttendanceEmployeeController extends Controller
                 }
 
                 //                $attendanceEmployee                = AttendanceEmployee::find($id);
-                
+
                 $attendanceEmployee['clock_out']     = $time;
                 $attendanceEmployee['early_leaving'] = $earlyLeaving;
                 $attendanceEmployee['overtime']      = $overtime;
@@ -455,20 +455,20 @@ class AttendanceEmployeeController extends Controller
         if(\Auth::user()->can('create attendance'))
         {
 
-            $branch = Branch::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $branch = Branch::get()->pluck('name', 'id');
             $branch->prepend('Select Branch', '');
 
-            $department = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $department = Department::get()->pluck('name', 'id');
             $department->prepend('Select Department', '');
 
             $employees = [];
             if(!empty($request->branch) && !empty($request->department))
             {
-                $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('branch_id', $request->branch)->where('department_id', $request->department)->get();
+                $employees = Employee::where('branch_id', $request->branch)->where('department_id', $request->department)->get();
 
 
             }else{
-                $employees = Employee::where('created_by', \Auth::user()->creatorId())->where('branch_id', 1)->where('department_id',1)->get();
+                $employees = Employee::where('branch_id', 1)->where('department_id',1)->get();
             }
 
 

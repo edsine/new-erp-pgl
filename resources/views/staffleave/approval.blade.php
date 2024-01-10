@@ -69,7 +69,7 @@
                                         <td>
                                             <div class="action-btn bg-info ms-2">
                                                 <a href="#"
-                                                    data-url="{{ URL::to('staff_leave/' . $leave->id . '/view') }}"
+                                                    data-url="{{ URL::to('staff_leave/' . $leave->id . '/action') }}"
                                                     data-size="lg" data-ajax-popup="true"
                                                     data-title="{{ __('Leave Action') }}"
                                                     class="mx-3 btn btn-sm  align-items-center" data-bs-toggle="tooltip"

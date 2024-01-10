@@ -1,4 +1,4 @@
-{{ Form::open(['url' => 'requisition/changeaction', 'method' => 'post']) }}
+{{ Form::open(['url' => 'staff_leave/changeaction', 'method' => 'post']) }}
 <div class="modal-body">
     <div class="row">
         <div class="col-12">
@@ -64,121 +64,98 @@
         <div class="col-12">
             <h5 class=" d-inline-block mb-4">{{ __('Leave Approval') }}</h5>
             <div class="card-body table-border-style mt-2">
-                <tfoot>
-
-                    @if ($leave->hod_approval == 'Pending')
-                        <tr>
-                            @can('manage hod remark')
-                                <td>
-
-                                    <div>
-                                        <div class="form-group">
-                                            {{ Form::label('hod_remark', __('HOD Remark'), ['class' => 'form-label']) }}
-                                            {!! Form::text('hod_remark', '', ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-
-                                </td>
-                            @endcan
-                        </tr>
-                    @endif
-                    @if ($leave->hod_approval == 'Approved' && $leave->admin_approval == 'Pending')
-                        <tr>
-                            <td>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
-                                            {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
-                                        </div>
-                                    </div>
-                                    @can('manage admin remark')
-                                        <div class="col-md-12">
-                                            <div class="form-group">
-                                                {{ Form::label('admin_remark', __('Admin Remark'), ['class' => 'form-label']) }}
-                                                {!! Form::text('admin_remark', '', ['class' => 'form-control']) !!}
-                                            </div>
-                                        </div>
-                                    @endcan
-                                </div>
-                            </td>
-                        </tr>
-                    @endif
-                    @if (
-                        $leave->hod_approval == 'Approved' &&
-                            $leave->admin_approval == 'Approved' &&
-                            $leave->chairman_approval == 'Pending')
-                        <tr>
-                            <td>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
-                                        {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
-                                        {!! Form::textarea('admin_remark', $leave->admin_remark, ['class' => 'form-control', 'readonly']) !!}
-                                    </div>
-                                </div>
-                                @can('manage chairman remark')
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            {{ Form::label('chairman_remark', __('Chairman Remark'), ['class' => 'form-label']) }}
-                                            {!! Form::text('chairman_remark', '', ['class' => 'form-control']) !!}
-                                        </div>
-                                    </div>
-                                @endcan
-                            </td>
-                        </tr>
-                    @endif
-                    @if (
-                        $leave->hod_approval == 'Approved' &&
-                            $leave->admin_approval == 'Approved' &&
-                            $leave->chairman_approval == 'Approved')
-                        <tr>
-                            <td>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
-                                        {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
-                                        {!! Form::textarea('admin_remark', $leave->admin_remark, ['class' => 'form-control', 'readonly']) !!}
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        {{ Form::label('chairman_remark', __('Chairman Remark'), ['class' => 'form-label']) }}
-                                        {!! Form::textarea('chairman_remark', $leave->chairman_remark, ['class' => 'form-control', 'readonly']) !!}
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    @endif
-                    <tr>
+                @if ($leave->hod_approval == 'Pending')
+                    @can('manage hod remark')
                         <td>
-                            <strong>{{ __('HOD Approval: ') }}</strong>
-                            {{ $leave->hod_approval }}
+
+                            <div>
+                                <div class="form-group">
+                                    {{ Form::label('hod_remark', __('HOD Remark'), ['class' => 'form-label']) }}
+                                    {!! Form::textarea('hod_remark', '', ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
+
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>{{ __('Admin Approval: ') }}</strong>
-                            {{ $leave->admin_approval }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>{{ __('Chairman Approval: ') }}</strong>
-                            {{ $leave->chairman_approval }}
-                        </td>
-                    </tr>
-                </tfoot>
+                    @endcan
+                @endif
+                @if ($leave->hod_approval == 'Approved' && $leave->admin_approval == 'Pending')
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
+                                {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
+                            </div>
+                        </div>
+                        @can('manage admin remark')
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {{ Form::label('admin_remark', __('Admin Remark'), ['class' => 'form-label']) }}
+                                    {!! Form::textarea('admin_remark', '', ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
+                        @endcan
+                    </div>
+                @endif
+                @if (
+                    $leave->hod_approval == 'Approved' &&
+                        $leave->admin_approval == 'Approved' &&
+                        $leave->chairman_approval == 'Pending')
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
+                            {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                            {!! Form::textarea('admin_remark', $leave->admin_remark, ['class' => 'form-control', 'readonly']) !!}
+                        </div>
+                    </div>
+                    @can('manage chairman remark')
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ Form::label('chairman_remark', __('Chairman Remark'), ['class' => 'form-label']) }}
+                                {!! Form::textarea('chairman_remark', '', ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+                    @endcan
+                @endif
+                @if (
+                    $leave->hod_approval == 'Approved' &&
+                        $leave->admin_approval == 'Approved' &&
+                        $leave->chairman_approval == 'Approved')
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
+                            {!! Form::textarea('hod_remark', $leave->hod_remark, ['class' => 'form-control', 'readonly']) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                            {!! Form::textarea('admin_remark', $leave->admin_remark, ['class' => 'form-control', 'readonly']) !!}
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {{ Form::label('chairman_remark', __('Chairman Remark'), ['class' => 'form-label']) }}
+                            {!! Form::textarea('chairman_remark', $leave->chairman_remark, ['class' => 'form-control', 'readonly']) !!}
+                        </div>
+                    </div>
+                @endif
+                <div class="col-md-12">
+                    <strong>{{ __('HOD Approval: ') }}</strong>
+                    {{ $leave->hod_approval }}
+                </div>
+                <div class="col-md-12">
+                    <strong>{{ __('Admin Approval: ') }}</strong>
+                    {{ $leave->admin_approval }}
+                </div>
+                <div class="col-md-12">
+                    <strong>{{ __('Chairman Approval: ') }}</strong>
+                    {{ $leave->chairman_approval }}
+                </div>
                 <input type="hidden" value="{{ $leave->id }}" name="leave_id">
             </div>
         </div>
