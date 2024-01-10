@@ -112,6 +112,31 @@ class StaffLeaveController extends Controller
         $leave->leave_reason    = $request->leave_reason;
         $leave->created_by       = \Auth::user()->id;
 
+
+        // Check if number of days correspond to leave type days
+        $startDate = new \DateTime($request->start_date);
+        $endDate = new \DateTime($request->end_date);
+
+        $total_leave_days = 0;
+
+        // Iterate through each day between start and end dates
+        $interval = new \DateInterval('P1D');
+        $period = new \DatePeriod($startDate, $interval, $endDate->modify('+1 day'));
+
+        foreach ($period as $day) {
+            // Check if the day is not Saturday (6) or Sunday (0)
+            if ($day->format('N') < 6) {
+                $total_leave_days++;
+            }
+        }
+
+        $leave_type = LeaveType::findorFail($request->leave_type_id);
+        $leave_type_days = $leave_type->days;
+
+        if ($total_leave_days != $leave_type_days) {
+            return response()->json(['error' => __('Number of days selected should correspond with leave type.')], 401);
+        }
+
         $leave->save();
 
 
@@ -203,11 +228,19 @@ class StaffLeaveController extends Controller
             }
         }
 
-
         $leave->total_leave_days = $total_leave_days;
 
         $leave->leave_reason    = $request->leave_reason;
         $leave->created_by       = \Auth::user()->id;
+
+
+        // Check if number of days correspond to leave type days
+        $leave_type = LeaveType::findorFail($request->leave_type_id);
+        $leave_type_days = $leave_type->days;
+
+        if ($total_leave_days != $leave_type_days) {
+            return response()->json(['error' => __('Number of days selected should correspond with leave type.')], 401);
+        }
 
         $leave->save();
 
