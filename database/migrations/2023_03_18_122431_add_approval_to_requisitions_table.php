@@ -32,7 +32,12 @@ return new class extends Migration
     public function down()
     {
         Schema::table('requisitions', function (Blueprint $table) {
-            //
+            $table->dropColumn('hod_approval');
+            $table->dropColumn('admin_approval');
+            $table->dropColumn('chairman_approval');
+            $table->dropColumn('hod_remark');
+            $table->dropColumn('admin_remark');
+            $table->dropColumn('chairman_remark');
         });
     }
 };

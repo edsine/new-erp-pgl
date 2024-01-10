@@ -1,7 +1,7 @@
 @php
     // $logo=asset(Storage::url('uploads/logo/'));
     $logo = \App\Models\Utility::get_file('uploads/logo/');
-    
+
     $company_logo = Utility::getValByName('company_logo_dark');
     $company_logos = Utility::getValByName('company_logo_light');
     $setting = \App\Models\Utility::colorset();
@@ -1227,6 +1227,14 @@
                                 class="dash-mtext">{{ __('Requisition Manager') }}</span>
                         </a>
                     </li>
+
+                    <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'staff_leave' ? 'active' : '' }}">
+                        <a href="{{ route('staff_leave.index') }}" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-file"></i></span><span
+                                class="dash-mtext">{{ __('Leave Manager') }}</span>
+                        </a>
+                    </li>
+
                     @can('manage document')
                         <li
                             class="dash-item dash-hasmenu {{ Request::segment(1) == 'document-upload' ? 'active' : '' }}">
