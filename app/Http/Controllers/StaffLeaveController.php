@@ -28,6 +28,10 @@ class StaffLeaveController extends Controller
 
         $query = Leave::where('created_by', '=', \Auth::user()->id);
 
+        if (isset($employee)) {
+            $query->orWhere('employee_id', $employee->id);
+        }
+
         $staff_leaves = $query->get();
 
         return view('staffleave.index', compact('staff_leaves'));
@@ -46,7 +50,7 @@ class StaffLeaveController extends Controller
                     if (isset($department)) {
                         $query = Leave::where('department_id', '=', $employee->department->id);
                     } else {
-                        return response()->json(['error' => __('Contact Administrator to complete HRM setup.')], 401);
+                        return redirect()->back()->with('error', __('Contact Administrator to complete HRM setup.'));
                     }
                 } else if (\Auth::user()->can('manage admin approval')) {
                     $query = Leave::where('hod_approval', 'Approved');
@@ -160,15 +164,15 @@ class StaffLeaveController extends Controller
 
         if (\Auth::user()->can('manage hod approval')) {
             if ($leave->admin_approval == "Approved") {
-                return response()->json(['error' => __('Cannot edit leave request.')], 401);
+                return redirect()->back()->with('error', __('Cannot edit leave request.'));
             }
         } else if (\Auth::user()->can('manage admin approval')) {
             if ($leave->chairman_approval == "Approved") {
-                return response()->json(['error' => __('Cannot edit leave request.')], 401);
+                return redirect()->back()->with('error', __('Cannot edit leave request.'));
             }
         } else if (!\Auth::user()->can('manage hod approval') && !\Auth::user()->can('manage admin approval') && !\Auth::user()->can('manage chairman approval')) {
             if ($leave->hod_approval == "Approved") {
-                return response()->json(['error' => __('Cannot edit leave request.')], 401);
+                return redirect()->back()->with('error', __('Cannot edit leave request.'));
             }
         }
 
@@ -257,6 +261,22 @@ class StaffLeaveController extends Controller
 
     public function destroy($id)
     {
+        $leave = Leave::find($id);
+
+        if (\Auth::user()->can('manage hod approval')) {
+            if ($leave->admin_approval == "Approved") {
+                return redirect()->back()->with('error', __('Cannot delete leave request.'));
+            }
+        } else if (\Auth::user()->can('manage admin approval')) {
+            if ($leave->chairman_approval == "Approved") {
+                return redirect()->back()->with('error', __('Cannot delete leave request.'));
+            }
+        } else if (!\Auth::user()->can('manage hod approval') && !\Auth::user()->can('manage admin approval') && !\Auth::user()->can('manage chairman approval')) {
+            if ($leave->hod_approval == "Approved") {
+                return redirect()->back()->with('error', __('Cannot delete leave request.'));
+            }
+        }
+
         $leave = Leave::find($id);
 
         $leave->delete();
