@@ -326,20 +326,13 @@
                                         </li>
                                     @endif
 
-                                    @if (Gate::check('manage leave') || Gate::check('manage attendance'))
+                                    @if (Gate::check('manage attendance'))
                                         <li
                                             class="dash-item dash-hasmenu  {{ Request::segment(1) == 'leave' || Request::segment(1) == 'attendanceemployee' ? 'active dash-trigger' : '' }}">
                                             <a class="dash-link"
-                                                href="#">{{ __('Leave & Attendance Management') }}<span
+                                                href="#">{{ __('Attendance Management') }}<span
                                                     class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                                             <ul class="dash-submenu">
-                                                @can('manage leave')
-                                                    <li
-                                                        class="dash-item {{ Request::route()->getName() == 'leave.index' ? 'active' : '' }}">
-                                                        <a class="dash-link"
-                                                            href="{{ route('leave.index') }}">{{ __('Manage Leave') }}</a>
-                                                    </li>
-                                                @endcan
                                                 @can('manage attendance')
                                                     <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'attendanceemployee' ? 'active dash-trigger' : '' }}"
                                                         href="#navbar-attendance" data-toggle="collapse" role="button"
@@ -1206,6 +1199,14 @@
                                     class="dash-item {{ Request::segment(1) == 'requisition-approval' ? 'active' : '' }}">
                                     <a href="{{ route('requisition-approval') }}"
                                         class="dash-link">{{ __('Requisition') }}
+                                    </a>
+                                </li>
+                                @endif
+                                @if (Gate::check('manage leave'))
+                                <li
+                                    class="dash-item {{ Request::segment(1) == 'staff_leave-approval' ? 'active' : '' }}">
+                                    <a href="{{ route('staff_leave-approval') }}"
+                                        class="dash-link">{{ __('Leave') }}
                                     </a>
                                 </li>
                                 @endif
