@@ -208,6 +208,7 @@
                                     </td>
                                 </tr>
                             @endif
+
                             <tr>
                                 <td>
                                     <strong>{{ __('HOD Approval: ') }}</strong>
@@ -234,6 +235,52 @@
         </div>
     </div>
 </div>
+
+@if (
+    $requisition->hod_approval == 'Approved' &&
+        $requisition->admin_approval == 'Approved' &&
+        $requisition->chairman_approval == 'Approved' &&
+        $requisition->payment_status !== 'Paid')
+    @can('manage payment status')
+        <div class="form-group row col-md-12 p-5">
+            <div class="form-group col-md-6">
+                {{ Form::label('expense_type', __('Expense Type'), ['class' => 'form-label']) }}
+                {{ Form::select('expense_type', ['' => 'Select...', '1' => 'Project', '2' => 'Admin'], null, ['class' => 'form-control select', 'required' => 'required', 'id' => 'expense_type']) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ Form::label('account_id', __('Account'), ['class' => 'form-label']) }}
+                {{ Form::select('account_id', $accounts, null, ['class' => 'form-control select', 'required' => 'required']) }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ Form::label('vender_id', __('Vendor'), ['class' => 'form-label']) }}
+                {{ Form::select('vender_id', $venders, null, ['class' => 'form-control select', 'required' => 'required']) }}
+            </div>
+            <div id="client_dropdown" class="form-group col-md-6 d-none">
+                {{ Form::label('client_id', __('Customer'), ['class' => 'form-label']) }}
+                {{ Form::select('client_id', $customers, null, ['class' => 'form-control select', 'id' => 'client_id']) }}
+            </div>
+            <div id="project_dropdown" class="form-group col-md-6 d-none">
+                {{ Form::label('project_id', __('Project'), ['class' => 'form-label']) }}
+                {{ Form::select('project_id', ['' => 'Select...'], null, ['class' => 'form-control select', 'id' => 'project_id']) }}
+            </div>
+            <div id="department_dropdown" class="form-group col-md-6 d-none">
+                {{ Form::label('department_id', __('Department'), ['class' => 'form-label']) }}
+                {{ Form::select('department_id', $departments, null, ['class' => 'form-control select', 'id' => 'department_id']) }}
+            </div>
+            <div class="form-group row">
+                <div id="expense_head_debit" class="form-group col-md-6">
+                    {{ Form::label('expense_head_debit', __('Expense Head (Debit)'), ['class' => 'form-label']) }}
+                    {{ Form::select('expense_head_debit', $chart_of_accounts, null, ['class' => 'form-control select', 'required', 'id' => 'expense_head_debit']) }}
+                </div>
+                <div id="expense_head_credit" class="form-group col-md-6">
+                    {{ Form::label('expense_head_credit', __('Expense Head (Credit)'), ['class' => 'form-label']) }}
+                    {{ Form::select('expense_head_credit', $chart_of_accounts, null, ['class' => 'form-control select', 'required', 'id' => 'expense_head_credit']) }}
+                </div>
+            </div>
+        </div>
+    @endcan
+@endif
+
 @if ($requisition->hod_approval == 'Pending')
     @can('manage hod approval')
         <div class="modal-footer">
@@ -277,3 +324,45 @@
     @endcan
 @endif
 {{ Form::close() }}
+
+
+<script>
+    document.getElementById('client_id').onchange = function() {
+        var clientId = $(this).val();
+        console.log(clientId);
+        $.ajax({
+            url: '{{ route('customer.projects') }}',
+            type: 'POST',
+            data: {
+                "client_id": clientId,
+                "_token": "{{ csrf_token() }}",
+            },
+            success: function(data) {
+                console.log(data);
+                $('#project_id').empty();
+                $.each(data, function(key, value) {
+                    $('#project_id').append('<option value="' + key + '">' + value +
+                        '</option>');
+                });
+            }
+        });
+    }
+
+    document.getElementById('expense_type').onchange = function() {
+        const value = this.value;
+
+        if (value == 1) {
+            document.getElementById('client_dropdown').classList.remove('d-none');
+            document.getElementById('project_dropdown').classList.remove('d-none');
+            document.getElementById('department_dropdown').classList.add('d-none');
+        } else if (value == 2) {
+            document.getElementById('client_dropdown').classList.add('d-none');
+            document.getElementById('project_dropdown').classList.add('d-none');
+            document.getElementById('department_dropdown').classList.remove('d-none');
+        } else {
+            document.getElementById('client_dropdown').classList.add('d-none');
+            document.getElementById('project_dropdown').classList.add('d-none');
+            document.getElementById('department_dropdown').classList.add('d-none');
+        }
+    }
+</script>
