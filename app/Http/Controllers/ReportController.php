@@ -1603,8 +1603,9 @@ class ReportController extends Controller
 
             $journalItem->where('journal_items.created_at', '>=', $start);
             $journalItem->where('journal_items.created_at', '<=', $end);
-            $journalItem->groupBy('account');
+            $journalItem->groupBy('account', 'chart_of_accounts.id');
             $journalItem = $journalItem->get()->toArray();
+
 
             $filter['startDateRange'] = $start;
             $filter['endDateRange']   = $end;
