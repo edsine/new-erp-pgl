@@ -22,7 +22,7 @@ class CreateProjectsTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('project_image')->nullable();
-            $table->integer('budget')->nullable();
+            $table->bigInteger('budget')->nullable();
             $table->integer('client_id');
             $table->text('description')->nullable();
             $table->string('status');
