@@ -12,7 +12,7 @@
         <div class="form-group col-md-6">
             {{ Form::label('project', __('Project'), ['class' => 'form-label']) }}
             <div class="project-div">
-                {{ Form::select('project', $project, null, ['class' => 'form-control  project_select', 'id' => 'project_id', 'name' => 'project_id']) }}
+                {{ Form::select('project', $project, null, ['class' => 'form-control  project_select', 'id' => 'project_id', 'name' => 'project_id','required'=>'required']) }}
             </div>
         </div>
 

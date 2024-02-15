@@ -23,11 +23,11 @@
         </div>
         <div class="col-12 form-group">
             {{ Form::label('sources', __('Sources'),['class'=>'form-label']) }}
-            {{ Form::select('sources[]', $sources,null, array('class' => 'form-control select2','multiple'=>'','id'=>'choices-multiple3','required'=>'required')) }}
+            {{ Form::select('sources[]', $sources,null, array('class' => 'form-control select2','multiple'=>'','id'=>'choices-multiple3')) }}
         </div>
         <div class="col-12 form-group">
             {{ Form::label('products', __('Products'),['class'=>'form-label']) }}
-            {{ Form::select('products[]', $products,null, array('class' => 'form-control select2','multiple'=>'','id'=>'choices-multiple4','required'=>'required')) }}
+            {{ Form::select('products[]', $products,null, array('class' => 'form-control select2','multiple'=>'','id'=>'choices-multiple4')) }}
         </div>
         <div class="col-12 form-group">
             {{ Form::label('notes', __('Notes'),['class'=>'form-label']) }}
