@@ -64,6 +64,7 @@
         <a class="navbar-brand bg-transparent" href="#">
             <img src="{{ $logo .'/logo-light.png' }}" alt="logo" width="40%"/>
         </a>
+        
         <button
             class="navbar-toggler"
             type="button"
