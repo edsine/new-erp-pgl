@@ -141,14 +141,7 @@ class DashboardController extends Controller
         }
         else
         {
-            if(!file_exists(storage_path() . "/installed"))
-            {
-                header('location:install');
-                die;
-            }
-            else
-            {
-                $settings = Utility::settings();
+            $settings = Utility::settings();
                 if($settings['display_landing_page'] == 'on')
                 {
                     return view('layouts.landing', compact('settings'));
@@ -157,8 +150,6 @@ class DashboardController extends Controller
                 {
                     return redirect('login');
                 }
-
-            }
         }
     }
 
