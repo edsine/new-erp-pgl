@@ -12,7 +12,7 @@ use App\Models\ProjectTask;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 
-class Project extends Model
+class ProjectProduct extends Model
 {
     protected $fillable=[
         'project_name',
@@ -29,7 +29,6 @@ class Project extends Model
         'created_by',
         'amount_paid',
         'project_type',
-        'project_product_type',
         'initial_journal_item_id'
     ];
 
