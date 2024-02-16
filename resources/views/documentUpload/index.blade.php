@@ -29,6 +29,8 @@
                     <table class="table datatable">
                             <thead>
                             <tr>
+                                <th>{{__('Name')}}</th>
+                                <th>{{__('Department')}}</th>
                                 <th>{{__('Title')}}</th>
                                 <th>{{__('Document')}}</th>
                                 <th>{{__('Role')}}</th>
@@ -45,6 +47,15 @@
                                        $roles = \Spatie\Permission\Models\Role::find($document->role);
                                 @endphp
                                 <tr>
+                                    <td>@if($document->user)
+                                        {{ $document->user->name }}
+                                        @endif
+                                    </td>
+<td>
+    @if($document->department)
+        {{ $document->department->name }}
+    @endif
+</td>
                                     <td>{{ $document->name }}</td>
                                     <td>
                                         @if (!empty($document->document))
