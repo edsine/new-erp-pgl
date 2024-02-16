@@ -694,7 +694,7 @@ class ProjectProductsController extends Controller
                 if (!empty($request->status)) {
                     $projects->whereIn('status', $request->status);
                 }
-                $projects   = $projects->get();
+                $projects   = $projects->where('project_product_type', 1)->get();
                 $returnHTML = view('product_projects.' . $request->view, compact('projects', 'user_projects'))->render();
 
                 return response()->json(
