@@ -90,7 +90,7 @@ class PaymentController extends Controller
             $venders->prepend('--', 0);
             $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 2000)
                 ->where('code', '!=', 2100)
@@ -274,7 +274,7 @@ class PaymentController extends Controller
             $venders->prepend('--', 0);
             $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 2000)
                 ->where('code', '!=', 2100)

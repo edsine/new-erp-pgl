@@ -1372,7 +1372,7 @@ class ReportController extends Controller
             if ($request->type == 'revenue' || !isset($request->type)) {
                 $reportData['revenues'] = $revenues->get();
 
-                $revenueAccounts->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                // $revenueAccounts->where('revenues.created_by', '=', \Auth::user()->creatorId());
                 $reportData['revenueAccounts'] = $revenueAccounts->get();
             }
 

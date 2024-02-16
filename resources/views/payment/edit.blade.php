@@ -23,15 +23,15 @@
         </div>
         <div id="client_dropdown" class="form-group col-md-6 d-none">
             {{ Form::label('client_id', __('Customer'), ['class' => 'form-label']) }}
-            {{ Form::select('client_id', $customers, null, ['class' => 'form-control select', 'required' => 'required', 'id' => 'client_id']) }}
+            {{ Form::select('client_id', $customers, null, ['class' => 'form-control select', 'id' => 'client_id']) }}
         </div>
         <div id="project_dropdown" class="form-group col-md-6 d-none">
             {{ Form::label('project_id', __('Project'), ['class' => 'form-label']) }}
-            {{ Form::select('project_id', ['' => 'Select...'], null, ['class' => 'form-control select', 'required' => 'required', 'id' => 'project_id']) }}
+            {{ Form::select('project_id', ['' => 'Select...'], null, ['class' => 'form-control select', 'id' => 'project_id']) }}
         </div>
         <div id="department_dropdown" class="form-group col-md-6 d-none">
             {{ Form::label('department_id', __('Department'), ['class' => 'form-label']) }}
-            {{ Form::select('department_id', $departments, null, ['class' => 'form-control select', 'required' => 'required', 'id' => 'department_id']) }}
+            {{ Form::select('department_id', $departments, null, ['class' => 'form-control select', 'id' => 'department_id']) }}
         </div>
         <div class="form-group row col-md-12">
             <div id="expense_head_debit" class="form-group col-md-6">

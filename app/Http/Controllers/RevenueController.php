@@ -67,7 +67,7 @@ class RevenueController extends Controller
         if (\Auth::user()->can('create revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 100)
                 ->get()
@@ -280,7 +280,7 @@ class RevenueController extends Controller
         if (\Auth::user()->can('edit revenue')) {
             $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $customers->prepend('--', 0);
-            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
+            $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 100)
                 ->get()
