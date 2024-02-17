@@ -28,7 +28,7 @@ use App\Models\ChartOfAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProjectProductsController extends Controller
+class ProjectIdeasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,7 +38,7 @@ class ProjectProductsController extends Controller
     public function index($view = 'grid')
     {
         if (\Auth::user()->can('manage project')) {
-            return view('product_projects.index', compact('view'));
+            return view('ideas_projects.index', compact('view'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -694,8 +694,8 @@ class ProjectProductsController extends Controller
                 if (!empty($request->status)) {
                     $projects->whereIn('status', $request->status);
                 }
-                $projects   = $projects->where('project_product_type', 1)->get();
-                $returnHTML = view('product_projects.' . $request->view, compact('projects', 'user_projects'))->render();
+                $projects   = $projects->where('project_product_type', 2)->get();
+                $returnHTML = view('ideas_projects.' . $request->view, compact('projects', 'user_projects'))->render();
 
                 return response()->json(
                     [

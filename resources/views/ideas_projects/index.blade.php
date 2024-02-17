@@ -1,22 +1,22 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{ __('Manage Products') }}
+    {{ __('Manage Ideas') }}
 @endsection
 @push('script-page')
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
-    <li class="breadcrumb-item">{{ __('Products') }}</li>
+    <li class="breadcrumb-item">{{ __('Ideas') }}</li>
 @endsection
 @section('action-btn')
     <div class="float-end">
         @if ($view == 'grid')
-            <a href="{{ route('project_products.list', 'list') }}" data-bs-toggle="tooltip" title="{{ __('List View') }}"
+            <a href="{{ route('project_ideas.list', 'list') }}" data-bs-toggle="tooltip" title="{{ __('List View') }}"
                 class="btn btn-sm btn-primary">
                 <i class="ti ti-list"></i>
             </a>
         @else
-            <a href="{{ route('project_products.index') }}" data-bs-toggle="tooltip" title="{{ __('Grid View') }}"
+            <a href="{{ route('project_ideas.index') }}" data-bs-toggle="tooltip" title="{{ __('Grid View') }}"
                 class="btn btn-sm btn-primary">
                 <i class="ti ti-layout-grid"></i>
             </a>
@@ -63,7 +63,7 @@
 
         @can('create project')
             <a href="#" data-size="lg" data-url="{{ route('projects.create') }}" data-ajax-popup="true"
-                data-bs-toggle="tooltip" title="{{ __('Create New Product') }}" class="btn btn-sm btn-primary">
+                data-bs-toggle="tooltip" title="{{ __('Create New Idea') }}" class="btn btn-sm btn-primary">
                 <i class="ti ti-plus"></i>
             </a>
         @endcan
@@ -157,7 +157,7 @@
             }
 
             currentRequest = $.ajax({
-                url: '{{ route('filter.project_products.view') }}',
+                url: '{{ route('filter.project_ideas.view') }}',
                 data: data,
                 beforeSend: function() {
                     if (currentRequest != null) {

@@ -64,7 +64,7 @@
             }
 
         }
- 
+
 
     </script>
     <script>
@@ -176,7 +176,7 @@
                                 <span class="input-group-text bg-transparent">{{\Auth::user()->currencySymbol()}}</span>
                             </div>
                         </td>
-                       
+
 
                         <td class="text-end amount">0.00</td>
                         <td>
@@ -185,7 +185,7 @@
                     </tr>
 
                     </tbody>
-                    
+
                     <tfoot>
                     <tr>
                         <td>
@@ -197,7 +197,7 @@
                                 </label>
                             </div>
                         </td>
-                       
+
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
