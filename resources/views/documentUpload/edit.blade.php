@@ -14,6 +14,21 @@
                 {{Form::select('role',$roles,null,array('class'=>'form-control select'))}}
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('user_id',__('Users'),['class'=>'form-label'])}}
+                {{Form::select('user_id',$users,null,array('class'=>'form-control select', ))}}
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                {{Form::label('department_id',__('Departments'),['class'=>'form-label'])}}
+                {{Form::select('department_id',$departments,null,array('class'=>'form-control select', ))}}
+            </div>
+        </div>
+        
         <div class="col-md-12">
             <div class="form-group">
                 {{ Form::label('description', __('Description'),['class'=>'form-label']) }}

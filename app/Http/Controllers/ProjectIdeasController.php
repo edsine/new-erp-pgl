@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\BugFile;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Models\ProjectProduct;
 use App\Models\Revenue;
 use App\Models\Utility;
 use App\Models\TaskFile;
@@ -27,7 +28,7 @@ use App\Models\ChartOfAccount;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
-class ProjectController extends Controller
+class ProjectIdeasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,7 +38,7 @@ class ProjectController extends Controller
     public function index($view = 'grid')
     {
         if (\Auth::user()->can('manage project')) {
-            return view('projects.index', compact('view'));
+            return view('ideas_projects.index', compact('view'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -55,7 +56,7 @@ class ProjectController extends Controller
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
             $clients->prepend('Select Client', '');
             $users->prepend('Select User', '');
-            return view('projects.create', compact('clients', 'users'));
+            return view('product_projects.create', compact('clients', 'users'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -93,10 +94,10 @@ class ProjectController extends Controller
             $project->client_id = $request->client;
             $project->budget = !empty($request->budget) ? $request->budget : 0;
             $project->project_type = $request->project_type;
+            $project->project_product_type = 1;
             $project->description = $request->description;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
-            $project->project_product_type = $request->project_product_type;
             $project->tags = $request->tag;
             $project->created_by = \Auth::user()->creatorId();
             $project->save();
@@ -147,39 +148,37 @@ class ProjectController extends Controller
             }
 
 
-            if ($project->project_product_type == 0) {
-                // Journal Entry
+            // Journal Entry
 
-                $journal              = new JournalEntry();
-                $journal->journal_id  = $this->journalNumber();
-                $journal->date        = now();
-                $journal->reference   = time();
-                $journal->description = "Project added";
-                $journal->created_by  = \Auth::user()->creatorId();
-                $journal->save();
+            $journal              = new JournalEntry();
+            $journal->journal_id  = $this->journalNumber();
+            $journal->date        = now();
+            $journal->reference   = time();
+            $journal->description = "Project added";
+            $journal->created_by  = \Auth::user()->creatorId();
+            $journal->save();
 
-                //Expense Head Debit
+            //Expense Head Debit
 
-                // Get 'Account Receivable Account'
-                $account = ChartOfAccount::where('code', 300)->first();
+            // Get 'Account Receivable Account'
+            $account = ChartOfAccount::where('code', 300)->first();
 
-                if ($account != null) {
-                    $journalItem              = new JournalItem();
-                    $journalItem->journal     = $journal->id;
-                    $journalItem->account     = $account->id;
-                    $journalItem->description = "Project added";
-                    $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
-                    $journalItem->credit      = 0;
-                    $journalItem->save();
+            if ($account != null) {
+                $journalItem              = new JournalItem();
+                $journalItem->journal     = $journal->id;
+                $journalItem->account     = $account->id;
+                $journalItem->description = "Project added";
+                $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
+                $journalItem->credit      = 0;
+                $journalItem->save();
 
-                    $project->initial_journal_item_id = $journalItem->id;
-                    $project->save();
-                }
-
-                //End expense Head Debit
-
-                //End Journal Entry
+                $project->initial_journal_item_id = $journalItem->id;
+                $project->save();
             }
+
+            //End expense Head Debit
+
+            //End Journal Entry
 
 
             //Slack Notification
@@ -196,7 +195,7 @@ class ProjectController extends Controller
                 Utility::send_telegram_msg($msg);
             }
 
-            return redirect()->route('projects.index')->with('success', __('Project Add Successfully'));
+            return redirect()->route('project_projects.index')->with('success', __('Product Add Successfully'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -215,9 +214,9 @@ class ProjectController extends Controller
 
             $usr           = Auth::user();
             if (\Auth::user()->type == 'client') {
-                $user_projects = Project::where('client_id', \Auth::user()->id)->pluck('id', 'id')->toArray();;
+                $user_projects = Project::where('project_product_type', 1)->where('client_id', \Auth::user()->id)->pluck('id', 'id')->toArray();;
             } else {
-                $user_projects = $usr->projects->pluck('id')->toArray();
+                $user_projects = $usr->projects->where('project_product_type', 1)->pluck('id')->toArray();
             }
             if (in_array($project->id, $user_projects)) {
                 $project_data = [];
@@ -357,7 +356,7 @@ class ProjectController extends Controller
                 // end chart
 
 
-                return view('projects.view', compact('project', 'project_data'));
+                return view('product_projects.view', compact('project', 'project_data'));
             } else {
                 return redirect()->back()->with('error', __('Permission Denied.'));
             }
@@ -378,11 +377,11 @@ class ProjectController extends Controller
             $clients = User::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 'client')->get()->pluck('name', 'id');
             $project = Project::findOrfail($project->id);
             if ($project->created_by == \Auth::user()->creatorId()) {
-                return view('projects.edit', compact('project', 'clients'));
+                return view('product_projects.edit', compact('project', 'clients'));
             } else {
                 return response()->json(['error' => __('Permission denied.')], 401);
             }
-            return view('projects.edit', compact('project'));
+            return view('product_projects.edit', compact('project'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -439,7 +438,7 @@ class ProjectController extends Controller
 
 
             //End expense Head Debit
-            return redirect()->route('projects.index')->with('success', __('Project Updated Successfully'));
+            return redirect()->route('product_projects.index')->with('success', __('Project Updated Successfully'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -486,7 +485,7 @@ class ProjectController extends Controller
         $arrUser      = array_unique($user_contact);
         $users        = User::whereIn('id', $arrUser)->get();
 
-        return view('projects.invite', compact('project_id', 'users'));
+        return view('product_projects.invite', compact('project_id', 'users'));
     }
 
     public function inviteProjectUserMember(Request $request)
@@ -541,7 +540,7 @@ class ProjectController extends Controller
     {
         if ($request->ajax()) {
             $project    = Project::find($request->project_id);
-            $returnHTML = view('projects.users', compact('project'))->render();
+            $returnHTML = view('product_projects.users', compact('project'))->render();
 
             return response()->json(
                 [
@@ -557,7 +556,7 @@ class ProjectController extends Controller
         if (\Auth::user()->can('create milestone')) {
             $project = Project::find($project_id);
 
-            return view('projects.milestone', compact('project'));
+            return view('product_projects.milestone', compact('project'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -612,7 +611,7 @@ class ProjectController extends Controller
         if (\Auth::user()->can('edit milestone')) {
             $milestone = Milestone::find($id);
 
-            return view('projects.milestoneEdit', compact('milestone'));
+            return view('product_projects.milestoneEdit', compact('milestone'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -669,7 +668,7 @@ class ProjectController extends Controller
         if (\Auth::user()->can('view milestone')) {
             $milestone = Milestone::find($id);
 
-            return view('projects.milestoneShow', compact('milestone'));
+            return view('product_projects.milestoneShow', compact('milestone'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -695,8 +694,8 @@ class ProjectController extends Controller
                 if (!empty($request->status)) {
                     $projects->whereIn('status', $request->status);
                 }
-                $projects   = $projects->where('project_product_type', 0)->get();
-                $returnHTML = view('projects.' . $request->view, compact('projects', 'user_projects'))->render();
+                $projects   = $projects->where('project_product_type', 2)->get();
+                $returnHTML = view('ideas_projects.' . $request->view, compact('projects', 'user_projects'))->render();
 
                 return response()->json(
                     [
@@ -737,7 +736,7 @@ class ProjectController extends Controller
                 }
             }
 
-            return view('projects.gantt', compact('project', 'tasks', 'duration'));
+            return view('product_projects.gantt', compact('project', 'tasks', 'duration'));
         } else {
             return redirect()->back()->with('error', __('Permission Denied.'));
         }
@@ -804,7 +803,7 @@ class ProjectController extends Controller
                     $bugs = Bug::where('project_id', '=', $project_id)->get();
                 }
 
-                return view('projects.bug', compact('project', 'bugs'));
+                return view('product_projects.bug', compact('project', 'bugs'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
@@ -831,7 +830,7 @@ class ProjectController extends Controller
                 $users[$key] = $user_name;
             }
 
-            return view('projects.bugCreate', compact('status', 'project_id', 'priority', 'users'));
+            return view('product_projects.bugCreate', compact('status', 'project_id', 'priority', 'users'));
         } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
@@ -921,7 +920,7 @@ class ProjectController extends Controller
                 $users[$key] = $user_name;
             }
 
-            return view('projects.bugEdit', compact('status', 'project_id', 'priority', 'users', 'bug'));
+            return view('product_projects.bugEdit', compact('status', 'project_id', 'priority', 'users', 'bug'));
         } else {
             return redirect()->back()->with('error', 'Permission denied.');
         }
@@ -994,7 +993,7 @@ class ProjectController extends Controller
                     $bugStatus = BugStatus::where('created_by', '=', Auth::user()->creatorId())->orderBy('order', 'ASC')->get();
                 }
 
-                return view('projects.bugKanban', compact('project', 'bugStatus'));
+                return view('product_projects.bugKanban', compact('project', 'bugStatus'));
             } else {
                 return redirect()->back()->with('error', __('Permission denied.'));
             }
@@ -1035,7 +1034,7 @@ class ProjectController extends Controller
     {
         $bug = Bug::find($bug_id);
 
-        return view('projects.bugShow', compact('bug'));
+        return view('product_projects.bugShow', compact('bug'));
     }
 
     public function bugCommentStore(Request $request, $project_id, $bug_id)
@@ -1149,7 +1148,7 @@ class ProjectController extends Controller
         if (Auth::user()->can('create project')) {
             $project = Project::find($id);
 
-            return view('projects.copy', compact('project'));
+            return view('product_projects.copy', compact('project'));
         } else {
             return response()->json(['error' => __('Permission denied.')], 401);
         }

@@ -6,6 +6,8 @@ use App\Models\DucumentUpload;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use App\Models\User;
+use App\Models\Department;
 
 class DucumentUploadController extends Controller
 {
@@ -44,7 +46,13 @@ class DucumentUploadController extends Controller
             $roles = Role::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
             $roles->prepend('All', '0');
 
-            return view('documentUpload.create', compact('roles'));
+            $users = User::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $users->prepend('All', '0');
+
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments->prepend('All', '0');
+
+            return view('documentUpload.create', compact('roles','users','departments'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -83,6 +91,8 @@ class DucumentUploadController extends Controller
             }
 
             $document->role        = $request->role;
+            $document->user_id        = $request->user_id;
+            $document->department_id        = $request->department_id;
 
             $document->description = $request->description;
             $document->created_by  = \Auth::user()->creatorId();
@@ -110,7 +120,13 @@ class DucumentUploadController extends Controller
 
             $ducumentUpload = DucumentUpload::find($id);
 
-            return view('documentUpload.edit', compact('roles', 'ducumentUpload'));
+            $users = User::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $users->prepend('All', '0');
+
+            $departments = Department::where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $departments->prepend('All', '0');
+
+            return view('documentUpload.edit', compact('roles', 'ducumentUpload', 'users', 'departments'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
@@ -154,6 +170,8 @@ class DucumentUploadController extends Controller
             }
             $document->role        = $request->role;
             $document->description = $request->description;
+            $document->user_id        = $request->user_id;
+            $document->department_id        = $request->department_id;
             $document->save();
 
             return redirect()->route('document-upload.index')->with('success', __('Document successfully uploaded.'));
