@@ -996,10 +996,17 @@ Route::post('/projects/{id}/expense/{eid}', [ExpenseController::class, 'update']
 Route::delete('/projects/{eid}/expense/', [ExpenseController::class, 'destroy'])->name('projects.expenses.destroy')->middleware(['auth', 'XSS']);
 Route::get('/expense-list', [ExpenseController::class, 'expenseList'])->name('expense.list')->middleware(['auth', 'XSS']);
 
+
+// Project ideas
+Route::get('project_idea/{view?}', [ProjectIdeasController::class, 'index'])->name('project_ideas.list')->middleware(['auth', 'XSS']);
+Route::get('project_ideas-view', [ProjectIdeasController::class, 'filterProjectView'])->name('filter.project_ideas.view')->middleware(['auth', 'XSS']);
+Route::resource('project_ideas', ProjectIdeasController::class)->middleware(['auth', 'XSS']);
+//End project ideas
+
 //Project Products starts here
 
 // Milestone Module
-Route::get('project_products/{id}/milestone', [ProjectController::class, 'milestone'])->name('project_product.milestone')->middleware(['auth', 'XSS']);
+// Route::get('project_products/{id}/milestone', [ProjectController::class, 'milestone'])->name('project_product.milestone')->middleware(['auth', 'XSS']);
 
 //Route::delete(
 //    '/projects/{id}/users/{uid}', [
@@ -1013,133 +1020,133 @@ Route::get('project_products/{id}/milestone', [ProjectController::class, 'milest
 //    ]
 //);
 
-Route::post('projectproducts/{id}/milestone', [ProjectController::class, 'milestoneStore'])->name('project_product.milestone.store')->middleware(['auth', 'XSS']);
-Route::get('projectproducts/milestone/{id}/edit', [ProjectController::class, 'milestoneEdit'])->name('project_product.milestone.edit')->middleware(['auth', 'XSS']);
-Route::post('projectproducts/milestone/{id}', [ProjectController::class, 'milestoneUpdate'])->name('project_product.milestone.update')->middleware(['auth', 'XSS']);
-Route::delete('projectproducts/milestone/{id}', [ProjectController::class, 'milestoneDestroy'])->name('project_product.milestone.destroy')->middleware(['auth', 'XSS']);
-Route::get('projectproducts/milestone/{id}/show', [ProjectController::class, 'milestoneShow'])->name('project_product.milestone.show')->middleware(['auth', 'XSS']);
+// Route::post('projectproducts/{id}/milestone', [ProjectController::class, 'milestoneStore'])->name('project_product.milestone.store')->middleware(['auth', 'XSS']);
+// Route::get('projectproducts/milestone/{id}/edit', [ProjectController::class, 'milestoneEdit'])->name('project_product.milestone.edit')->middleware(['auth', 'XSS']);
+// Route::post('projectproducts/milestone/{id}', [ProjectController::class, 'milestoneUpdate'])->name('project_product.milestone.update')->middleware(['auth', 'XSS']);
+// Route::delete('projectproducts/milestone/{id}', [ProjectController::class, 'milestoneDestroy'])->name('project_product.milestone.destroy')->middleware(['auth', 'XSS']);
+// Route::get('projectproducts/milestone/{id}/show', [ProjectController::class, 'milestoneShow'])->name('project_product.milestone.show')->middleware(['auth', 'XSS']);
 
 // End Milestone
 
 // projectproducts Module
 
-Route::get('invite-project_product-member/{id}', [ProjectProductsController::class, 'inviteMemberView'])->name('invite.project_product.member.view')->middleware(['auth', 'XSS']);
-Route::post('invite-project_product-user-member', [ProjectProductsController::class, 'inviteProjectUserMember'])->name('invite.project_product.user.member')->middleware(['auth', 'XSS']);
+// Route::get('invite-project_product-member/{id}', [ProjectProductsController::class, 'inviteMemberView'])->name('invite.project_product.member.view')->middleware(['auth', 'XSS']);
+// Route::post('invite-project_product-user-member', [ProjectProductsController::class, 'inviteProjectUserMember'])->name('invite.project_product.user.member')->middleware(['auth', 'XSS']);
 
-Route::delete('project_products/{id}/users/{uid}', [ProjectProductsController::class, 'destroyProjectUser'])->name('project_products.user.destroy')->middleware(['auth', 'XSS']);
+// Route::delete('project_products/{id}/users/{uid}', [ProjectProductsController::class, 'destroyProjectUser'])->name('project_products.user.destroy')->middleware(['auth', 'XSS']);
 Route::get('project_product/{view?}', [ProjectProductsController::class, 'index'])->name('project_products.list')->middleware(['auth', 'XSS']);
 Route::get('project_products-view', [ProjectProductsController::class, 'filterProjectView'])->name('filter.project_products.view')->middleware(['auth', 'XSS']);
-Route::post('project_products/{id}/store-stages/{slug}', [ProjectProductsController::class, 'storeProjectTaskStages'])->name('project_product.stages.store')->middleware(['auth', 'XSS']);
+// Route::post('project_products/{id}/store-stages/{slug}', [ProjectProductsController::class, 'storeProjectTaskStages'])->name('project_product.stages.store')->middleware(['auth', 'XSS']);
 
 
-Route::patch('remove-user-from-project_product/{project_id}/{user_id}', [ProjectProductsController::class, 'removeUserFromProject'])->name('remove.user.from.project_product')->middleware(['auth', 'XSS']);
-Route::get('project_products-users', [ProjectProductsController::class, 'loadUser'])->name('project_product.user')->middleware(['auth', 'XSS']);
-Route::get('project_products/{id}/gantt/{duration?}', [ProjectProductsController::class, 'gantt'])->name('project_products.gantt')->middleware(['auth', 'XSS']);
-Route::post('project_products/{id}/gantt', [ProjectProductsController::class, 'ganttPost'])->name('project_products.gantt.post')->middleware(['auth', 'XSS']);
+// Route::patch('remove-user-from-project_product/{project_id}/{user_id}', [ProjectProductsController::class, 'removeUserFromProject'])->name('remove.user.from.project_product')->middleware(['auth', 'XSS']);
+// Route::get('project_products-users', [ProjectProductsController::class, 'loadUser'])->name('project_product.user')->middleware(['auth', 'XSS']);
+// Route::get('project_products/{id}/gantt/{duration?}', [ProjectProductsController::class, 'gantt'])->name('project_products.gantt')->middleware(['auth', 'XSS']);
+// Route::post('project_products/{id}/gantt', [ProjectProductsController::class, 'ganttPost'])->name('project_products.gantt.post')->middleware(['auth', 'XSS']);
 
 
 Route::resource('project_products', ProjectProductsController::class)->middleware(['auth', 'XSS']);
 
 // User Permission
-Route::get('projectproducts/{id}/user/{uid}/permission', [ProjectProductsController::class, 'userPermission'])->name('project_products.user.permission')->middleware(['auth', 'XSS']);
-Route::post('projectproducts/{id}/user/{uid}/permission', [ProjectProductsController::class, 'userPermissionStore'])->name('project_products.user.permission.store')->middleware(['auth', 'XSS']);
+// Route::get('projectproducts/{id}/user/{uid}/permission', [ProjectProductsController::class, 'userPermission'])->name('project_products.user.permission')->middleware(['auth', 'XSS']);
+// Route::post('projectproducts/{id}/user/{uid}/permission', [ProjectProductsController::class, 'userPermissionStore'])->name('project_products.user.permission.store')->middleware(['auth', 'XSS']);
 
 // End ProjectProduct Module
 
 
 // ProjectProduct Task Module
-Route::get('/project_products/{id}/task', [ProjectTaskController::class, 'index'])->name('project_products.tasks.index')->middleware(['auth', 'XSS']);
-Route::get('/project_products/{pid}/task/{sid}', [ProjectTaskController::class, 'create'])->name('project_products.tasks.create')->middleware(['auth', 'XSS']);
-Route::post('/project_products/{pid}/task/{sid}', [ProjectTaskController::class, 'store'])->name('project_products.tasks.store')->middleware(['auth', 'XSS']);
-Route::get('/project_products/{id}/task/{tid}/show', [ProjectTaskController::class, 'show'])->name('project_products.tasks.show')->middleware(['auth', 'XSS']);
-Route::get('/project_products/{id}/task/{tid}/edit', [ProjectTaskController::class, 'edit'])->name('project_products.tasks.edit')->middleware(['auth', 'XSS']);
-Route::post('/project_products/{id}/task/update/{tid}', [ProjectTaskController::class, 'update'])->name('project_products.tasks.update')->middleware(['auth', 'XSS']);
-Route::delete('/project_products/{id}/task/{tid}', [ProjectTaskController::class, 'destroy'])->name('project_products.tasks.destroy')->middleware(['auth', 'XSS']);
-Route::patch('/project_products/{id}/task/order', [ProjectTaskController::class, 'taskOrderUpdate'])->name('project_product.tasks.update.order')->middleware(['auth', 'XSS']);
-Route::patch('project-products-update-task-priority-color', [ProjectTaskController::class, 'updateTaskPriorityColor'])->name('project_product.update.task.priority.color')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{id}/task', [ProjectTaskController::class, 'index'])->name('project_products.tasks.index')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{pid}/task/{sid}', [ProjectTaskController::class, 'create'])->name('project_products.tasks.create')->middleware(['auth', 'XSS']);
+// Route::post('/project_products/{pid}/task/{sid}', [ProjectTaskController::class, 'store'])->name('project_products.tasks.store')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{id}/task/{tid}/show', [ProjectTaskController::class, 'show'])->name('project_products.tasks.show')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{id}/task/{tid}/edit', [ProjectTaskController::class, 'edit'])->name('project_products.tasks.edit')->middleware(['auth', 'XSS']);
+// Route::post('/project_products/{id}/task/update/{tid}', [ProjectTaskController::class, 'update'])->name('project_products.tasks.update')->middleware(['auth', 'XSS']);
+// Route::delete('/project_products/{id}/task/{tid}', [ProjectTaskController::class, 'destroy'])->name('project_products.tasks.destroy')->middleware(['auth', 'XSS']);
+// Route::patch('/project_products/{id}/task/order', [ProjectTaskController::class, 'taskOrderUpdate'])->name('project_product.tasks.update.order')->middleware(['auth', 'XSS']);
+// Route::patch('project-products-update-task-priority-color', [ProjectTaskController::class, 'updateTaskPriorityColor'])->name('project_product.update.task.priority.color')->middleware(['auth', 'XSS']);
 
 
-Route::post('/project_products/{id}/comment/{tid}/file', [ProjectTaskController::class, 'commentStoreFile'])->name('comment.store.file')->middleware(['auth', 'XSS']);
-Route::delete('/project_products/{id}/comment/{tid}/file/{fid}', [ProjectTaskController::class, 'commentDestroyFile'])->name('comment.destroy.file');
-Route::post('/project_products/{id}/comment/{tid}', [ProjectTaskController::class, 'commentStore'])->name('task.comment.store');
-Route::delete('/project_products/{id}/comment/{tid}/{cid}', [ProjectTaskController::class, 'commentDestroy'])->name('comment.destroy');
-Route::post('/project_products/{id}/checklist/{tid}', [ProjectTaskController::class, 'checklistStore'])->name('checklist.store');
-Route::post('/project_products/{id}/checklist/update/{cid}', [ProjectTaskController::class, 'checklistUpdate'])->name('checklist.update');
-Route::delete('/project_products/{id}/checklist/{cid}', [ProjectTaskController::class, 'checklistDestroy'])->name('checklist.destroy');
-Route::post('/project_products/{id}/change/{tid}/fav', [ProjectTaskController::class, 'changeFav'])->name('change.fav');
-Route::post('/project_products/{id}/change/{tid}/complete', [ProjectTaskController::class, 'changeCom'])->name('change.complete');
-Route::post('/project_products/{id}/change/{tid}/progress', [ProjectTaskController::class, 'changeProg'])->name('change.progress');
-Route::get('/project_products/task/{id}/get', [ProjectTaskController::class, 'taskGet'])->name('projects.tasks.get')->middleware(['auth', 'XSS']);
-Route::get('/project_product/calendar/{id}/show', [ProjectTaskController::class, 'calendarShow'])->name('project_product.task.calendar.show')->middleware(['auth', 'XSS']);
-Route::post('/project_product/calendar/{id}/drag', [ProjectTaskController::class, 'calendarDrag'])->name('project_product.task.calendar.drag');
-Route::get('project_product/calendar/{task}/{pid?}', [ProjectTaskController::class, 'calendarView'])->name('project_product.task.calendar')->middleware(['auth', 'XSS']);
+// Route::post('/project_products/{id}/comment/{tid}/file', [ProjectTaskController::class, 'commentStoreFile'])->name('comment.store.file')->middleware(['auth', 'XSS']);
+// Route::delete('/project_products/{id}/comment/{tid}/file/{fid}', [ProjectTaskController::class, 'commentDestroyFile'])->name('comment.destroy.file');
+// Route::post('/project_products/{id}/comment/{tid}', [ProjectTaskController::class, 'commentStore'])->name('task.comment.store');
+// Route::delete('/project_products/{id}/comment/{tid}/{cid}', [ProjectTaskController::class, 'commentDestroy'])->name('comment.destroy');
+// Route::post('/project_products/{id}/checklist/{tid}', [ProjectTaskController::class, 'checklistStore'])->name('checklist.store');
+// Route::post('/project_products/{id}/checklist/update/{cid}', [ProjectTaskController::class, 'checklistUpdate'])->name('checklist.update');
+// Route::delete('/project_products/{id}/checklist/{cid}', [ProjectTaskController::class, 'checklistDestroy'])->name('checklist.destroy');
+// Route::post('/project_products/{id}/change/{tid}/fav', [ProjectTaskController::class, 'changeFav'])->name('change.fav');
+// Route::post('/project_products/{id}/change/{tid}/complete', [ProjectTaskController::class, 'changeCom'])->name('change.complete');
+// Route::post('/project_products/{id}/change/{tid}/progress', [ProjectTaskController::class, 'changeProg'])->name('change.progress');
+// Route::get('/project_products/task/{id}/get', [ProjectTaskController::class, 'taskGet'])->name('projects.tasks.get')->middleware(['auth', 'XSS']);
+// Route::get('/project_product/calendar/{id}/show', [ProjectTaskController::class, 'calendarShow'])->name('project_product.task.calendar.show')->middleware(['auth', 'XSS']);
+// Route::post('/project_product/calendar/{id}/drag', [ProjectTaskController::class, 'calendarDrag'])->name('project_product.task.calendar.drag');
+// Route::get('project_product/calendar/{task}/{pid?}', [ProjectTaskController::class, 'calendarView'])->name('project_product.task.calendar')->middleware(['auth', 'XSS']);
 
-Route::resource('project_product-task-stages', TaskStageController::class)->middleware(['auth', 'XSS']);
-Route::post('/project_product-task-stages/order', [TaskStageController::class, 'order'])->name('project-task-stages.order');
+// Route::resource('project_product-task-stages', TaskStageController::class)->middleware(['auth', 'XSS']);
+// Route::post('/project_product-task-stages/order', [TaskStageController::class, 'order'])->name('project-task-stages.order');
 
-Route::post('project_product-task-new-stage', [TaskStageController::class, 'storingValue'])->name('project_product.new-task-stage')->middleware(['auth', 'XSS']);
+// Route::post('project_product-task-new-stage', [TaskStageController::class, 'storingValue'])->name('project_product.new-task-stage')->middleware(['auth', 'XSS']);
 // End Task Module
 
 // Project Expense Module
 
 // Project Expense Module
-Route::get('/project_products/{id}/expense', [ExpenseController::class, 'index'])->name('project_products.expenses.index')->middleware(['auth', 'XSS']);
-Route::get('/project_products/{pid}/expense/create', [ExpenseController::class, 'create'])->name('project_products.expenses.create')->middleware(['auth', 'XSS']);
-Route::post('/project_products/{pid}/expense/store', [ExpenseController::class, 'store'])->name('project_products.expenses.store')->middleware(['auth', 'XSS']);
-Route::get('/project_products/{id}/expense/{eid}/edit', [ExpenseController::class, 'edit'])->name('project_products.expenses.edit')->middleware(['auth', 'XSS']);
-Route::post('/project_products/{id}/expense/{eid}', [ExpenseController::class, 'update'])->name('project_products.expenses.update')->middleware(['auth', 'XSS']);
-Route::delete('/project_products/{eid}/expense/', [ExpenseController::class, 'destroy'])->name('project_products.expenses.destroy')->middleware(['auth', 'XSS']);
-Route::get('/project_product/expense-list', [ExpenseController::class, 'expenseList'])->name('project_product.expense.list')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{id}/expense', [ExpenseController::class, 'index'])->name('project_products.expenses.index')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{pid}/expense/create', [ExpenseController::class, 'create'])->name('project_products.expenses.create')->middleware(['auth', 'XSS']);
+// Route::post('/project_products/{pid}/expense/store', [ExpenseController::class, 'store'])->name('project_products.expenses.store')->middleware(['auth', 'XSS']);
+// Route::get('/project_products/{id}/expense/{eid}/edit', [ExpenseController::class, 'edit'])->name('project_products.expenses.edit')->middleware(['auth', 'XSS']);
+// Route::post('/project_products/{id}/expense/{eid}', [ExpenseController::class, 'update'])->name('project_products.expenses.update')->middleware(['auth', 'XSS']);
+// Route::delete('/project_products/{eid}/expense/', [ExpenseController::class, 'destroy'])->name('project_products.expenses.destroy')->middleware(['auth', 'XSS']);
+// Route::get('/project_product/expense-list', [ExpenseController::class, 'expenseList'])->name('project_product.expense.list')->middleware(['auth', 'XSS']);
 
 // End ProjectProduct Task Module
 
 
 // ProjectProduct Timesheet
-Route::get('project_product-append-timesheet-task-html', [TimesheetController::class, 'appendTimesheetTaskHTML'])->name('project_product.append.timesheet.task.html')->middleware(['auth', 'XSS']);
-Route::get('project_product-timesheet-table-view', [TimesheetController::class, 'filterTimesheetTableView'])->name('project_product.filter.timesheet.table.view')->middleware(['auth', 'XSS']);
-Route::get('project_product-timesheet-view', [TimesheetController::class, 'filterTimesheetView'])->name('project_product.filter.timesheet.view')->middleware(['auth', 'XSS']);
-Route::get('project_product-timesheet-list', [TimesheetController::class, 'timesheetList'])->name('project_product.timesheet.list')->middleware(['auth', 'XSS']);
-Route::get('project_product-timesheet-list-get', [TimesheetController::class, 'timesheetListGet'])->name('project_product.timesheet.list.get')->middleware(['auth', 'XSS']);
-Route::get('/project_product/{id}/timesheet', [TimesheetController::class, 'timesheetView'])->name('project_product.timesheet.index')->middleware(['auth', 'XSS']);
-Route::get('/project_product/{id}/timesheet/create', [TimesheetController::class, 'timesheetCreate'])->name('project_product.timesheet.create')->middleware(['auth', 'XSS']);
-Route::post('/project_product/timesheet', [TimesheetController::class, 'timesheetStore'])->name('project_product.timesheet.store')->middleware(['auth', 'XSS']);
-Route::get('/project_product/timesheet/{project_id}/edit/{timesheet_id', [TimesheetController::class, 'timesheetEdit'])->name('project_product.timesheet.edit')->middleware(['auth', 'XSS']);
-Route::any('/project_product/timesheet/update/{timesheet_id}', [TimesheetController::class, 'timesheetUpdate'])->name('project_product.timesheet.update')->middleware(['auth', 'XSS']);
+// Route::get('project_product-append-timesheet-task-html', [TimesheetController::class, 'appendTimesheetTaskHTML'])->name('project_product.append.timesheet.task.html')->middleware(['auth', 'XSS']);
+// Route::get('project_product-timesheet-table-view', [TimesheetController::class, 'filterTimesheetTableView'])->name('project_product.filter.timesheet.table.view')->middleware(['auth', 'XSS']);
+// Route::get('project_product-timesheet-view', [TimesheetController::class, 'filterTimesheetView'])->name('project_product.filter.timesheet.view')->middleware(['auth', 'XSS']);
+// Route::get('project_product-timesheet-list', [TimesheetController::class, 'timesheetList'])->name('project_product.timesheet.list')->middleware(['auth', 'XSS']);
+// Route::get('project_product-timesheet-list-get', [TimesheetController::class, 'timesheetListGet'])->name('project_product.timesheet.list.get')->middleware(['auth', 'XSS']);
+// Route::get('/project_product/{id}/timesheet', [TimesheetController::class, 'timesheetView'])->name('project_product.timesheet.index')->middleware(['auth', 'XSS']);
+// Route::get('/project_product/{id}/timesheet/create', [TimesheetController::class, 'timesheetCreate'])->name('project_product.timesheet.create')->middleware(['auth', 'XSS']);
+// Route::post('/project_product/timesheet', [TimesheetController::class, 'timesheetStore'])->name('project_product.timesheet.store')->middleware(['auth', 'XSS']);
+// Route::get('/project_product/timesheet/{project_id}/edit/{timesheet_id', [TimesheetController::class, 'timesheetEdit'])->name('project_product.timesheet.edit')->middleware(['auth', 'XSS']);
+// Route::any('/project_product/timesheet/update/{timesheet_id}', [TimesheetController::class, 'timesheetUpdate'])->name('project_product.timesheet.update')->middleware(['auth', 'XSS']);
 
-Route::delete('/project_product/timesheet/{timesheet_id}', [TimesheetController::class, 'timesheetDestroy'])->name('project_product.timesheet.destroy')->middleware(['auth', 'XSS']);
-
-
+// Route::delete('/project_product/timesheet/{timesheet_id}', [TimesheetController::class, 'timesheetDestroy'])->name('project_product.timesheet.destroy')->middleware(['auth', 'XSS']);
 
 
-Route::group(
-    [
-        'middleware' => [
-            'auth',
-            'XSS',
-        ],
-    ],
-    function () {
-        Route::resource('project_productstages', ProjectstagesController::class);
-        Route::post('/project_productstages/order', [ProjectstagesController::class, 'order'])->name('project_productstages.order')->middleware(['auth', 'XSS']);
-        Route::post('project_products/bug/kanban/order', [ProjectController::class, 'bugKanbanOrder'])->name('project_product.bug.kanban.order');
-        Route::get('project_products/{id}/bug/kanban', [ProjectController::class, 'bugKanban'])->name('project_product.task.bug.kanban');
-        Route::get('project_products/{id}/bug', [ProjectController::class, 'bug'])->name('task.bug');
-        Route::get('project_products/{id}/bug/create', [ProjectController::class, 'bugCreate'])->name('project_product.task.bug.create');
-        Route::post('project_products/{id}/bug/store', [ProjectController::class, 'bugStore'])->name('project_product.task.bug.store');
-        Route::get('project_products/{id}/bug/{bid}/edit', [ProjectController::class, 'bugEdit'])->name('project_product.task.bug.edit');
-        Route::post('project_products/{id}/bug/{bid}/update', [ProjectController::class, 'bugUpdate'])->name('project_product.task.bug.update');
-        Route::delete('project_products/{id}/bug/{bid}/destroy', [ProjectController::class, 'bugDestroy'])->name('project_product.task.bug.destroy');
-        Route::get('project_products/{id}/bug/{bid}/show', [ProjectController::class, 'bugShow'])->name('project_product.task.bug.show');
-        Route::post('project_products/{id}/bug/{bid}/comment', [ProjectController::class, 'bugCommentStore'])->name('project_product.bug.comment.store');
-        Route::post('project_products/bug/{bid}/file', [ProjectController::class, 'bugCommentStoreFile'])->name('project_product.bug.comment.file.store');
-        Route::delete('project_products/bug/comment/{id}', [ProjectController::class, 'bugCommentDestroy'])->name('project_product.bug.comment.destroy');
-        Route::delete('project_products/bug/file/{id}', [ProjectController::class, 'bugCommentDestroyFile'])->name('project_product.bug.comment.file.destroy');
 
-        Route::resource('project_productbugstatus', BugStatusController::class);
-        Route::post('/project_product/bugstatus/order', [BugStatusController::class, 'order'])->name('project_product.bugstatus.order');
-        Route::get('project_product/bugs-report/{view?}', [ProjectTaskController::class, 'allBugList'])->name('project_product.bugs.view')->middleware(['auth', 'XSS']);
-    }
-);
+
+// Route::group(
+//     [
+//         'middleware' => [
+//             'auth',
+//             'XSS',
+//         ],
+//     ],
+//     function () {
+//         Route::resource('project_productstages', ProjectstagesController::class);
+//         Route::post('/project_productstages/order', [ProjectstagesController::class, 'order'])->name('project_productstages.order')->middleware(['auth', 'XSS']);
+//         Route::post('project_products/bug/kanban/order', [ProjectController::class, 'bugKanbanOrder'])->name('project_product.bug.kanban.order');
+//         Route::get('project_products/{id}/bug/kanban', [ProjectController::class, 'bugKanban'])->name('project_product.task.bug.kanban');
+//         Route::get('project_products/{id}/bug', [ProjectController::class, 'bug'])->name('task.bug');
+//         Route::get('project_products/{id}/bug/create', [ProjectController::class, 'bugCreate'])->name('project_product.task.bug.create');
+//         Route::post('project_products/{id}/bug/store', [ProjectController::class, 'bugStore'])->name('project_product.task.bug.store');
+//         Route::get('project_products/{id}/bug/{bid}/edit', [ProjectController::class, 'bugEdit'])->name('project_product.task.bug.edit');
+//         Route::post('project_products/{id}/bug/{bid}/update', [ProjectController::class, 'bugUpdate'])->name('project_product.task.bug.update');
+//         Route::delete('project_products/{id}/bug/{bid}/destroy', [ProjectController::class, 'bugDestroy'])->name('project_product.task.bug.destroy');
+//         Route::get('project_products/{id}/bug/{bid}/show', [ProjectController::class, 'bugShow'])->name('project_product.task.bug.show');
+//         Route::post('project_products/{id}/bug/{bid}/comment', [ProjectController::class, 'bugCommentStore'])->name('project_product.bug.comment.store');
+//         Route::post('project_products/bug/{bid}/file', [ProjectController::class, 'bugCommentStoreFile'])->name('project_product.bug.comment.file.store');
+//         Route::delete('project_products/bug/comment/{id}', [ProjectController::class, 'bugCommentDestroy'])->name('project_product.bug.comment.destroy');
+//         Route::delete('project_products/bug/file/{id}', [ProjectController::class, 'bugCommentDestroyFile'])->name('project_product.bug.comment.file.destroy');
+
+//         Route::resource('project_productbugstatus', BugStatusController::class);
+//         Route::post('/project_product/bugstatus/order', [BugStatusController::class, 'order'])->name('project_product.bugstatus.order');
+//         Route::get('project_product/bugs-report/{view?}', [ProjectTaskController::class, 'allBugList'])->name('project_product.bugs.view')->middleware(['auth', 'XSS']);
+//     }
+// );
 //End ProjectProduct Timeline
 
 
@@ -1615,8 +1622,12 @@ Route::post('/project_report/tasks/{id}', [ProjectReportController::class, 'ajax
 Route::get('export/task_report/{id}', [ProjectReportController::class, 'export'])->name('project_report.export');
 
 //project copy module
-Route::get('/project/copy/{id}', [ProjectControlle::class, 'copyproject'])->name('project.copy')->middleware(['auth', 'XSS']);
+Route::get('/project/copy/{id}', [ProjectController::class, 'copyproject'])->name('project.copy')->middleware(['auth', 'XSS']);
 Route::post('/project/copy/store/{id}', [ProjectController::class, 'copyprojectstore'])->name('project.copy.store')->middleware(['auth', 'XSS']);
+
+// //projectproduct copy module
+// Route::get('/project_product/copy/{id}', [ProjectProductsController::class, 'copyproject'])->name('project_product.copy')->middleware(['auth', 'XSS']);
+// Route::post('/project_product/copy/store/{id}', [ProjectProductsController::class, 'copyprojectstore'])->name('project_product.copy.store')->middleware(['auth', 'XSS']);
 
 
 

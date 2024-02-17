@@ -800,10 +800,10 @@
                                                         href="{{ route('report.balance.sheet') }}">{{ __('Balance Sheet') }}</a>
                                                 </li>
                                                 <li
-                                                class="dash-item {{ Request::route()->getName() == 'report.profit.loss.statement' ? ' active' : '' }}">
-                                                <a class="dash-link"
-                                                    href="{{ route('report.profit.loss.statement') }}">{{ __('Profit and Loss Statement') }}</a>
-                                            </li>
+                                                    class="dash-item {{ Request::route()->getName() == 'report.profit.loss.statement' ? ' active' : '' }}">
+                                                    <a class="dash-link"
+                                                        href="{{ route('report.profit.loss.statement') }}">{{ __('Profit and Loss Statement') }}</a>
+                                                </li>
                                                 <li
                                                     class="dash-item {{ Request::route()->getName() == 'trial.balance' ? ' active' : '' }}">
                                                     <a class="dash-link"
@@ -986,14 +986,24 @@
                                     : '' }}">
                                 <a href="#!" class="dash-link"><span class="dash-micon"><i
                                             class="ti ti-share"></i></span><span
-                                        class="dash-mtext">{{ __('Project System') }}</span><span
-                                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                                        class="dash-mtext">{{ __('PPI System') }}</span><span class="dash-arrow"><i
+                                            data-feather="chevron-right"></i></span></a>
                                 <ul class="dash-submenu">
                                     @can('manage project')
                                         <li
                                             class="dash-item  {{ Request::segment(1) == 'project' || Request::route()->getName() == 'projects.list' || Request::route()->getName() == 'projects.list' || Request::route()->getName() == 'projects.index' || Request::route()->getName() == 'projects.show' || request()->is('projects/*') ? 'active' : '' }}">
                                             <a class="dash-link"
                                                 href="{{ route('projects.index') }}">{{ __('Projects') }}</a>
+                                        </li>
+                                        <li
+                                            class="dash-item  {{ Request::segment(1) == 'project_product' || Request::route()->getName() == 'project_products.list' || Request::route()->getName() == 'project_products.list' || Request::route()->getName() == 'project_products.index' || Request::route()->getName() == 'project_products.show' || request()->is('project_products/*') ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ route('project_products.index') }}">{{ __('Products') }}</a>
+                                        </li>
+                                        <li
+                                            class="dash-item  {{ Request::segment(1) == 'project' || Request::route()->getName() == 'project_ideas.list' || Request::route()->getName() == 'project_ideas.list' || Request::route()->getName() == 'project_ideas.index' || Request::route()->getName() == 'project_ideas.show' || request()->is('project_ideas/*') ? 'active' : '' }}">
+                                            <a class="dash-link"
+                                                href="{{ route('project_ideas.index') }}">{{ __('Ideas') }}</a>
                                         </li>
                                     @endcan
                                     @can('manage project task')
@@ -1064,6 +1074,7 @@
                     @endif
 
                     <!--------------------- End Project ----------------------------------->
+
 
 
 
@@ -1195,20 +1206,20 @@
                             </a>
                             <ul class="dash-submenu">
                                 @if (Gate::check('manage requisition approval'))
-                                <li
-                                    class="dash-item {{ Request::segment(1) == 'requisition-approval' ? 'active' : '' }}">
-                                    <a href="{{ route('requisition-approval') }}"
-                                        class="dash-link">{{ __('Requisition') }}
-                                    </a>
-                                </li>
+                                    <li
+                                        class="dash-item {{ Request::segment(1) == 'requisition-approval' ? 'active' : '' }}">
+                                        <a href="{{ route('requisition-approval') }}"
+                                            class="dash-link">{{ __('Requisition') }}
+                                        </a>
+                                    </li>
                                 @endif
                                 @if (Gate::check('manage leave'))
-                                <li
-                                    class="dash-item {{ Request::segment(1) == 'staff_leave-approval' ? 'active' : '' }}">
-                                    <a href="{{ route('staff_leave-approval') }}"
-                                        class="dash-link">{{ __('Leave') }}
-                                    </a>
-                                </li>
+                                    <li
+                                        class="dash-item {{ Request::segment(1) == 'staff_leave-approval' ? 'active' : '' }}">
+                                        <a href="{{ route('staff_leave-approval') }}"
+                                            class="dash-link">{{ __('Leave') }}
+                                        </a>
+                                    </li>
                                 @endif
                                 {{-- @if (Gate::check('manage product & service')) --}}
                                 {{-- <li

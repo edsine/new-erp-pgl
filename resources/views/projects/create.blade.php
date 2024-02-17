@@ -34,6 +34,16 @@
         </div>
         <div class="col-sm-6 col-md-6">
             <div class="form-group">
+                {{ Form::label('project_product_type', __('Category'), ['class' => 'form-label']) }}<span
+                    class="text-danger">*</span>
+                {!! Form::select('project_product_type', [0 => 'Project', 1 => 'Product', 2 => 'Ideas'], null, [
+                    'class' => 'form-control',
+                    'required' => 'required',
+                ]) !!}
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <div class="form-group">
                 {{ Form::label('client', __('Client'), ['class' => 'form-label']) }}<span class="text-danger">*</span>
                 {!! Form::select('client', $clients, null, ['class' => 'form-control', 'required' => 'required']) !!}
             </div>

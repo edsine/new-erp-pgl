@@ -96,6 +96,7 @@ class ProjectController extends Controller
             $project->description = $request->description;
             $project->status = $request->status;
             $project->estimated_hrs = $request->estimated_hrs;
+            $project->project_product_type = $request->project_product_type;
             $project->tags = $request->tag;
             $project->created_by = \Auth::user()->creatorId();
             $project->save();
@@ -146,37 +147,39 @@ class ProjectController extends Controller
             }
 
 
-            // Journal Entry
+            if ($project->project_product_type == 0) {
+                // Journal Entry
 
-            $journal              = new JournalEntry();
-            $journal->journal_id  = $this->journalNumber();
-            $journal->date        = now();
-            $journal->reference   = time();
-            $journal->description = "Project added";
-            $journal->created_by  = \Auth::user()->creatorId();
-            $journal->save();
+                $journal              = new JournalEntry();
+                $journal->journal_id  = $this->journalNumber();
+                $journal->date        = now();
+                $journal->reference   = time();
+                $journal->description = "Project added";
+                $journal->created_by  = \Auth::user()->creatorId();
+                $journal->save();
 
-            //Expense Head Debit
+                //Expense Head Debit
 
-            // Get 'Account Receivable Account'
-            $account = ChartOfAccount::where('code', 300)->first();
+                // Get 'Account Receivable Account'
+                $account = ChartOfAccount::where('code', 300)->first();
 
-            if ($account != null) {
-                $journalItem              = new JournalItem();
-                $journalItem->journal     = $journal->id;
-                $journalItem->account     = $account->id;
-                $journalItem->description = "Project added";
-                $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
-                $journalItem->credit      = 0;
-                $journalItem->save();
+                if ($account != null) {
+                    $journalItem              = new JournalItem();
+                    $journalItem->journal     = $journal->id;
+                    $journalItem->account     = $account->id;
+                    $journalItem->description = "Project added";
+                    $journalItem->debit       = !empty($request->budget) ? $request->budget : 0;
+                    $journalItem->credit      = 0;
+                    $journalItem->save();
 
-                $project->initial_journal_item_id = $journalItem->id;
-                $project->save();
+                    $project->initial_journal_item_id = $journalItem->id;
+                    $project->save();
+                }
+
+                //End expense Head Debit
+
+                //End Journal Entry
             }
-
-            //End expense Head Debit
-
-            //End Journal Entry
 
 
             //Slack Notification
@@ -692,7 +695,7 @@ class ProjectController extends Controller
                 if (!empty($request->status)) {
                     $projects->whereIn('status', $request->status);
                 }
-                $projects   = $projects->get();
+                $projects   = $projects->where('project_product_type', 0)->get();
                 $returnHTML = view('projects.' . $request->view, compact('projects', 'user_projects'))->render();
 
                 return response()->json(
