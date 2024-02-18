@@ -23,6 +23,7 @@
         </select>
     </li>
 @endsection
+
 @section('content')
     <div class="">
         <h2 class="mb-3 f-w-600">{{__('Login')}}</h2>
@@ -31,15 +32,15 @@
     @csrf
     <div class="">
         <div class="form-group mb-3">
-            <label for="email" class="form-label">{{__('Email')}}</label>
-            <input class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+            {{-- <label for="email" class="form-label">{{__('Email')}}</label> --}}
+            <input class="form-control @error('email') is-invalid @enderror" id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
             @error('email')
             <div class="invalid-feedback" role="alert">{{ $message }}</div>
             @enderror
         </div>
         <div class="form-group mb-3">
-            <label for="password" class="form-label">{{__('Password')}}</label>
-            <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" required autocomplete="current-password">
+            {{-- <label for="password" class="form-label">{{__('Password')}}</label> --}}
+            <input class="form-control @error('password') is-invalid @enderror" id="password" type="password" name="password" required autocomplete="current-password" placeholder="Password">
             @error('password')
             <div class="invalid-feedback" role="alert">{{ $message }}</div>
             @enderror
@@ -64,7 +65,7 @@
 
         </div>
         <div class="d-grid">
-            <button type="submit" class="btn-login btn btn-primary btn-block mt-2" id="login_button">{{__('Login')}}</button>
+            <button type="submit" class="btn-login btn btn-primary btn-block" id="login_button">{{__('Login')}}</button>
         </div>
 
     </div>

@@ -50,74 +50,85 @@
     @endif
     <link rel="stylesheet" href="{{ asset('assets/css/customizer.css') }}">
 
+    <style>
+        .new-back{
+            background: linear-gradient(270deg, transparent, rgba(183, 244, 161, 0.3), rgba(70, 255, 9, 0.2), rgba(255, 255, 255), rgba(255, 255, 255)), url('{{asset("/assets/images/auth/login-img-background.jpg")}}');
+            background-size: cover;
+            background-position: center;
+        }
+        .form-div{
+            padding: 2.5rem;
+        }
+    </style>
+
 </head>
 
 <body class="{{ $color }}">
-    <div class="auth-wrapper auth-v3">
+    {{-- <div class="auth-wrapper auth-v3 new-back">
         <div class="bg-auth-side bg-primary"></div>
-        <div class="auth-content">
-            <nav class="navbar navbar-expand-md navbar-light default">
-                <div class="container-fluid pe-2">
+        <div class="auth-content"> 
+        </div>
+    </div> --}}
+
+    <div class="new-back">
+        <div class="container bg-light bg-opacity-10">
+            <nav class="navbar navbar-expand-lg navbar-light ">
+                <div class="container pe-2">
                     <a class="navbar-brand" href="#">
-                        @if ($setting['cust_darklayout'] && $setting['cust_darklayout'] == 'on')
+                        {{-- @if ($setting['cust_darklayout'] && $setting['cust_darklayout'] == 'on')
                             <img src="{{ $logo . '/' . (isset($company_logos) && !empty($company_logos) ? $company_logos : 'logo-dark.png') }}"
                                 alt="{{ config('app.name', 'ERPGo') }}" class="logo w-50">
                         @else
                             <img src="{{ $logo . '/' . (isset($company_logo) && !empty($company_logo) ? $company_logo : 'logo-dark.png') }}"
                                 alt="{{ config('app.name', 'ERPGo') }}" class="logo w-50">
-                        @endif
+                        @endif --}}
+
+                        <img class="d-inline-block align-text-top" src="{{ asset('assets/images/auth/PGL-logo.png') }}" alt="" width="250px" height="130px">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
                         aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01" style="flex-grow: 0;">
-                        <ul class="navbar-nav align-items-center ms-auto mb-2 mb-lg-0">
+                    <div class="collapse navbar-collapse bg-white rounded-pill px-4" id="navbarTogglerDemo01" style="flex-grow: 0 !important;">
+                        <ul class="navbar-nav align-items-center ms-auto">
                             <li class="nav-item">
                                 <a class="nav-link active" href="#">Support</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item px-3">
                                 <a class="nav-link" href="#">Terms</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item px-3">
                                 <a class="nav-link" href="#">Privacy</a>
                             </li>
                             @yield('auth-topbar')
                         </ul>
-
                     </div>
                 </div>
             </nav>
-            <div class="card">
-                <div class="row align-items-center text-start">
-                    <div class="col-xl-6">
-                        <div class="shadow card-body">
-                            @yield('content')
-                        </div>
+    
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3>Welcome to Pyrich Group ERP</h3>
+                        <p><i><b> ...where precision meets performance!</b></i></p>
+                        <h6>
+                            Experience the synergy of accuracy and efficiency,<br>
+                            making every operation a masterpiece in the realm of <br>
+                            Pyrich Groups ERP
+                        </h6>
                     </div>
-                    <div class="col-xl-6 img-card-side">
-                        <div class="auth-img-content">
-                            <div class="card bg-white">
-                                <div class="card-body">
-                                    <img src="{{ asset('assets/images/auth/PGL-logo.png') }}" alt=""
-                                        class="img-fluid" />
-                                </div>
-                            </div>
-                            <h3 class="text-white mt-5">
-                                Welcome to Pyrich Groups ERP
-                            </h3>
-                            <h5 class="text-white mb-4">
-                                - Where Precision Meets Performance.
-                            </h5>
-                            <p class="text-white">
-                                Experience the synergy of accuracy and efficiency, making every operation a masterpiece
-                                in the realm of Pyrich Groups ERP.
-                            </p>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-xl-6">
+                        <div class="shadow bg-success bg-opacity-50 rounded-3 mb-3 shadow form-div">
+                            @yield('content')
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="auth-footer">
                 <div class="container-fluid">
                     <div class="row">
@@ -127,12 +138,15 @@
                                 {{ date('Y') }}
                             </p>
                         </div>
-
+    
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    
+
     <!-- [ auth-signup ] end -->
 
     <!-- Required Js -->
