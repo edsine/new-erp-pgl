@@ -208,7 +208,7 @@
                                     </td>
                                     <td>
                                         <div class="form-group price-input input-group search-form">
-                                            {{ Form::number('quantity', '', ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required', 'step' => '1', 'min' => '1']) }}
+                                            {{ Form::number('quantity', '', ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required', 'step' => '.01', 'min' => '0.1']) }}
                                             <span class="unit input-group-text bg-transparent"></span>
                                         </div>
                                     </td>
@@ -216,7 +216,7 @@
 
                                     <td>
                                         <div class="form-group price-input input-group search-form">
-                                            {{ Form::number('rate', '', ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required', 'step' => '.01', 'min' => '1']) }}
+                                            {{ Form::number('rate', '', ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required', 'step' => '.01', 'min' => '0.1']) }}
                                             <span
                                                 class="input-group-text bg-transparent">{{ \Auth::user()->currencySymbol() }}</span>
                                         </div>
