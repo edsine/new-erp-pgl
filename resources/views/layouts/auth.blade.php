@@ -55,6 +55,8 @@
             background: linear-gradient(270deg, transparent, rgba(183, 244, 161, 0.3), rgba(70, 255, 9, 0.2), rgba(255, 255, 255), rgba(255, 255, 255)), url('{{asset("/assets/images/auth/login-img-background.jpg")}}');
             background-size: cover;
             background-position: center;
+            min-height: 100vh;
+            width: 100%;
         }
         .form-div{
             padding: 2.5rem;
@@ -71,7 +73,7 @@
     </div> --}}
 
     <div class="new-back">
-        <div class="container bg-light bg-opacity-10">
+        <div class="container bg-light bg-opacity-10" style="min-height: 100vh">
             <nav class="navbar navbar-expand-lg navbar-light ">
                 <div class="container pe-2">
                     <a class="navbar-brand" href="#">
@@ -108,7 +110,7 @@
             </nav>
     
             <div class="container">
-                <div class="row">
+                <div class="row mt-4">
                     <div class="col-md-6">
                         <h3>Welcome to Pyrich Group ERP</h3>
                         <p><i><b> ...where precision meets performance!</b></i></p>
@@ -120,7 +122,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-4">
+                <div class="row" style="margin-top: 4rem">
                     <div class="col-xl-6">
                         <div class="shadow bg-success bg-opacity-50 rounded-3 mb-3 shadow form-div">
                             @yield('content')

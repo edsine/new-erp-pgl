@@ -98,7 +98,12 @@ class RequisitionController extends Controller
         $requisition->title    = $request->title;
         $requisition->ref_number     = 'req/' . $date->format('Ymd/His');
         $requisition->created_by       = \Auth::user()->id;
-        $requisition->department_id = $employee->department ? $employee->department->id : 0;
+        if($employee) {
+            $requisition->department_id = $employee->department ? $employee->department->id : 0;
+        }else {
+            $requisition->employee_id = 0;
+            $requisition->department_id = 0;
+        }
 
         // $total_amount = 0;
 
@@ -180,6 +185,15 @@ class RequisitionController extends Controller
             $image->move($path_folder, $image_name);
 
             $requisition->document = $image_name;
+        }
+
+        $employee      = Employee::where('user_id', \Auth::user()->id)->first();
+
+        if($employee) {
+            $requisition->department_id = $employee->department ? $employee->department->id : 0;
+        }else {
+            $requisition->employee_id = 0;
+            $requisition->department_id = 0;
         }
 
         $requisition->save();
