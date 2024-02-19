@@ -64,7 +64,50 @@
             }
 
         }
-       
+
+        $(document).on('keyup', '.rate', function() {
+            var el = $(this).parent().parent().parent().parent();
+            var amount = $(this).val();
+
+            var quantity = parseInt(el.find('.quantity').val());
+
+            el.find('.amount').html(amount * quantity);
+
+
+            var inputs = $(".amount");
+            var totalAmount = 0;
+            for (var i = 0; i < inputs.length; i++) {
+                totalAmount = parseFloat(totalAmount) + parseFloat(inputs[i].innerText);
+            }
+
+            console.log(totalAmount);
+            $('.totalAmount').html(totalAmount.toFixed(2));
+
+        });
+
+        $(document).on('keyup', '.quantity', function() {
+            var el = $(this).parent().parent().parent().parent();
+
+            var quantity = parseInt($(this).val());
+            var amount = parseFloat(el.find('.rate').val());
+            // if (!isNaN(quantity)) {
+
+            // }
+
+            el.find('.amount').html(amount * quantity);
+
+
+            var inputs = $(".amount");
+            var totalAmount = 0;
+            for (var i = 0; i < inputs.length; i++) {
+                totalAmount = parseFloat(totalAmount) + parseFloat(inputs[i].innerText);
+            }
+
+            console.log(totalAmount);
+            $('.totalAmount').html(totalAmount.toFixed(2));
+
+        });
+
     </script>
     <script>
         $(document).on('click', '[data-repeater-delete]', function() {
@@ -87,8 +130,8 @@
 
                                     {{ Form::label('employee_id', __('Employee'), ['class' => 'form-label']) }}
                                     <input type="hidden" name="employee_id" class="form-control" required
-                                        value="{{ $employee->id }}">
-                                    {!! Form::text('', $employee->name, ['class' => 'form-control disabled', 'readonly']) !!}
+                                        value="{{ $employee ? $employee->id : '' }}">
+                                    {!! Form::text('', $employee ? $employee->name : '', ['class' => 'form-control disabled', 'readonly']) !!}
                                 </div>
                             </div>
                         </div>
@@ -167,13 +210,13 @@
                                         </td>
                                         <td>
                                             <div class="form-group price-input input-group search-form">
-                                                {{ Form::number('quantity', $value->quantity, ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required']) }}
+                                                {{ Form::number('quantity', $value->quantity, ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required', 'step' => '1', 'min' => '1']) }}
                                                 <span class="unit input-group-text bg-transparent"></span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group price-input input-group search-form">
-                                                {{ Form::number('rate', $value->rate, ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required']) }}
+                                                {{ Form::number('rate', $value->rate, ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required', 'step' => '.01', 'min' => '1']) }}
                                                 <span
                                                     class="input-group-text bg-transparent">{{ \Auth::user()->currencySymbol() }}</span>
                                             </div>
