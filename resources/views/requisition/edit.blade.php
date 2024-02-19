@@ -71,7 +71,7 @@
 
             var quantity = parseInt(el.find('.quantity').val());
 
-            el.find('.amount').html(amount * quantity);
+            el.find('.amount').html((amount * quantity).toFixed(2));
 
 
             var inputs = $(".amount");
@@ -80,7 +80,6 @@
                 totalAmount = parseFloat(totalAmount) + parseFloat(inputs[i].innerText);
             }
 
-            console.log(totalAmount);
             $('.totalAmount').html(totalAmount.toFixed(2));
 
         });
@@ -94,7 +93,7 @@
 
             // }
 
-            el.find('.amount').html(amount * quantity);
+            el.find('.amount').html((amount * quantity).toFixed(2));
 
 
             var inputs = $(".amount");
@@ -103,11 +102,9 @@
                 totalAmount = parseFloat(totalAmount) + parseFloat(inputs[i].innerText);
             }
 
-            console.log(totalAmount);
             $('.totalAmount').html(totalAmount.toFixed(2));
 
         });
-
     </script>
     <script>
         $(document).on('click', '[data-repeater-delete]', function() {
@@ -118,7 +115,7 @@
 @endpush
 @section('content')
     <div class="row">
-        {{ Form::model($requisition, ['route' => ['requisition.update', $requisition->id], 'method' => 'PUT', 'enctype' => "multipart/form-data", 'class' => 'w-100']) }}
+        {{ Form::model($requisition, ['route' => ['requisition.update', $requisition->id], 'method' => 'PUT', 'enctype' => 'multipart/form-data', 'class' => 'w-100']) }}
         <div class="col-12">
             <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
             <div class="card">
@@ -210,13 +207,13 @@
                                         </td>
                                         <td>
                                             <div class="form-group price-input input-group search-form">
-                                                {{ Form::number('quantity', $value->quantity, ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required', 'step' => '.01', 'min' => '0.00001']) }}
+                                                {{ Form::number('quantity', $value->quantity, ['class' => 'form-control quantity', 'required' => 'required', 'placeholder' => __('Qty'), 'required' => 'required', 'step' => 'any']) }}
                                                 <span class="unit input-group-text bg-transparent"></span>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group price-input input-group search-form">
-                                                {{ Form::number('rate', $value->rate, ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required', 'step' => '.01', 'min' => '0.00001']) }}
+                                                {{ Form::number('rate', $value->rate, ['class' => 'form-control rate', 'required' => 'required', 'placeholder' => __('Rate'), 'required' => 'required', 'step' => 'any']) }}
                                                 <span
                                                     class="input-group-text bg-transparent">{{ \Auth::user()->currencySymbol() }}</span>
                                             </div>
@@ -245,13 +242,16 @@
                                                 <img id="image" class="mt-3" style="width:25%;" />
                                             </label>
                                         </div>
-                                        @if(isset($requisition->document))
-                                        <div class="action-btn bg-secondary ms-2">
-                                            <a class="mx-3 btn btn-sm align-items-center" href="{{ URL::to('/') }}/storage/requisition/{{$requisition->employee_id . '/' . $requisition->document }}" target="_blank"  >
-                                                <i class="ti ti-crosshair text-white" data-bs-toggle="tooltip" data-bs-original-title="{{ __('Preview Previous Document') }}"></i>
-                                            </a>
-                                        </div>
-                                         @endif
+                                        @if (isset($requisition->document))
+                                            <div class="action-btn bg-secondary ms-2">
+                                                <a class="mx-3 btn btn-sm align-items-center"
+                                                    href="{{ URL::to('/') }}/storage/requisition/{{ $requisition->employee_id . '/' . $requisition->document }}"
+                                                    target="_blank">
+                                                    <i class="ti ti-crosshair text-white" data-bs-toggle="tooltip"
+                                                        data-bs-original-title="{{ __('Preview Previous Document') }}"></i>
+                                                </a>
+                                            </div>
+                                        @endif
                                     </td>
 
                                 </tr>
@@ -260,9 +260,14 @@
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
                                     <td>&nbsp;</td>
-                                    <td class="blue-text"><strong>{{ __('Total Amount') }}
+                                    <td class="blue-text"><strong>{{ __('Old Total Amount') }}
                                             ({{ \Auth::user()->currencySymbol() }})</strong></td>
                                     <td class="text-end blue-text">{{ $requisition->totalAmount() }}</td>
+                                    <td></td>
+
+                                    <td class="blue-text"><strong>{{ __('New Total Amount') }}
+                                            ({{ \Auth::user()->currencySymbol() }})</strong></td>
+                                    <td class="text-end blue-text totalAmount"></td>
                                     <td></td>
                                 </tr>
                             </tfoot>
