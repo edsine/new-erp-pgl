@@ -20,11 +20,11 @@
         </div>
         <div class="col-6 form-group">
             {{ Form::label('email', __('Email'), ['class' => 'form-label']) }}
-            {{ Form::text('email', null, ['class' => 'form-control', 'required' => 'required']) }}
+            {{ Form::text('email', null, ['class' => 'form-control']) }}
         </div>
         <div class="col-6 form-group">
             {{ Form::label('phone', __('Phone'), ['class' => 'form-label']) }}
-            {{ Form::text('phone', null, ['class' => 'form-control', 'required' => 'required']) }}
+            {{ Form::text('phone', null, ['class' => 'form-control']) }}
         </div>
         <div class="col-6 form-group">
             {{ Form::label('lot_description', __('Lot Description'), ['class' => 'form-label']) }}
