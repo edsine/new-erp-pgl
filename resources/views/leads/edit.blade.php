@@ -15,11 +15,11 @@
         </div>
         <div class="col-6 form-group">
             {{ Form::label('email', __('Email'),['class'=>'form-label']) }}<span class="text-danger">*</span>
-            {{ Form::email('email', null, array('class' => 'form-control','required'=>'required')) }}
+            {{ Form::email('email', null, array('class' => 'form-control')) }}
         </div>
         <div class="col-6 form-group">
             {{ Form::label('phone', __('Phone'),['class'=>'form-label']) }}<span class="text-danger">*</span>
-            {{ Form::text('phone', null, array('class' => 'form-control','required'=>'required')) }}
+            {{ Form::text('phone', null, array('class' => 'form-control')) }}
         </div>
         <div class="col-6 form-group">
             {{ Form::label('pipeline_id', __('Pipeline'),['class'=>'form-label']) }}<span class="text-danger">*</span>
