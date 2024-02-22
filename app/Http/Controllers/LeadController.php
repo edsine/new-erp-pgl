@@ -114,7 +114,7 @@ class LeadController extends Controller
                 [
                     'subject' => 'required',
                     'name' => 'required',
-                    'email' => 'required|unique:leads,email',
+                    // 'email' => 'required|unique:leads,email',
                 ]
             );
 
@@ -320,7 +320,7 @@ class LeadController extends Controller
                     [
                         'subject' => 'required',
                         'name' => 'required',
-                        'email' => 'required|unique:leads,email,' . $lead->id,
+                        // 'email' => 'required|unique:leads,email,' . $lead->id,
                         'pipeline_id' => 'required',
                         'user_id' => 'required',
                         'stage_id' => 'required',
