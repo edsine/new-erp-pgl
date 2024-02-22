@@ -150,8 +150,8 @@ class LeadController extends Controller
                 $lead->status      = $request->status;
                 $lead->amount_bidded      = $request->amount_bidded;
                 $lead->date_of_submission = $request->date_of_submission;
-                $lead->email_address = $request->email_address;
-                $lead->phone_number = $request->phone_number;
+                // $lead->email_address = $request->email_address;
+                // $lead->phone_number = $request->phone_number;
                 $lead->company = $request->company;
 
                 $lead->user_id     = $request->user_id;
@@ -347,8 +347,8 @@ class LeadController extends Controller
                 $lead->status      = $request->status;
                 $lead->amount_bidded      = $request->amount_bidded;
                 $lead->date_of_submission = $request->date_of_submission;
-                $lead->email_address = $request->email_address;
-                $lead->phone_number = $request->phone_number;
+                // $lead->email_address = $request->email_address;
+                // $lead->phone_number = $request->phone_number;
                 $lead->company = $request->company;
 
                 $lead->sources     = implode(",", array_filter($request->sources));
