@@ -57,14 +57,14 @@
             {{ Form::label('date_of_submission', __('Date of Submission'), ['class' => 'form-label']) }}
             {{ Form::date('date_of_submission', null, ['class' => 'form-control', 'required' => 'required']) }}
         </div>
-        <div class="col-6 form-group">
+        {{-- <div class="col-6 form-group">
             {{ Form::label('email_address', __('Email Address'), ['class' => 'form-label']) }}
             {{ Form::text('email_address', null, ['class' => 'form-control']) }}
         </div>
         <div class="col-6 form-group">
             {{ Form::label('phone_number', __('Phone number'), ['class' => 'form-label']) }}
             {{ Form::text('phone_number', null, ['class' => 'form-control']) }}
-        </div>
+        </div> --}}
         <div class="col-6 form-group">
             {{ Form::label('company', __('Company'), ['class' => 'form-label']) }}
             {{ Form::text('company', null, ['class' => 'form-control', 'required' => 'required']) }}
