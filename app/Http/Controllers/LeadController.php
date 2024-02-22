@@ -145,6 +145,15 @@ class LeadController extends Controller
                 $lead->email       = $request->email;
                 $lead->phone       = $request->phone;
                 $lead->subject     = $request->subject;
+
+                $lead->lot_description = $request->lot_description;
+                $lead->status      = $request->status;
+                $lead->amount_bidded      = $request->amount_bidded;
+                $lead->date_of_submission = $request->date_of_submission;
+                $lead->email_address = $request->email_address;
+                $lead->phone_number = $request->phone_number;
+                $lead->company = $request->company;
+
                 $lead->user_id     = $request->user_id;
                 $lead->pipeline_id = $pipeline->id;
                 $lead->stage_id    = $stage->id;
@@ -333,6 +342,15 @@ class LeadController extends Controller
                 $lead->user_id     = $request->user_id;
                 $lead->pipeline_id = $request->pipeline_id;
                 $lead->stage_id    = $request->stage_id;
+
+                $lead->lot_description = $request->lot_description;
+                $lead->status      = $request->status;
+                $lead->amount_bidded      = $request->amount_bidded;
+                $lead->date_of_submission = $request->date_of_submission;
+                $lead->email_address = $request->email_address;
+                $lead->phone_number = $request->phone_number;
+                $lead->company = $request->company;
+
                 $lead->sources     = implode(",", array_filter($request->sources));
                 $lead->products    = implode(",", array_filter($request->products));
                 $lead->notes       = $request->notes;

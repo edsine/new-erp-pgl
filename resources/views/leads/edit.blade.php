@@ -41,6 +41,34 @@
             {{ Form::label('notes', __('Notes'),['class'=>'form-label']) }}
             {{ Form::textarea('notes',null, array('class' => 'summernote-simple')) }}
         </div>
+        <div class="col-6 form-group">
+            {{ Form::label('lot_description', __('Lot Description'), ['class' => 'form-label']) }}
+            {{ Form::text('lot_description', null, ['class' => 'form-control', 'required' => 'required']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('status', __('Status'), ['class' => 'form-label']) }}
+            {{ Form::text('status', null, ['class' => 'form-control', 'required' => 'required']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('amount_bidded', __('Amount Bidded'), ['class' => 'form-label']) }}
+            {{ Form::number('amount_bidded', null, ['class' => 'form-control', 'required' => 'required']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('date_of_submission', __('Date of Submission'), ['class' => 'form-label']) }}
+            {{ Form::date('date_of_submission', null, ['class' => 'form-control', 'required' => 'required']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('email_address', __('Email Address'), ['class' => 'form-label']) }}
+            {{ Form::text('email_address', null, ['class' => 'form-control']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('phone_number', __('Phone number'), ['class' => 'form-label']) }}
+            {{ Form::text('phone_number', null, ['class' => 'form-control']) }}
+        </div>
+        <div class="col-6 form-group">
+            {{ Form::label('company', __('Company'), ['class' => 'form-label']) }}
+            {{ Form::text('company', null, ['class' => 'form-control', 'required' => 'required']) }}
+        </div>
     </div>
 </div>
 
