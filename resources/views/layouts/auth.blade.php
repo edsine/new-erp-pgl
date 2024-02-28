@@ -73,7 +73,7 @@
     </div> --}}
 
     <div class="new-back">
-        <div class="container bg-light bg-opacity-10" style="min-height: 100vh">
+        <div class="container " style="min-height: 100vh">
             <nav class="navbar navbar-expand-lg navbar-light ">
                 <div class="container pe-2">
                     <a class="navbar-brand" href="#">
