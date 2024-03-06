@@ -1302,7 +1302,13 @@ class ReportController extends Controller
             }
 
             if ($request->type == 'payment') {
-                $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')->groupBy('payments.account_id')->selectRaw('sum(amount) as total');
+                // $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')->groupBy('payments.account_id')->selectRaw('sum(amount) as total');
+
+                $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')
+                    ->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')
+                    ->groupBy('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name') // Include 'bank_accounts.id' in GROUP BY
+                    ->selectRaw('sum(amount) as total');
+
 
                 $payments = Payment::orderBy('id', 'desc');
             }
