@@ -1280,7 +1280,7 @@ class ReportController extends Controller
             $reportData['revenueAccounts'] = '';
             $reportData['paymentAccounts'] = '';
 
-            $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
+            $account = BankAccount::get()->pluck('holder_name', 'id');
             $account->prepend('Select Account', '');
 
             $types = [
@@ -1290,15 +1290,21 @@ class ReportController extends Controller
 
             if ($request->type == 'revenue' || !isset($request->type)) {
 
-                $revenueAccounts = Revenue::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'revenues.account_id', '=', 'bank_accounts.id')->groupBy('revenues.account_id')->selectRaw('sum(amount) as total')->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                // $revenueAccounts = Revenue::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'revenues.account_id', '=', 'bank_accounts.id')->groupBy('revenues.account_id')->selectRaw('sum(amount) as total')->where('revenues.created_by', '=', \Auth::user()->creatorId());
 
-                $revenues = Revenue::where('revenues.created_by', '=', \Auth::user()->creatorId())->orderBy('id', 'desc');
+                $revenueAccounts = Revenue::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')
+                    ->leftjoin('bank_accounts', 'revenues.account_id', '=', 'bank_accounts.id')
+                    ->groupBy('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name') // Include 'bank_accounts.id' in GROUP BY
+                    ->selectRaw('sum(amount) as total');
+
+
+                $revenues = Revenue::orderBy('id', 'desc');
             }
 
             if ($request->type == 'payment') {
-                $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')->groupBy('payments.account_id')->selectRaw('sum(amount) as total')->where('payments.created_by', '=', \Auth::user()->creatorId());
+                $paymentAccounts = Payment::select('bank_accounts.id', 'bank_accounts.holder_name', 'bank_accounts.bank_name')->leftjoin('bank_accounts', 'payments.account_id', '=', 'bank_accounts.id')->groupBy('payments.account_id')->selectRaw('sum(amount) as total');
 
-                $payments = Payment::where('payments.created_by', '=', \Auth::user()->creatorId())->orderBy('id', 'desc');
+                $payments = Payment::orderBy('id', 'desc');
             }
 
 
@@ -1320,14 +1326,14 @@ class ReportController extends Controller
                     $revenues->Orwhere(
                         function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
-                            $query->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                            // $query->where('revenues.created_by', '=', \Auth::user()->creatorId());
                         }
                     );
 
                     $revenueAccounts->Orwhere(
                         function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
-                            $query->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                            // $query->where('revenues.created_by', '=', \Auth::user()->creatorId());
                         }
                     );
                 }
@@ -1336,7 +1342,7 @@ class ReportController extends Controller
                     $paymentAccounts->Orwhere(
                         function ($query) use ($data) {
                             $query->whereMonth('date', $data['month'])->whereYear('date', $data['year']);
-                            $query->where('payments.created_by', '=', \Auth::user()->creatorId());
+                            // $query->where('payments.created_by', '=', \Auth::user()->creatorId());
                         }
                     );
                 }
@@ -1348,17 +1354,17 @@ class ReportController extends Controller
             if (!empty($request->account)) {
                 if ($request->type == 'revenue' || !isset($request->type)) {
                     $revenues->where('account_id', $request->account);
-                    $revenues->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                    // $revenues->where('revenues.created_by', '=', \Auth::user()->creatorId());
                     $revenueAccounts->where('account_id', $request->account);
-                    $revenueAccounts->where('revenues.created_by', '=', \Auth::user()->creatorId());
+                    // $revenueAccounts->where('revenues.created_by', '=', \Auth::user()->creatorId());
                 }
 
                 if ($request->type == 'payment') {
                     $payments->where('account_id', $request->account);
-                    $payments->where('payments.created_by', '=', \Auth::user()->creatorId());
+                    // $payments->where('payments.created_by', '=', \Auth::user()->creatorId());
 
                     $paymentAccounts->where('account_id', $request->account);
-                    $paymentAccounts->where('payments.created_by', '=', \Auth::user()->creatorId());
+                    // $paymentAccounts->where('payments.created_by', '=', \Auth::user()->creatorId());
                 }
 
 
@@ -1379,7 +1385,7 @@ class ReportController extends Controller
             if ($request->type == 'payment') {
                 $reportData['payments'] = $payments->get();
 
-                $paymentAccounts->where('payments.created_by', '=', \Auth::user()->creatorId());
+                // $paymentAccounts->where('payments.created_by', '=', \Auth::user()->creatorId());
                 $reportData['paymentAccounts'] = $paymentAccounts->get();
                 $filter['type']                = __('Payment');
             }
