@@ -65,15 +65,13 @@ class RevenueController extends Controller
     {
 
         if (\Auth::user()->can('create revenue')) {
-            $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
             $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
-                ->where('created_by', \Auth::user()->creatorId())
-                ->where('code', '!=', 100)
                 ->get()
                 ->pluck('code_name', 'id');
             $chart_of_accounts->prepend('--', '');
-            $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
+            $categories = ProductServiceCategory::where('type', '=', 1)->get()->pluck('name', 'id');
             $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
 
             return view('revenue.create', compact('customers', 'categories', 'accounts', 'chart_of_accounts'));
@@ -278,16 +276,14 @@ class RevenueController extends Controller
     public function edit(Revenue $revenue)
     {
         if (\Auth::user()->can('edit revenue')) {
-            $customers = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customers = Customer::get()->pluck('name', 'id');
             $customers->prepend('--', 0);
             $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(name, " - ", code) AS code_name, id'))
-                ->where('created_by', \Auth::user()->creatorId())
-                ->where('code', '!=', 100)
                 ->get()
                 ->pluck('code_name', 'id');
             $chart_of_accounts->prepend('--', '');
-            $categories = ProductServiceCategory::where('created_by', '=', \Auth::user()->creatorId())->where('type', '=', 1)->get()->pluck('name', 'id');
-            $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->where('created_by', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $categories = ProductServiceCategory::where('type', '=', 1)->get()->pluck('name', 'id');
+            $accounts   = BankAccount::select('*', \DB::raw("CONCAT(bank_name,' ',holder_name) AS name"))->get()->pluck('name', 'id');
 
             return view('revenue.edit', compact('customers', 'categories', 'accounts', 'revenue', 'chart_of_accounts'));
         } else {
