@@ -28,7 +28,7 @@
             {{ Form::label('project_image', __('Project Image'), ['class' => 'form-label']) }}<span
                 class="text-danger">*</span>
             <div class="form-file mb-3">
-                <input type="file" class="form-control" name="project_image" required="">
+                <input type="file" class="form-control" name="project_image">
             </div>
 
         </div>
