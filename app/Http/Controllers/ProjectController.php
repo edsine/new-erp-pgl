@@ -75,7 +75,7 @@ class ProjectController extends Controller
                 $request->all(),
                 [
                     'project_name' => 'required',
-                    'project_image' => 'required',
+                    // 'project_image' => 'required',
                 ]
             );
             if ($validator->fails()) {
