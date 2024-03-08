@@ -1002,7 +1002,7 @@
                                         <li
                                             class="dash-item  {{ Request::segment(1) == 'project_product' || Request::route()->getName() == 'project_products.list' || Request::route()->getName() == 'project_products.list' || Request::route()->getName() == 'project_products.index' || Request::route()->getName() == 'project_products.show' || request()->is('project_products/*') ? 'active' : '' }}">
                                             <a class="dash-link"
-                                                href="{{ route('project_products.index') }}">{{ __('Products') }}</a>
+                                                href="{{ route('project_products.index') }}">{{ __('Products Development') }}</a>
                                         </li>
                                         <li
                                             class="dash-item  {{ Request::segment(1) == 'project' || Request::route()->getName() == 'project_ideas.list' || Request::route()->getName() == 'project_ideas.list' || Request::route()->getName() == 'project_ideas.index' || Request::route()->getName() == 'project_ideas.show' || request()->is('project_ideas/*') ? 'active' : '' }}">
