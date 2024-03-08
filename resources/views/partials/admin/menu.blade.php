@@ -104,6 +104,7 @@
                                                                 href="{{ route('report.finacialprojectreport') }}">{{ __('Financial Project Report') }}</a>
                                                         </li>
                                                     @endcan
+
                                                     @can('statement report')
                                                         <li
                                                             class="dash-item {{ Request::route()->getName() == 'report.account.statement' ? ' active' : '' }}">
@@ -293,7 +294,10 @@
                                         class="dash-item  {{ Request::segment(1) == 'employee' ? 'active dash-trigger' : '' }}   ">
                                         @if (\Auth::user()->type == 'Employee')
                                             @php
-                                                $employee = App\Models\Employee::where('user_id', \Auth::user()->id)->first();
+                                                $employee = App\Models\Employee::where(
+                                                    'user_id',
+                                                    \Auth::user()->id,
+                                                )->first();
                                             @endphp
                                             <a class="dash-link"
                                                 href="{{ route('employee.show', \Illuminate\Support\Facades\Crypt::encrypt($employee->id)) }}">{{ __('Employee') }}</a>
@@ -1044,6 +1048,14 @@
                                                 href="{{ route('project_report.index') }}">{{ __('Project Report') }}</a>
                                         </li>
                                     @endif
+
+                                    @if (\Auth::user()->type == 'company')
+                                        <li
+                                            class="dash-item  {{ Request::route()->getName() == 'product_report.index' }}">
+                                            <a class="dash-link"
+                                                href="{{ route('product_report.index') }}">{{ __('Product Report') }}</a>
+                                        </li>
+                                    @endif
                                     @if (Gate::check('manage project task stage') || Gate::check('manage bug status'))
                                         <li
                                             class="dash-item dash-hasmenu {{ Request::segment(1) == 'bugstatus' || Request::segment(1) == 'project-task-stages' ? 'active dash-trigger' : '' }}">
@@ -1351,6 +1363,16 @@
                         </a>
                     </li>
                 @endif
+
+                @if (Gate::check('manage project'))
+                    <li class="dash-item  {{ Request::route()->getName() == 'product_report.index' }}">
+                        <a class="dash-link" href="{{ route('product_report.index') }}">
+                            <span class="dash-micon"><i class="ti ti-chart-line"></i></span><span
+                                class="dash-mtext">{{ __('Product Report') }}</span>
+                        </a>
+                    </li>
+                @endif
+
 
                 @if (Gate::check('manage project task'))
                     <li class="dash-item dash-hasmenu  {{ Request::segment(1) == 'taskboard' ? ' active' : '' }}">

@@ -1614,6 +1614,13 @@ Route::get('employee/nocpdf/{id}', [EmployeeController::class, 'NocPdf'])->name(
 Route::get('employee/nocdoc/{id}', [EmployeeController::class, 'NocDoc'])->name('noc.download.doc');
 
 
+
+// Product Reports
+
+Route::get('/product_report', [ProjectReportController::class, "indexProduct"])->middleware(['auth', 'XSS'])->name('product_report.index');
+// Route::post('/project_report_data', [ProjectReportController::class, 'ajax_data'])->name('projects.ajax')->middleware(['auth', 'XSS']);
+// Route::post('/product_report/tasks/{id}', [ProjectReportController::class, 'ajax_tasks_report'])->name('tasks.report.ajaxdata')->middleware(['auth', 'XSS']);
+
 // Project Reports
 
 Route::resource('/project_report', ProjectReportController::class)->middleware(['auth', 'XSS']);
