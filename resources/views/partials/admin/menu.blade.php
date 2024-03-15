@@ -289,6 +289,7 @@
                                         class="dash-mtext">{{ __('HRM System') }}</span><span class="dash-arrow">
                                         <i data-feather="chevron-right"></i></span>
                                 </a>
+
                                 <ul class="dash-submenu">
                                     <li
                                         class="dash-item  {{ Request::segment(1) == 'employee' ? 'active dash-trigger' : '' }}   ">
@@ -1268,6 +1269,12 @@
                             </a>
                         </li>
                     @endcan
+                    <li class="dash-item dash-hasmenu  {{ Request::segment(1) == 'sptasks' ? ' active' : '' }}">
+                        <a href="{{ route('sptask.index') }}" class="dash-link">
+                            <span class="dash-micon"><i class="ti ti-share"></i></span><span
+                                class="dash-mtext">{{ __('TASK') }}</span>
+                        </a>
+                    </li>
 
                     <li class="dash-item dash-hasmenu {{ Request::segment(1) == 'support' ? 'active' : '' }}">
                         <a href="{{ route('support.index') }}" class="dash-link">
@@ -1352,7 +1359,8 @@
                                 class="dash-mtext">{{ __('Project') }}</span>
                         </a>
                     </li>
-                @endif
+                    @endif
+
 
                 @if (Gate::check('manage project'))
                     <li
