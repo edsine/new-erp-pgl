@@ -24,6 +24,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\PaypalController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SourceController;
+use App\Http\Controllers\SptaskController;
 use App\Http\Controllers\SystemController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\VenderController;
@@ -34,7 +35,6 @@ use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PaySlipController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectProductsController;
 use App\Http\Controllers\RevenueController;
 use App\Http\Controllers\SupportController;
 use App\Http\Controllers\TrainerController;
@@ -112,6 +112,7 @@ use App\Http\Controllers\CoingatePaymentController;
 use App\Http\Controllers\DeductionOptionController;
 use App\Http\Controllers\PaystackPaymentController;
 use App\Http\Controllers\PerformanceTypeController;
+use App\Http\Controllers\ProjectProductsController;
 use App\Http\Controllers\RazorpayPaymentController;
 use App\Http\Controllers\TerminationTypeController;
 use App\Http\Controllers\InterviewScheduleController;
@@ -1649,3 +1650,7 @@ Route::any('zoom-meeting/get_zoom_meeting_data', [ZoomMeetingController::class, 
 
 Route::any('meeting/get_meeting_data', [MeetingController::class, 'get_meeting_data'])->name('meeting.get_meeting_data')->middleware(['auth', 'XSS']);
 Route::get('meeting-calender', [MeetingController::class, 'calender'])->name('meeting.calender')->middleware(['auth', 'XSS']);
+//for the special task
+
+Route::resource('sptask',SptaskController::class)->middleware(['auth', 'XSS']);
+Route::get('invitenewuser/{id}',[SptaskController::class,'addnewuser'])->name('taskuser');
