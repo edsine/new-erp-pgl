@@ -26,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartmentSeeder::class);
         $this->call(DesignationSeeder::class);
         $this->call(TaxSeeder::class);
+        $this->call(SptaskprogressSeeder::class);
     }
 }
