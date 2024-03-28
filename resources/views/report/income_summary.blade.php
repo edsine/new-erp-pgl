@@ -295,7 +295,9 @@
                                             <h6>{{ __('Total') }}</h6>
                                         </td>
                                         @foreach ($chartIncomeArr as $i => $income)
-                                            <td>{{ \Auth::user()->priceFormat($income) }}</td>
+                                            <td><a
+                                                    href="{{ route('income-breakdown') }}?month={{ $i + 1 }}">{{ \Auth::user()->priceFormat($income) }}</a>
+                                            </td>
                                         @endforeach
                                     </tr>
                                 </tbody>

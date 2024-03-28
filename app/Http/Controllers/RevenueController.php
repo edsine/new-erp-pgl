@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Revenue;
 use App\Models\Utility;
 use App\Models\Customer;
@@ -55,6 +56,56 @@ class RevenueController extends Controller
             $revenues = $query->get();
 
             return view('revenue.index', compact('revenues', 'customer', 'account', 'category'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function incomeBreakdown(Request $request)
+    {
+        if (\Auth::user()->can('manage revenue')) {
+            $customer = Customer::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('name', 'id');
+            $customer->prepend('Select Client', '');
+
+            $account = BankAccount::where('created_by', '=', \Auth::user()->creatorId())->get()->pluck('holder_name', 'id');
+            $account->prepend('Select Bank Account', '');
+
+            $category = ChartOfAccount::get()->pluck('name', 'id');
+            $category->prepend('Select Ledger Account', '');
+
+
+            $query = Revenue::where('created_by', '=', \Auth::user()->creatorId());
+
+            $month = $request->month;
+            $month_name = '';
+
+            if (!empty($month)) {
+                $query->whereMonth('date', intval($month));
+                $month_name = Carbon::create()->month($month)->format('F');
+            }
+
+            // if (!empty($request->date)) {
+            //     $date_range = explode('to', $request->date);
+            //     $query->whereBetween('date', $date_range);
+            // }
+
+            if (!empty($request->customer)) {
+                $query->where('customer_id', '=', $request->customer);
+            }
+            if (!empty($request->account)) {
+                $query->where('account_id', '=', $request->account);
+            }
+
+            if (!empty($request->category)) {
+                $query->where('expense_head_credit', '=', $request->category)->orWhere('expense_head_debit', '=', $request->category);
+            }
+
+            if (!empty($request->payment)) {
+                $query->where('payment_method', '=', $request->payment);
+            }
+            $revenues = $query->get();
+
+            return view('revenue.income_breakdown', compact('revenues', 'customer', 'account', 'category', 'month_name'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
