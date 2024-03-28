@@ -17,6 +17,69 @@
         <div class="col-sm-12">
             <div class=" mt-2 " id="multiCollapseExample1">
                 <div class="card">
+                                        <div class="card-body">
+                        {{ Form::open(['route' => ['expense-breakdown'], 'method' => 'GET', 'id' => 'payment_form']) }}
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-xl-10">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('account', __('Bank Account'), ['class' => 'form-label']) }}
+                                            {{ Form::select('account', $account, isset($_GET['account']) ? $_GET['account'] : '', ['class' => 'form-control select', 'id' => 'choices-multiple']) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('vender', __('Vendor'), ['class' => 'form-label']) }}
+                                            {{ Form::select('vender', $vender, isset($_GET['vender']) ? $_GET['vender'] : '', ['class' => 'form-control select', 'id' => 'choices-multiple1']) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('category', __('Ledger Account'), ['class' => 'form-label']) }}
+                                            {{ Form::select('category', $category, isset($_GET['category']) ? $_GET['category'] : '', ['class' => 'form-control select', 'id' => 'choices-multiple2']) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('customer', __('Customer'), ['class' => 'form-label']) }}
+                                            {{ Form::select('customer', $customers, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control select', 'id' => 'choices-multiple1']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('department', __('Department'), ['class' => 'form-label']) }}
+                                            {{ Form::select('department', $departments, isset($_GET['department']) ? $_GET['department'] : '', ['class' => 'form-control select', 'id' => 'choices-multiple1']) }}
+
+                                            <input type="hidden" name="month" value="{{ $month }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto mt-4">
+                                <div class="row">
+                                    <div clas="col-auto">
+                                        <a href="#" class="btn btn-sm btn-primary"
+                                            onclick="document.getElementById('payment_form').submit(); return false;"
+                                            data-toggle="tooltip" title="{{ __('Apply') }}"
+                                            data-original-title="{{ __('apply') }}">
+                                            <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
+                                        </a>
+
+                                        <a href="{{ route('expense-breakdown') }}" class="btn btn-sm btn-danger"
+                                            data-bs-toggle="tooltip" title="{{ __('Reset') }}">
+                                            <span class="btn-inner--icon"><i
+                                                    class="ti ti-trash-off text-white-off "></i></span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
@@ -41,6 +104,9 @@
                                     <th>{{ __('Reference') }}</th>
                                     <th>{{ __('Description') }}</th>
                                     <th>{{ __('Payment Receipt') }}</th>
+                                    @if (Gate::check('edit payment') || Gate::check('delete payment'))
+                                        <th>{{ __('Action') }}</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,6 +150,39 @@
                                             @endif
 
                                         </td>
+                                                                                @if (Gate::check('edit revenue') || Gate::check('delete revenue'))
+                                            <td class="action text-end">
+                                                @can('edit payment')
+                                                    <div class="action-btn bg-primary ms-2">
+                                                        <a href="#" class="mx-3 btn btn-sm align-items-center"
+                                                            data-url="{{ route('payment.edit', $payment->id) }}"
+                                                            data-ajax-popup="true" data-title="{{ __('Edit Payment') }}"
+                                                            data-size="lg" data-bs-toggle="tooltip" title="{{ __('Edit') }}"
+                                                            data-original-title="{{ __('Edit') }}">
+                                                            <i class="ti ti-pencil text-white"></i>
+                                                        </a>
+                                                    </div>
+                                                @endcan
+                                                @can('delete payment')
+                                                    <div class="action-btn bg-danger ms-2">
+                                                        {!! Form::open([
+                                                            'method' => 'DELETE',
+                                                            'route' => ['payment.destroy', $payment->id],
+                                                            'id' => 'delete-form-' . $payment->id,
+                                                        ]) !!}
+                                                        <a href="#"
+                                                            class="mx-3 btn btn-sm align-items-center bs-pass-para"
+                                                            data-bs-toggle="tooltip" data-original-title="{{ __('Delete') }}"
+                                                            title="{{ __('Delete') }}"
+                                                            data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
+                                                            data-confirm-yes="document.getElementById('delete-form-{{ $payment->id }}').submit();">
+                                                            <i class="ti ti-trash text-white"></i>
+                                                        </a>
+                                                        {!! Form::close() !!}
+                                                    </div>
+                                                @endcan
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

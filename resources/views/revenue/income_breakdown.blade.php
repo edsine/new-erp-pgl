@@ -27,6 +27,62 @@
         <div class="col-sm-12">
             <div class="mt-2 " id="multiCollapseExample1">
                 <div class="card">
+                    <div class="card-body">
+                        {{ Form::open(['route' => ['income-breakdown'], 'method' => 'GET', 'id' => 'revenue_form']) }}
+                        <div class="row align-items-center justify-content-end">
+                            <div class="col-xl-10">
+                                <div class="row">
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 month">
+                                        <div class="btn-box">
+                                            {{ Form::label('account', __('Bank Account'), ['class' => 'form-label']) }}
+                                            {{ Form::select('account', $account, isset($_GET['account']) ? $_GET['account'] : '', ['class' => 'form-control select']) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12 date">
+                                        <div class="btn-box">
+                                            {{ Form::label('customer', __('Customer'), ['class' => 'form-label']) }}
+                                            {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control select']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('category', __('Ledger Account'), ['class' => 'form-label']) }}
+                                            {{ Form::select('category', $category, isset($_GET['category']) ? $_GET['category'] : '', ['class' => 'form-control select']) }}
+
+                                            <input type="hidden" name="month" value="{{ $month }}">
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-auto mt-4">
+                                <div class="row">
+                                    <div class="col-auto">
+
+                                        <a href="#" class="btn btn-sm btn-primary"
+                                            onclick="document.getElementById('revenue_form').submit(); return false;"
+                                            data-bs-toggle="tooltip" title="{{ __('Apply') }}"
+                                            data-original-title="{{ __('apply') }}">
+                                            <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
+                                        </a>
+
+                                        <a href="{{ route('income-breakdown') }}" class="btn btn-sm btn-danger "
+                                            data-bs-toggle="tooltip" title="{{ __('Reset') }}"
+                                            data-original-title="{{ __('Reset') }}">
+                                            <span class="btn-inner--icon"><i
+                                                    class="ti ti-trash-off text-white-off "></i></span>
+                                        </a>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{ Form::close() }}
                 </div>
             </div>
         </div>
@@ -50,6 +106,9 @@
                                     <th> {{ __('Reference') }}</th>
                                     <th> {{ __('Description') }}</th>
                                     <th>{{ __('Payment Receipt') }}</th>
+                                    @if (Gate::check('edit revenue') || Gate::check('delete revenue'))
+                                        <th width="10%"> {{ __('Action') }}</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
@@ -89,6 +148,43 @@
                                             @endif
 
                                         </td>
+                                        @if (Gate::check('edit revenue') || Gate::check('delete revenue'))
+                                            <td class="Action">
+                                                <span>
+                                                    @can('edit revenue')
+                                                        <div class="action-btn bg-primary ms-2">
+                                                            <a href="#" class="mx-3 btn btn-sm align-items-center"
+                                                                data-url="{{ route('revenue.edit', $revenue->id) }}"
+                                                                data-ajax-popup="true" data-size="lg" data-bs-toggle="tooltip"
+                                                                title="{{ __('Edit') }}" title="{{ __('Edit') }}"
+                                                                data-original-title="{{ __('Edit') }}">
+                                                                <i class="ti ti-pencil text-white"></i>
+                                                            </a>
+                                                        </div>
+                                                    @endcan
+                                                    @can('delete revenue')
+                                                        <div class="action-btn bg-danger ms-2">
+                                                            {!! Form::open([
+                                                                'method' => 'DELETE',
+                                                                'route' => ['revenue.destroy', $revenue->id],
+                                                                'class' => 'delete-form-btn',
+                                                                'id' => 'delete-form-' . $revenue->id,
+                                                            ]) !!}
+
+                                                            <a href="#"
+                                                                class="mx-3 btn btn-sm align-items-center bs-pass-para"
+                                                                data-bs-toggle="tooltip" title="{{ __('Delete') }}"
+                                                                data-original-title="{{ __('Delete') }}"
+                                                                data-confirm="{{ __('Are You Sure?') . '|' . __('This action can not be undone. Do you want to continue?') }}"
+                                                                data-confirm-yes="document.getElementById('delete-form-{{ $revenue->id }}').submit();">
+                                                                <i class="ti ti-trash text-white"></i>
+                                                            </a>
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                    @endcan
+                                                </span>
+                                            </td>
+                                        @endif
                                     </tr>
                                 @endforeach
 
