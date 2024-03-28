@@ -105,7 +105,7 @@ class RevenueController extends Controller
             }
             $revenues = $query->get();
 
-            return view('revenue.income_breakdown', compact('revenues', 'customer', 'account', 'category', 'month_name'));
+            return view('revenue.income_breakdown', compact('revenues', 'customer', 'account', 'category', 'month_name', 'month'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

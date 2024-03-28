@@ -147,7 +147,7 @@ class PaymentController extends Controller
             $payments = $query->get();
 
 
-            return view('payment.expense_breakdown', compact('payments', 'account', 'category', 'vender', 'customers', 'departments', 'month_name'));
+            return view('payment.expense_breakdown', compact('payments', 'account', 'category', 'vender', 'customers', 'departments', 'month_name', 'month'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
