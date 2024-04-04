@@ -72,7 +72,7 @@ class ProjectTaskController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->with('error', Utility::errorFormat($validator->getMessageBag()));
             }
-dd($request->all());
+            // dd($request->all());
             $usr        = Auth::user();
             $project    = Project::find($project_id);
             $last_stage = $project->first()->id;
