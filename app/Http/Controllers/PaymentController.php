@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Vender;
 use App\Models\Payment;
 use App\Models\Utility;
@@ -77,6 +78,76 @@ class PaymentController extends Controller
 
 
             return view('payment.index', compact('payments', 'account', 'category', 'vender', 'customers', 'departments'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
+    }
+
+    public function expenseBreakdown(Request $request)
+    {
+        if (\Auth::user()->can('manage payment')) {
+            $vender = Vender::get()->pluck('name', 'id');
+            $vender->prepend('Select Vendor', '');
+
+            $customers = Customer::get()->pluck('name', 'id');
+            $customers->prepend('Select Client', '');
+
+            $departments = Department::get()->pluck('name', 'id');
+            $departments->prepend('Select Department', '');
+
+            $account = BankAccount::get()->pluck('holder_name', 'id');
+            $account->prepend('Select Bank Account', '');
+
+            $category = ChartOfAccount::get()->pluck('name', 'id');
+            $category->prepend('Select Ledger Account', '');
+
+
+            $query = Payment::where('created_by', '=', \Auth::user()->creatorId());
+
+            $month = $request->month;
+            $month_name = '';
+
+            if (!empty($month)) {
+                $query->whereMonth('date', intval($month));
+                $month_name = Carbon::create()->month($month)->format('F');
+            }
+
+
+            // if (!empty($request->date)) {
+            //     $date_range = explode('to', $request->date);
+            //     $query->whereBetween('date', $date_range);
+            // }
+
+            if (!empty($request->vender)) {
+                $query->where('vendor_id', '=', $request->vender);
+            }
+
+            if (!empty($request->customer)) {
+                $query->where('client_id', '=', $request->customer);
+            }
+
+            if (!empty($request->project)) {
+                $query->where('project_id', '=', $request->project);
+            }
+
+            if (!empty($request->department)) {
+                $query->where('department_id', '=', $request->department);
+            }
+
+
+            if (!empty($request->account)) {
+                $query->where('account_id', '=', $request->account);
+            }
+
+            if (!empty($request->category)) {
+                $query->where('expense_head_credit', '=', $request->category)->orWhere('expense_head_debit', '=', $request->category);
+            }
+
+
+            $payments = $query->get();
+
+
+            return view('payment.expense_breakdown', compact('payments', 'account', 'category', 'vender', 'customers', 'departments', 'month_name', 'month'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }

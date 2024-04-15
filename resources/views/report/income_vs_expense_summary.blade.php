@@ -1,10 +1,10 @@
 @extends('layouts.admin')
 @section('page-title')
-    {{__('Income Vs Expense Summary')}}
+    {{ __('Income Vs Expense Summary') }}
 @endsection
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('Income vs Expense Summary')}}</li>
+    <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a></li>
+    <li class="breadcrumb-item">{{ __('Income vs Expense Summary') }}</li>
 @endsection
 
 @push('theme-script')
@@ -12,15 +12,13 @@
 @endpush
 @push('script-page')
     <script>
-        (function () {
+        (function() {
             var chartBarOptions = {
-                series: [
-                    {
-                        name: '{{ __("Profit") }}',
-                        data:  {!! json_encode($profit) !!},
+                series: [{
+                    name: '{{ __('Profit') }}',
+                    data: {!! json_encode($profit) !!},
 
-                    },
-                ],
+                }, ],
 
                 chart: {
                     height: 300,
@@ -52,7 +50,7 @@
                 xaxis: {
                     categories: {!! json_encode($monthList) !!},
                     title: {
-                        text: '{{ __("Months") }}'
+                        text: '{{ __('Months') }}'
                     }
                 },
                 colors: ['#ffa21d', '#FF3A6E'],
@@ -74,7 +72,7 @@
                 // },
                 yaxis: {
                     title: {
-                        text: '{{ __("Profit") }}'
+                        text: '{{ __('Profit') }}'
                     },
 
                 }
@@ -86,7 +84,7 @@
     </script>
     <script type="text/javascript" src="{{ asset('js/html2pdf.bundle.min.js') }}"></script>
     <script>
-        var year = '{{$currentYear}}';
+        var year = '{{ $currentYear }}';
         var filename = $('#filename').val();
 
         function saveAsPDF() {
@@ -94,9 +92,19 @@
             var opt = {
                 margin: 0.3,
                 filename: filename,
-                image: {type: 'jpeg', quality: 1},
-                html2canvas: {scale: 4, dpi: 72, letterRendering: true},
-                jsPDF: {unit: 'in', format: 'A2'}
+                image: {
+                    type: 'jpeg',
+                    quality: 1
+                },
+                html2canvas: {
+                    scale: 4,
+                    dpi: 72,
+                    letterRendering: true
+                },
+                jsPDF: {
+                    unit: 'in',
+                    format: 'A2'
+                }
             };
             html2pdf().set(opt).from(element).save();
 
@@ -107,11 +115,12 @@
 
 @section('action-btn')
     <div class="float-end">
-        {{--        <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" data-bs-toggle="tooltip" title="{{__('Filter')}}">--}}
-        {{--            <i class="ti ti-filter"></i>--}}
-        {{--        </a>--}}
+        {{--        <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" data-bs-toggle="tooltip" title="{{__('Filter')}}"> --}}
+        {{--            <i class="ti ti-filter"></i> --}}
+        {{--        </a> --}}
 
-        <a href="#" class="btn btn-sm btn-primary" onclick="saveAsPDF()"data-bs-toggle="tooltip" title="{{__('Download')}}" data-original-title="{{__('Download')}}">
+        <a href="#" class="btn btn-sm btn-primary" onclick="saveAsPDF()"data-bs-toggle="tooltip"
+            title="{{ __('Download') }}" data-original-title="{{ __('Download') }}">
             <span class="btn-inner--icon"><i class="ti ti-download"></i></span>
         </a>
 
@@ -124,7 +133,7 @@
             <div class="mt-2 " id="multiCollapseExample1">
                 <div class="card">
                     <div class="card-body">
-                        {{ Form::open(array('route' => array('report.income.vs.expense.summary'),'method' => 'GET','id'=>'income_vs_expense_summary')) }}
+                        {{ Form::open(['route' => ['report.income.vs.expense.summary'], 'method' => 'GET', 'id' => 'income_vs_expense_summary']) }}
                         <div class="row align-items-center justify-content-end">
                             <div class="col-xl-10">
                                 <div class="row">
@@ -132,28 +141,28 @@
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('year', __('Year'),['class'=>'form-label'])}}
-                                            {{ Form::select('year',$yearList,isset($_GET['year'])?$_GET['year']:'', array('class' => 'form-control select')) }}
+                                            {{ Form::label('year', __('Year'), ['class' => 'form-label']) }}
+                                            {{ Form::select('year', $yearList, isset($_GET['year']) ? $_GET['year'] : '', ['class' => 'form-control select']) }}
                                         </div>
                                     </div>
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('category', __('Category'),['class'=>'form-label'])}}
-                                            {{ Form::select('category',$category,isset($_GET['category'])?$_GET['category']:'', array('class' => 'form-control select')) }}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
-                                        <div class="btn-box">
-                                            {{ Form::label('customer', __('Customer'),['class'=>'form-label'])}}
-                                            {{ Form::select('customer',$customer,isset($_GET['customer'])?$_GET['customer']:'', array('class' => 'form-control select')) }}
+                                            {{ Form::label('category', __('Category'), ['class' => 'form-label']) }}
+                                            {{ Form::select('category', $category, isset($_GET['category']) ? $_GET['category'] : '', ['class' => 'form-control select']) }}
                                         </div>
                                     </div>
 
                                     <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                                         <div class="btn-box">
-                                            {{ Form::label('vender', __('Vendor'),['class'=>'form-label'])}}
-                                            {{ Form::select('vender',$vender,isset($_GET['vender'])?$_GET['vender']:'', array('class' => 'form-control select')) }}
+                                            {{ Form::label('customer', __('Customer'), ['class' => 'form-label']) }}
+                                            {{ Form::select('customer', $customer, isset($_GET['customer']) ? $_GET['customer'] : '', ['class' => 'form-control select']) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
+                                        <div class="btn-box">
+                                            {{ Form::label('vender', __('Vendor'), ['class' => 'form-label']) }}
+                                            {{ Form::select('vender', $vender, isset($_GET['vender']) ? $_GET['vender'] : '', ['class' => 'form-control select']) }}
                                         </div>
                                     </div>
 
@@ -164,12 +173,18 @@
                                 <div class="row">
                                     <div class="col-auto mt-4">
 
-                                        <a href="#" class="btn btn-sm btn-primary" onclick="document.getElementById('income_vs_expense_summary').submit(); return false;" data-bs-toggle="tooltip" title="{{__('Apply')}}" data-original-title="{{__('apply')}}">
+                                        <a href="#" class="btn btn-sm btn-primary"
+                                            onclick="document.getElementById('income_vs_expense_summary').submit(); return false;"
+                                            data-bs-toggle="tooltip" title="{{ __('Apply') }}"
+                                            data-original-title="{{ __('apply') }}">
                                             <span class="btn-inner--icon"><i class="ti ti-search"></i></span>
                                         </a>
 
-                                        <a href="{{route('report.income.vs.expense.summary')}}" class="btn btn-sm btn-danger " data-bs-toggle="tooltip"  title="{{ __('Reset') }}" data-original-title="{{__('Reset')}}">
-                                            <span class="btn-inner--icon"><i class="ti ti-trash-off text-white-off "></i></span>
+                                        <a href="{{ route('report.income.vs.expense.summary') }}"
+                                            class="btn btn-sm btn-danger " data-bs-toggle="tooltip"
+                                            title="{{ __('Reset') }}" data-original-title="{{ __('Reset') }}">
+                                            <span class="btn-inner--icon"><i
+                                                    class="ti ti-trash-off text-white-off "></i></span>
                                         </a>
 
 
@@ -189,40 +204,42 @@
     <div id="printableArea">
         <div class="row mt-3">
             <div class="col">
-                <input type="hidden" value="{{$filter['category'].' '.__('Income Vs Expense Summary').' '.'Report of'.' '.$filter['startDateRange'].' to '.$filter['endDateRange']}}" id="filename">
+                <input type="hidden"
+                    value="{{ $filter['category'] . ' ' . __('Income Vs Expense Summary') . ' ' . 'Report of' . ' ' . $filter['startDateRange'] . ' to ' . $filter['endDateRange'] }}"
+                    id="filename">
                 <div class="card p-4 mb-4">
-                    <h7 class="report-text gray-text mb-0">{{__('Report')}} :</h7>
-                    <h6 class="report-text mb-0">{{__('Income Vs Expense Summary')}}</h6>
+                    <h7 class="report-text gray-text mb-0">{{ __('Report') }} :</h7>
+                    <h6 class="report-text mb-0">{{ __('Income Vs Expense Summary') }}</h6>
                 </div>
             </div>
-            @if($filter['category']!= __('All'))
+            @if ($filter['category'] != __('All'))
                 <div class="col">
                     <div class="card p-4 mb-4">
-                        <h7 class="report-text gray-text mb-0">{{__('Category')}} :</h7>
-                        <h6 class="report-text mb-0">{{$filter['category'] }}</h6>
+                        <h7 class="report-text gray-text mb-0">{{ __('Category') }} :</h7>
+                        <h6 class="report-text mb-0">{{ $filter['category'] }}</h6>
                     </div>
                 </div>
             @endif
-            @if($filter['customer']!= __('All'))
+            @if ($filter['customer'] != __('All'))
                 <div class="col">
                     <div class="card p-4 mb-4">
-                        <h7 class="report-text gray-text mb-0">{{__('Customer')}} :</h7>
-                        <h6 class="report-text mb-0">{{$filter['customer'] }}</h6>
+                        <h7 class="report-text gray-text mb-0">{{ __('Customer') }} :</h7>
+                        <h6 class="report-text mb-0">{{ $filter['customer'] }}</h6>
                     </div>
                 </div>
             @endif
-            @if($filter['vender']!= __('All'))
+            @if ($filter['vender'] != __('All'))
                 <div class="col">
                     <div class="card p-4 mb-4">
-                        <h7 class="report-text gray-text mb-0">{{__('Vendor')}} :</h7>
-                        <h6 class="report-text mb-0">{{$filter['vender'] }}</h6>
+                        <h7 class="report-text gray-text mb-0">{{ __('Vendor') }} :</h7>
+                        <h6 class="report-text mb-0">{{ $filter['vender'] }}</h6>
                     </div>
                 </div>
             @endif
             <div class="col">
                 <div class="card p-4 mb-4">
-                    <h7 class="report-text gray-text mb-0">{{__('Duration')}} :</h7>
-                    <h6 class="report-text mb-0">{{$filter['startDateRange'].' to '.$filter['endDateRange']}}</h6>
+                    <h7 class="report-text gray-text mb-0">{{ __('Duration') }} :</h7>
+                    <h6 class="report-text mb-0">{{ $filter['startDateRange'] . ' to ' . $filter['endDateRange'] }}</h6>
                 </div>
             </div>
         </div>
@@ -232,7 +249,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="scrollbar-inner">
-                            <div id="chart-sales" data-color="primary" data-height="300" ></div>
+                            <div id="chart-sales" data-color="primary" data-height="300"></div>
                         </div>
                     </div>
                 </div>
@@ -243,53 +260,61 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
-                                <tr>
-                                    <th>{{__('Type')}}</th>
-                                    @foreach($monthList as $month)
-                                        <th>{{$month}}</th>
-                                    @endforeach
-                                </tr>
+                                    <tr>
+                                        <th>{{ __('Type') }}</th>
+                                        @foreach ($monthList as $month)
+                                            <th>{{ $month }}</th>
+                                        @endforeach
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td colspan="13" class="text-dark"><span>{{__('Income : ')}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td>{{(__('Revenue'))}}</td>
-                                    @foreach($revenueIncomeTotal as $revenue)
-                                        <td>{{\Auth::user()->priceFormat($revenue)}}</td>
-                                    @endforeach
-                                </tr>
-                                {{-- <tr>
+                                    <tr>
+                                        <td colspan="13" class="text-dark"><span>{{ __('Income : ') }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ __('Revenue') }}</td>
+                                        @foreach ($revenueIncomeTotal as $i => $revenue)
+                                            <td><a
+                                                    href="{{ route('income-breakdown') }}?month={{ $i + 1 }}">{{ \Auth::user()->priceFormat($revenue) }}</a>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    {{-- <tr>
                                     <td>{{(__('Invoice'))}}</td>
-                                    @foreach($invoiceIncomeTotal as $invoice)
+                                    @foreach ($invoiceIncomeTotal as $invoice)
                                         <td>{{\Auth::user()->priceFormat($invoice)}}</td>
                                     @endforeach
                                 </tr> --}}
-                                <tr>
-                                    <td colspan="13" class="text-dark"><span>{{__('Expense : ')}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td>{{(__('Payment'))}}</td>
-                                    @foreach($paymentExpenseTotal as $payment)
-                                        <td>{{\Auth::user()->priceFormat($payment)}}</td>
-                                    @endforeach
-                                </tr>
-                                {{-- <tr>
+                                    <tr>
+                                        <td colspan="13" class="text-dark"><span>{{ __('Expense : ') }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ __('Payment') }}</td>
+                                        @foreach ($paymentExpenseTotal as $i => $payment)
+                                            <td><a
+                                                    href="{{ route('expense-breakdown') }}?month={{ $i + 1 }}">{{ \Auth::user()->priceFormat($payment) }}</a>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                    {{-- <tr>
                                     <td>{{(__('Bill'))}}</td>
-                                    @foreach($billExpenseTotal as $bill)
+                                    @foreach ($billExpenseTotal as $bill)
                                         <td>{{\Auth::user()->priceFormat($bill)}}</td>
                                     @endforeach
                                 </tr> --}}
-                                <tr>
-                                    <td colspan="13" class="text-dark"><span>{{__('Profit = Income - Expense ')}}</span></td>
-                                </tr>
-                                <tr>
-                                    <td><h6>{{(__('Profit'))}}</h6></td>
-                                    @foreach($profit as $prft)
-                                        <td>{{\Auth::user()->priceFormat($prft)}}</td>
-                                    @endforeach
-                                </tr>
+                                    <tr>
+                                        <td colspan="13" class="text-dark">
+                                            <span>{{ __('Profit = Income - Expense ') }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <h6>{{ __('Profit') }}</h6>
+                                        </td>
+                                        @foreach ($profit as $prft)
+                                            <td>{{ \Auth::user()->priceFormat($prft) }}</td>
+                                        @endforeach
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -299,5 +324,3 @@
         </div>
     </div>
 @endsection
-
-
