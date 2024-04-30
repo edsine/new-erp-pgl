@@ -58,11 +58,10 @@
                                 {{-- <small>{{ 'Assined to:' }}</small> --}}
                                 <div class="user-group">
                                     @if (isset($item->user))
-                                        {{-- @dd($item->sptaskuser); --}}
-                                        {{-- <small>{{ $item->user->name }}</small> --}}
 
 
-                                        <small class=" fw-bolder text-success float-end"> {{ $item->taskprogress->name . ' '. 'Stage'}}</small>
+
+                                        <small class=" fw-bolder text-success float-end"> {{ $item->taskprogress?$item->taskprogress->name . ' '. 'Stage':''}}</small>
 
 
 

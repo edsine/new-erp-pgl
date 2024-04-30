@@ -20,27 +20,14 @@ class SptaskController extends Controller
         $user->prepend('Select User','');
         $dept = Department::get();
         $dept->prepend('Select Department','');
-        // $tasks=Sptask::join('sptaskusers','id','=','sptask_id')
 
-        // ->get()
-
-        // ->where('created_by',$user)
-
-        // ;
         $tasks = Sptask::with('sptaskuser')->get();
-        // $tasks= \DB::table('sptasks as tk')
-        // ->join('sptaskusers as u','tk.id','u.sptask_id')
-        // ->where('created_by',$theuser->id)
-        // ->orWhere('user_id',$theuser->id)
-        // ->get();
+
         // dd($tasks);
 
 
-        // if (\Auth::user()->can('manage project')) {
         return view('sptask.index', compact('view', 'user', 'dept','tasks'));
-        // } else {
-        //     return redirect()->back()->with('error', __('Permission Denied.'));
-        // }
+
 
 
     }
