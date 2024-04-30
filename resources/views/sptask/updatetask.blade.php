@@ -50,7 +50,7 @@
                             {{-- @dd( $tasks->taskprogress->name) --}}
                             <div class="col-auto text-end">
                                 <h4 class="m-0"></h4>
-                                <small class="text-success h6">{{ $tasks->taskprogress->name }}</small>
+                                <small class="text-success h6">{{ $tasks->taskprogress?$tasks->taskprogress->name:'' }}</small>
                             </div>
                         </div>
                     </div>
