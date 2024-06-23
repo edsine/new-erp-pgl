@@ -59,7 +59,7 @@
         @endif
         <div class="form-group mb-4">
 
-                @if (Route::has('password.request'))
+                @if (Route::has('passwords.request'))
                     <a href="{{ route('password.request') }}" class="text-xs">{{ __('Forgot Your Password?') }}</a>
                 @endif
 
