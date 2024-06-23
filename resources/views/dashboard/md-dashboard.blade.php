@@ -64,7 +64,7 @@
 @endpush
 @section('breadcrumb')
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
-    <li class="breadcrumb-item">{{__('MD')}}</li>
+    <li class="breadcrumb-item">{{__('Chairman')}}</li>
 @endsection
 @section('content')
     @if(\Auth::user()->type != 'client' && \Auth::user()->type != 'company')
@@ -302,6 +302,12 @@
                             <div class="row">
                                 <div class="col p-2">
                                     <p class="float-end"><b>Total Amount(N):</b> <span>N200000</span></p>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    {{ Form::label("chairmans_remark", __("Chairman's Remark"), ['class' => 'form-label']) }}<br>
+                                    <textarea class="form-control" id=""  rows="5"></textarea>
                                 </div>
                             </div>
                             
