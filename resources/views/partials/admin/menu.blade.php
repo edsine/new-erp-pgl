@@ -32,8 +32,16 @@
     <div class="navbar-content">
         @if (\Auth::user()->type != 'client')
             <ul class="dash-navbar">
-
+                @if(\Auth::user()->type == 'chairman' )
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard' ? ' active' : '' }}">
+                    <a href="{{ route('chairman.dashboard') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-home"></i></span><span
+                            class="dash-mtext">{{ __('Requisition Approval') }}</span>
+                    </a>
+                </li>
+@else
                 <!--------------------- Start Dashboard ----------------------------------->
+                
 
                 @if (Gate::check('show hrm dashboard') || Gate::check('show project dashboard') || Gate::check('show account dashboard'))
                     <li
@@ -51,6 +59,7 @@
                                     class="ti ti-home"></i></span><span class="dash-mtext">{{ __('Dashboard') }}</span>
                             <span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
+                            
                             @if (\Auth::user()->show_account() == 1 && Gate::check('show account dashboard'))
                                 <li
                                     class="dash-item dash-hasmenu {{ Request::segment(1) == null || Request::segment(1) == 'report' ? ' active dash-trigger' : '' }}">
@@ -1317,7 +1326,7 @@
                         </li>
                     @endif
 
-
+                    @endif
                     <!--------------------- End System Setup ----------------------------------->
 
             </ul>
@@ -1429,6 +1438,7 @@
 
             </ul>
         @endif
+        
     </div>
 </div>
 </nav>

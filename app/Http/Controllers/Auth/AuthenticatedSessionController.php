@@ -100,15 +100,14 @@ class AuthenticatedSessionController extends Controller
 
 
 
-        if($user->type =='company' || $user->type =='client')
-        {
+        if ($user->type == 'company' || $user->type == 'client') {
             return redirect()->intended(RouteServiceProvider::HOME);
-
-        }
-        else
-        {
+        } elseif ($user->type == 'chairman') {
+            return redirect()->route('chairman.dashboard'); // Adjusted to use route() helper
+        } else {
             return redirect()->intended(RouteServiceProvider::EMPHOME);
         }
+        
     }
     /**
      * Destroy an authenticated session.
