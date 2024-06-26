@@ -35,7 +35,7 @@
                             <tbody class="font-style">
                            @foreach($requisitions as $item)
                            <tr>
-                            <td>{{$item->title}}</td>
+                            <td>{{substr($item->title,0, 30)}}</td>
                             <td>  
                                 
                                 <div class="action-btn bg-warning ms-2">
