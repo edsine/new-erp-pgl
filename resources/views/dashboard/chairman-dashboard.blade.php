@@ -17,15 +17,15 @@
                     <div class="col-md-6 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Month/Year</p>
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.8rem">Income- <span>N0000000</span></p>
-                            <button class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
+                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.8rem">Income- <span>{{ Auth::user()->priceFormat($incomes) }}</span></p>
+                            <a href="{{ route('revenue.index') }}" class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute"> view details</a>
                         </div>
                     </div>
                     <div class="col-md-6 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Month/Year</p>
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.8rem">Expenses- <span>N0000000</span></p>
-                            <button class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</button>
+                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.8rem">Expenses- <span>{{ Auth::user()->priceFormat($payments) }}</span></p>
+                            <a href="{{ route('payment.index') }}" class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</a>
                         </div>
                     </div>
                 </div>
@@ -35,38 +35,40 @@
                     <p class="text-bold fs-5">Requisition</p>
                     <div class="col-md-6 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Need Approvals</p>
+                        @foreach($approvals as $item)
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Request for fuel</p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
+                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">{{substr($item->title,0, 30)}}</p>
+                            <a href="#" 
+                            data-url="{{ URL::to('requisition/' . $item->id . '/action1') }}"
+                            data-size="lg" 
+                            data-ajax-popup="true"
+                            data-title="{{ __('Requisition Action') }}"
+                            data-bs-toggle="tooltip"
+                            title="{{ __('Requisition Action') }}"
+                            data-original-title="{{ __('Requisition Action') }}" class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</a>
                         </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Request for increment</p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Request for training</p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
+                        @endforeach
                         <div>
-                            <button class="btn btn-sm btn-secondary float-end mt-3">view others</button>
+                            <a href="{{ route('chairman.dashboard') }}" class="btn btn-sm btn-secondary float-end mt-3">view all</a>
                         </div>
                     </div>
                     <div class="col-md-6 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Requisition History</p>
+                        @foreach($requisitions as $item)
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Dollar account</p>
-                            <button class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</button>
+                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">{{substr($item->title,0, 30)}}</p>
+                            <a href="#" 
+                            data-url="{{ URL::to('requisition/' . $item->id . '/action1') }}"
+                            data-size="lg" 
+                            data-ajax-popup="true"
+                            data-title="{{ __('Requisition Action') }}"
+                            data-bs-toggle="tooltip"
+                            title="{{ __('Requisition Action') }}"
+                            data-original-title="{{ __('Requisition Action') }}" class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</a>
                         </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">requisition for internet</span></p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">salary increment</span></p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
+                        @endforeach
                         <div>
-                            <button class="btn btn-sm btn-secondary float-end mt-3">view others</button>
+                            <a href="{{ route('requisition.index') }}" class="btn btn-sm btn-secondary float-end mt-3">view all</a>
                         </div>
                     </div>
                 </div>
@@ -81,7 +83,7 @@
                         
                         <div class="position-relative pb-2">
                             <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Ongoing <br>Projects</p>
-                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $ongoing_projects}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 col-5 card rounded-1 shadow p-2 ">
@@ -91,7 +93,7 @@
                         
                         <div class="position-relative pb-2">
                             <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Concluded <br>Projects</p>
-                            <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                            <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $completed_projects}}</span>
                         </div>
                     </div>
                     <div class="col-md-3 col-5 card rounded-1 shadow p-2 ">
@@ -101,7 +103,7 @@
                         
                         <div class="position-relative pb-2">
                             <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Prospective <br>Projects</p>
-                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $on_hold_projects}}</span>
                         </div>
                     </div>
                 </div>
@@ -148,15 +150,15 @@
 
         {{-- staff register div --}}
         <div class="row  my-3 gap-3 ">
-            <p class="text-bold fs-5">Staff Register</p>
+            <p class="text-bold fs-5">Staff/Client Register</p>
             <div class="col-md-2 col-5 card rounded-1 shadow p-2">
                 <div class="mb-1">
                     <p class=""></p>
                 </div>
                 
                 <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-warning" style="font-size: 0.9rem !important">On Leave</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-warning" style="font-size: 0.9rem !important">At Work</span></p>
+                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_at_work }}</span>
                 </div>
             </div>
             <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
@@ -166,7 +168,7 @@
                 
                 <div class="position-relative pb-2">
                     <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color: rgb(213, 213, 32);">On Leave</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                    <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_on_leave }}</span>
                 </div>
             </div>
             <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
@@ -175,20 +177,20 @@
                 </div>
                 
                 <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-success" style="font-size: 0.9rem !important">On Leave</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
+                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of clients <br><span class="text-success" style="font-size: 0.9rem !important">Client</span></p>
+                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_as_client }}</span>
                 </div>
             </div>
-            <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
+            {{-- <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
                 <div class="mb-1">
                     <p class="text-black-50"></p>
                 </div>
                 
                 <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-danger" style="font-size: 0.9rem !important">On Leave</span></p>
+                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-danger" style="font-size: 0.9rem !important">As Client</span></p>
                     <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
 

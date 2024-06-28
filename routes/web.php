@@ -171,9 +171,7 @@ Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'showLoginF
 Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate',]);
 
 // For md dashboard
-Route::get('/chairman', function () {
-    return view('dashboard.chairman-dashboard');
-});
+
 
 
 
@@ -1414,7 +1412,11 @@ Route::group(
 
         Route::get('requisition-approval', [RequisitionController::class, 'approval'])->name('requisition-approval');
         Route::get('/chairman-dashboard', [RequisitionController::class, 'chairman_dashboard_index'])->name('chairman.dashboard')->middleware(['XSS', 'revalidate',]);
+        Route::get('/chairman', [RequisitionController::class, 'chairman_dashboard_main'])->name('chairman.dashboard.main')->middleware(['XSS', 'revalidate',]);
 
+       /*  Route::get('/chairman', function () {
+            return view('dashboard.chairman-dashboard');
+        }); */
         // Staff Leave
 
         Route::get('staff_leave', [StaffLeaveController::class, 'index'])->name('staff_leave.index');

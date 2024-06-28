@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use DateTime;
 use App\Models\Vender;
 use App\Models\Payment;
+use App\Models\Project;
+use App\Models\Revenue;
 use App\Models\Utility;
 use App\Models\Customer;
 use App\Models\Employee;
@@ -18,8 +20,10 @@ use App\Models\JournalEntry;
 use Illuminate\Http\Request;
 use App\Models\ChartOfAccount;
 use App\Models\RequisitionItem;
+use App\Models\User;
 use App\Imports\EmployeesImport;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class RequisitionController extends Controller
 {
@@ -40,6 +44,30 @@ class RequisitionController extends Controller
         $requisitions = $query->get();
 
         return view('requisition.index', compact('requisitions'));
+    }
+
+    public function chairman_dashboard_main(){
+
+        $incomes = Revenue::whereYear('created_at', date('Y'))->sum('amount');
+        $payments = Payment::whereYear('created_at', date('Y'))->sum('amount');
+        $approvals = Requisition::orderBy('updated_at', 'DESC')->where('chairman_approval','=', 'Pending')->limit(3)->get();
+        $requisitions = Requisition::orderBy('updated_at', 'DESC')->where('chairman_approval','=', 'Approved')->limit(3)->get();
+        $completed_projects = Project::where('status', 'LIKE', 'complete')->count();
+        $ongoing_projects = Project::where('status', 'LIKE', 'in_progress')->count();
+        $on_hold_projects = Project::where('status', 'LIKE', 'on_hold')->count();
+        $users_at_work = User::where('type', '!=', 'client')->count();
+        $totalEmployeesWithLeave = DB::table('employees')
+        ->join('leaves', 'employees.id', '=', 'leaves.employee_id')
+        ->where('leaves.chairman_approval', '=', 'Approved')
+        ->select(DB::raw('COUNT(DISTINCT employees.id) AS total_employees_with_leave'))
+        ->get();
+        // The result is a collection with one row containing the total count
+        $users_on_leave = $totalEmployeesWithLeave->first()->total_employees_with_leave;
+        $users_as_client = User::where('type', '=', 'client')->count();
+        return view('dashboard.chairman-dashboard', compact(
+            'incomes', 'payments', 'approvals', 'requisitions', 
+            'completed_projects', 'ongoing_projects', 'on_hold_projects',
+            'users_at_work','users_on_leave','users_as_client'));
     }
 
     public function chairman_dashboard_index(){

@@ -33,9 +33,15 @@
         @if (\Auth::user()->type != 'client')
             <ul class="dash-navbar">
                 @if(\Auth::user()->type == 'chairman' )
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard.main' ? ' active' : '' }}">
+                    <a href="{{ route('chairman.dashboard.main') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-home"></i></span><span
+                            class="dash-mtext">{{ __('Dashboard') }}</span>
+                    </a>
+                </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard' ? ' active' : '' }}">
                     <a href="{{ route('chairman.dashboard') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-home"></i></span><span
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
                             class="dash-mtext">{{ __('Requisition Approval') }}</span>
                     </a>
                 </li>
