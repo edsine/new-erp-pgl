@@ -170,6 +170,11 @@ Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'showLoginF
 
 Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate',]);
 
+// For md dashboard
+Route::get('/chairman', function () {
+    return view('dashboard.chairman-dashboard');
+});
+
 
 
 Route::get('/account-dashboard', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['auth', 'XSS', 'revalidate']);

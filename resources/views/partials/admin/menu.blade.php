@@ -17,7 +17,7 @@
     @else
         <nav class="dash-sidebar light-sidebar">
 @endif
-<div class="navbar-wrapper">
+<div class="navbar-wrapper" >
     <div class="m-header main-logo">
         <a href="#" class="b-brand">
             @if ($setting['cust_darklayout'] && $setting['cust_darklayout'] == 'on')
