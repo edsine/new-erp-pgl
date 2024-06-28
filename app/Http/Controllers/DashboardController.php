@@ -56,6 +56,9 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    
+
     public function account_dashboard_index()
     {
         if(Auth::check())
