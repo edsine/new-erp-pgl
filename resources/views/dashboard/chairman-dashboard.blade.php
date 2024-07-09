@@ -13,51 +13,52 @@
     <script>
         
         (function () {
-            var options = {
-                chart: {
-                    height: 180,
-                    type: 'bar',
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                stroke: {
-                    width: 2,
-                    curve: 'smooth'
-                },
-                series: [{
-                    name: "Income",
-                    data: [4500, 5000, 4700, 5100, 5500, 5200, 4800, 5300, 5800, 5400, 5900, 6000]
-                }, {
-                    name: "Expense",
-                    data: [3800, 4200, 3900, 4300, 4700, 4500, 4100, 4600, 5000, 4800, 5200, 5400]
-                }],
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                },
-                colors: ['#3ec9d6', '#FF3A6E'],
-                fill: {
-                    type: 'solid',
-                },
-                grid: {
-                    strokeDashArray: 4,
-                },
-                legend: {
-                    show: true,
-                    position: 'top',
-                    horizontalAlign: 'right',
-                },
-            };
-            var chart = new ApexCharts(document.querySelector("#incExpBarChart"), options);
-            chart.render();
-        })();
+    var options = {
+        chart: {
+            height: 180,
+            type: 'bar',
+            toolbar: {
+                show: false,
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            width: 2,
+            curve: 'smooth'
+        },
+        series: [{
+            name: "Income",
+            data: [{{ $incomesData }}]
+        }, {
+            name: "Expense",
+            data: [{{ $paymentsData }}]
+        }],
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        },
+        colors: ['#3ec9d6', '#FF3A6E'],
+        fill: {
+            type: 'solid',
+        },
+        grid: {
+            strokeDashArray: 4,
+        },
+        legend: {
+            show: true,
+            position: 'top',
+            horizontalAlign: 'right',
+        },
+    };
+    var chart = new ApexCharts(document.querySelector("#incExpBarChart"), options);
+    chart.render();
+})();
+
 
         (function () {
             var options = {
-                series: [75, 25], // [Staff at work, Staff absent]
+                series: [{{ $users_at_work }}, {{ $users_on_leave }}], // [Staff at work, Staff absent]
                 chart: {
                     width: 550,
                     height: 400,
@@ -172,7 +173,7 @@
                             </div>
                             <div class="ms-2">
                                 <p class="text-muted text-sm mb-0">{{__('Income Today')}}</p>
-                                <h4 class="mb-0 text-success">{{\Auth::user()->priceFormat(\Auth::user()->todayIncome())}}</h4>
+                                <h4 class="mb-0 text-success">{{\Auth::user()->priceFormat($incomes1)}}</h4>
 
                             </div>
                         </div>
@@ -184,7 +185,7 @@
                             </div>
                             <div class="ms-2">
                                 <p class="text-muted text-sm mb-0">{{__('Expense Today')}}</p>
-                                <h4 class="mb-0 text-info">{{\Auth::user()->priceFormat(\Auth::user()->todayExpense())}}</h4>
+                                <h4 class="mb-0 text-info">{{\Auth::user()->priceFormat($payments1)}}</h4>
 
                             </div>
                         </div>
@@ -196,7 +197,7 @@
                             </div>
                             <div class="ms-2">
                                 <p class="text-muted text-sm mb-0">{{__('Income This Month')}}</p>
-                                <h4 class="mb-0 text-warning">{{\Auth::user()->priceFormat(\Auth::user()->incomeCurrentMonth())}}</h4>
+                                <h4 class="mb-0 text-warning">{{\Auth::user()->priceFormat($incomes)}}</h4>
 
                             </div>
                         </div>
@@ -208,7 +209,7 @@
                             </div>
                             <div class="ms-2">
                                 <p class="text-muted text-sm mb-0">{{__('Expense This Month')}}</p>
-                                <h4 class="mb-0 text-danger">{{\Auth::user()->priceFormat(\Auth::user()->expenseCurrentMonth())}}</h4>
+                                <h4 class="mb-0 text-danger">{{\Auth::user()->priceFormat($payments)}}</h4>
 
                             </div>
                         </div>
@@ -343,7 +344,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Ongoing <br>Projects</a></p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="{{ route('projects.index') }}">Ongoing <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $ongoing_projects}}</span>
                         </div>
                     </div>
@@ -353,7 +354,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Concluded <br>Projects</a></p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="{{ route('projects.index') }}">Concluded <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $completed_projects}}</span>
                         </div>
                     </div>
@@ -363,7 +364,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Prospective <br>Projects</a></p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="{{ route('projects.index') }}">Prospective <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $on_hold_projects}}</span>
                         </div>
                     </div>

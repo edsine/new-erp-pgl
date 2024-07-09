@@ -33,8 +33,12 @@ class CustomerController extends Controller
 
     public function index()
     {
-        if (\Auth::user()->can('manage customer')) {
+        if (\Auth::user()->can('manage customer') || \Auth::user()->can('manage client')) {
+            if (\Auth::user()->type == 'company' || \Auth::user()->type == 'super admin') {
+                $customers = Customer::get();
+            } else {
             $customers = Customer::where('created_by', \Auth::user()->creatorId())->get();
+            }
 
             return view('customer.index', compact('customers'));
         } else {
@@ -44,7 +48,7 @@ class CustomerController extends Controller
 
     public function create()
     {
-        if (\Auth::user()->can('create customer')) {
+        if (\Auth::user()->can('create customer') || \Auth::user()->can('manage client')) {
             $customFields = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'customer')->get();
 
             return view('customer.create', compact('customFields'));

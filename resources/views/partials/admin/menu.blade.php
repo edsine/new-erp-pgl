@@ -39,16 +39,16 @@
                             class="dash-mtext">{{ __('Dashboard') }}</span>
                     </a>
                 </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}">
+                    <a href="{{ route('customer.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Clients') }}</span>
+                    </a>
+                </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard' ? ' active' : '' }}">
                     <a href="{{ route('chairman.dashboard') }}" class="dash-link">
                         <span class="dash-micon"><i class="ti ti-user"></i></span><span
                             class="dash-mtext">{{ __('Requisition Approval') }}</span>
-                    </a>
-                </li>
-                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'project_products.index' ? ' active' : '' }}">
-                    <a href="{{ route('project_products.index') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
-                            class="dash-mtext">{{ __('Products') }}</span>
                     </a>
                 </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'projects.index' ? ' active' : '' }}">
@@ -57,6 +57,19 @@
                             class="dash-mtext">{{ __('Projects') }}</span>
                     </a>
                 </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'project_products.index' ? ' active' : '' }}">
+                    <a href="{{ route('project_products.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Products') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'projects1.index' ? ' active' : '' }}">
+                    <a href="#" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Productivity') }}</span>
+                    </a>
+                </li>
+                
 
 @else
                 <!--------------------- Start Dashboard ----------------------------------->

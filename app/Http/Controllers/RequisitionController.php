@@ -48,8 +48,28 @@ class RequisitionController extends Controller
 
     public function chairman_dashboard_main(){
 
-        $incomes = Revenue::whereYear('created_at', date('Y'))->sum('amount');
-        $payments = Payment::whereYear('created_at', date('Y'))->sum('amount');
+       
+        $currentYear = date('Y'); // Get the current year
+$currentMonth = date('m'); // Get the current month
+$currentDate = date('Y-m-d'); // Get the current date in 'YYYY-MM-DD' format
+
+// Fetch all incomes for the current month
+$incomes = Revenue::whereYear('created_at', $currentYear)
+                  ->whereMonth('created_at', $currentMonth)
+                  ->sum('amount');
+
+// Fetch all payments for the current month
+$payments = Payment::whereYear('created_at', $currentYear)
+                   ->whereMonth('created_at', $currentMonth)
+                   ->sum('amount');
+                   // Fetch all incomes for today
+$incomes1 = Revenue::whereDate('created_at', $currentDate)
+->sum('amount');
+
+// Fetch all payments for today
+$payments1 = Payment::whereDate('created_at', $currentDate)
+->sum('amount');
+
         $approvals = Requisition::orderBy('updated_at', 'DESC')->where('chairman_approval','=', 'Pending')->limit(3)->get();
         $requisitions = Requisition::orderBy('updated_at', 'DESC')->where('chairman_approval','=', 'Approved')->limit(3)->get();
         $completed_projects = Project::where('status', 'LIKE', 'complete')->count();
@@ -64,10 +84,36 @@ class RequisitionController extends Controller
         // The result is a collection with one row containing the total count
         $users_on_leave = $totalEmployeesWithLeave->first()->total_employees_with_leave;
         $users_as_client = User::where('type', '=', 'client')->count();
+
+        $year = date('Y');
+
+// Initialize arrays to store monthly data
+$monthlyIncomes = [];
+$monthlyPayments = [];
+
+// Fetch monthly data for incomes
+for ($month = 1; $month <= 12; $month++) {
+    $monthlyIncomes[] = Revenue::whereYear('created_at', $year)
+                                ->whereMonth('created_at', $month)
+                                ->sum('amount');
+}
+
+// Fetch monthly data for payments
+for ($month = 1; $month <= 12; $month++) {
+    $monthlyPayments[] = Payment::whereYear('created_at', $year)
+                                ->whereMonth('created_at', $month)
+                                ->sum('amount');
+}
+
+// Prepare data for JavaScript
+$incomesData = implode(',', $monthlyIncomes);
+$paymentsData = implode(',', $monthlyPayments);
+
         return view('dashboard.chairman-dashboard', compact(
-            'incomes', 'payments', 'approvals', 'requisitions', 
+            'incomes', 'payments', 'incomes1', 'payments1', 'approvals', 'requisitions', 
             'completed_projects', 'ongoing_projects', 'on_hold_projects',
-            'users_at_work','users_on_leave','users_as_client'));
+            'users_at_work','users_on_leave','users_as_client',
+            'incomesData', 'paymentsData'));
     }
 
     public function chairman_dashboard_index(){
