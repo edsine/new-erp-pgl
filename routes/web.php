@@ -171,7 +171,9 @@ Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'showLoginF
 Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate',]);
 
 // For md dashboard
-
+Route::get('/md-dashboard', function () {
+    return view('md-dashboard');
+});
 
 
 

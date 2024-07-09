@@ -7,12 +7,273 @@
     <li class="breadcrumb-item"><a href="{{route('dashboard')}}">{{__('Dashboard')}}</a></li>
     <li class="breadcrumb-item">{{__('Chairman')}}</li>
 @endsection
+
+@push('script-page')
+
+    <script>
+        
+        (function () {
+            var options = {
+                chart: {
+                    height: 180,
+                    type: 'bar',
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    width: 2,
+                    curve: 'smooth'
+                },
+                series: [{
+                    name: "Income",
+                    data: [4500, 5000, 4700, 5100, 5500, 5200, 4800, 5300, 5800, 5400, 5900, 6000]
+                }, {
+                    name: "Expense",
+                    data: [3800, 4200, 3900, 4300, 4700, 4500, 4100, 4600, 5000, 4800, 5200, 5400]
+                }],
+                xaxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                },
+                colors: ['#3ec9d6', '#FF3A6E'],
+                fill: {
+                    type: 'solid',
+                },
+                grid: {
+                    strokeDashArray: 4,
+                },
+                legend: {
+                    show: true,
+                    position: 'top',
+                    horizontalAlign: 'right',
+                },
+            };
+            var chart = new ApexCharts(document.querySelector("#incExpBarChart"), options);
+            chart.render();
+        })();
+
+        (function () {
+            var options = {
+                series: [75, 25], // [Staff at work, Staff absent]
+                chart: {
+                    width: 550,
+                    height: 400,
+                    type: 'pie',
+                },
+                labels: ['Staff at Work', 'Staff Absent'],
+                colors: ['#4CAF50', '#FF5252'], 
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 400,
+                            height: 300,
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }],
+                title: {
+                    text: 'Staff Attendance',
+                    align: 'center',
+                    margin: 10,
+                    offsetX: 0,
+                    offsetY: 0,
+                    floating: false,
+                    style: {
+                        fontSize:  '24px',
+                        fontWeight:  'bold',
+                        fontFamily:  undefined,
+                        color:  '#263238'
+                    },
+                },
+                tooltip: {
+                    y: {
+                        formatter: function(val) {
+                            return val + "%"
+                        }
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#staffAttendanceChart"), options);
+            chart.render();
+        })();
+       
+    </script>
+
+
+
+@endpush
+
 @section('content')
+
+
+        {{-- <div class="row p-3">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-5 col-5 bg-info rounded-0 position-relative me-5 mb-2">
+                        <h5 class="text-white my-3">Primary card</h5>
+                        <hr class="mb-1 bg-body">
+                        <p class="mt-0 text-white"><a href="" class="text-white"><u>view details </u></a> <span class="position-absolute end-0 me-3">></span></p> 
+                    </div>
+                    <div class="col-md-5 col-5 bg-warning rounded-0 position-relative mb-2">
+                        <h5 class="text-white mt-3">Primary card</h5>
+                        <hr class="mb-1 bg-body">
+                        <p class="mt-0 text-white"><a href="" class="text-white"><u>view details </u></a> <span class="position-absolute end-0 me-3">></span></p> 
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-5 col-5 bg-success rounded-0 position-relative me-5 mb-2">
+                        <h5 class="text-white mt-3">Primary card</h5>
+                        <hr class="mb-1 bg-body">
+                        <p class="mt-0 text-white"><a href="" class="text-white"><u>view details </u></a> <span class="position-absolute end-0 me-3">></span></p> 
+                    </div>
+                    <div class="col-md-5 col-5 bg-danger rounded-0 position-relative mb-2">
+                        <h5 class="text-white mt-3">Primary card</h5>
+                        <hr class="mb-1 bg-body">
+                        <p class="mt-0 text-white"><a href="" class="text-white"><u>view details </u></a> <span class="position-absolute end-0 me-3">></span></p> 
+                    </div>
+                </div>
+            </div>
+            
+        </div> --}}
+
+        <div>
+            <div class="col-xxl-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{__('Income & Expense')}}
+                            <span class="float-end text-muted">{{__('Current Year 2024')}}</span>
+                        </h5>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="incExpBarChart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="mt-1 mb-0">{{__('Income Vs Expense')}}</h5>
+                <div class="row mt-4">
+
+                    <div class="col-md-6 col-6 my-2">
+                        <div class="d-flex align-items-start mb-2">
+                            <div class="theme-avtar bg-primary">
+                                <i class="ti ti-report-money"></i>
+                            </div>
+                            <div class="ms-2">
+                                <p class="text-muted text-sm mb-0">{{__('Income Today')}}</p>
+                                <h4 class="mb-0 text-success">{{\Auth::user()->priceFormat(\Auth::user()->todayIncome())}}</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 my-2">
+                        <div class="d-flex align-items-start mb-2">
+                            <div class="theme-avtar bg-info">
+                                <i class="ti ti-file-invoice"></i>
+                            </div>
+                            <div class="ms-2">
+                                <p class="text-muted text-sm mb-0">{{__('Expense Today')}}</p>
+                                <h4 class="mb-0 text-info">{{\Auth::user()->priceFormat(\Auth::user()->todayExpense())}}</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 my-2">
+                        <div class="d-flex align-items-start mb-2">
+                            <div class="theme-avtar bg-warning">
+                                <i class="ti ti-report-money"></i>
+                            </div>
+                            <div class="ms-2">
+                                <p class="text-muted text-sm mb-0">{{__('Income This Month')}}</p>
+                                <h4 class="mb-0 text-warning">{{\Auth::user()->priceFormat(\Auth::user()->incomeCurrentMonth())}}</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-6 my-2">
+                        <div class="d-flex align-items-start mb-2">
+                            <div class="theme-avtar bg-danger">
+                                <i class="ti ti-file-invoice"></i>
+                            </div>
+                            <div class="ms-2">
+                                <p class="text-muted text-sm mb-0">{{__('Expense This Month')}}</p>
+                                <h4 class="mb-0 text-danger">{{\Auth::user()->priceFormat(\Auth::user()->expenseCurrentMonth())}}</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         {{-- staff register div --}}
+         <div class="row my-3">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>{{__('Staff Attendance')}}
+                            <span class="float-end text-muted">{{__('Current Year 2024')}}</span>
+                        </h5>
+
+                    </div>
+                    <div class="card-body ms-0">
+                        <div id="staffAttendanceChart"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <p class="text-bold fs-5">Staff Register</p>
+                <div class="row gap-3">
+                    <div class="col-md-12 col-5 card rounded-1 shadow p-2">
+                        <div class="mb-1">
+                            <p class=""></p>
+                        </div>
+                        
+                        <div class="position-relative pb-2">
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color:#4CAF50;">At Work</span></p>
+                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_at_work }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-5 card rounded-1 shadow p-2 ">
+                        <div class="mb-1">
+                            <p class="text-black-50"></p>
+                        </div>
+                        
+                        <div class="position-relative pb-2">
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color: #FF5252;">On Leave</span></p>
+                            <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_on_leave }}</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-5 card rounded-1 shadow p-2 ">
+                        <div class="mb-1">
+                            <p class="text-black-50"></p>
+                        </div>
+                        
+                        <div class="position-relative pb-2">
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of clients <br><span class="text-success" style="font-size: 0.9rem !important">Client</span></p>
+                            <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_as_client }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     
         <div class="row border-bottom border-4">
-            <div class="col-sm-8 min-vh-50">
+            <div class="col-sm-12 min-vh-50">
                 {{-- Accounts statement div --}}
-                <div class="row border-bottom mb-3">
+                {{-- <div class="row border-bottom mb-3">
                     <p class="text-bold fs-5">Account Statement</p>
                     <div class="col-md-6 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Month/Year</p>
@@ -28,12 +289,12 @@
                             <a href="{{ route('payment.index') }}" class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</a>
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 {{-- Requisition div --}}
                 <div class="row border-bottom mb-3">
                     <p class="text-bold fs-5">Requisition</p>
-                    <div class="col-md-6 card rounded-1 shadow p-2 ">
+                    <div class="col-md-5 card rounded-1 shadow p-2 me-5">
                         <p class="text-black-50">Need Approvals</p>
                         @foreach($approvals as $item)
                         <div class="position-relative pb-2">
@@ -52,7 +313,7 @@
                             <a href="{{ route('chairman.dashboard') }}" class="btn btn-sm btn-secondary float-end mt-3">view all</a>
                         </div>
                     </div>
-                    <div class="col-md-6 card rounded-1 shadow p-2 ">
+                    <div class="col-md-5 card rounded-1 shadow p-2 ">
                         <p class="text-black-50">Requisition History</p>
                         @foreach($requisitions as $item)
                         <div class="position-relative pb-2">
@@ -68,7 +329,7 @@
                         </div>
                         @endforeach
                         <div>
-                            <a href="{{ route('requisition.index') }}" class="btn btn-sm btn-secondary float-end mt-3">view all</a>
+                            <a href="{{ route('requisition.index') }}" class="btn btn-sm btn-secondary mt-3 bottom-0 position-absolute end-0 m-2">view all</a>
                         </div>
                     </div>
                 </div>
@@ -82,7 +343,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Ongoing <br>Projects</p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Ongoing <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $ongoing_projects}}</span>
                         </div>
                     </div>
@@ -92,7 +353,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Concluded <br>Projects</p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Concluded <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $completed_projects}}</span>
                         </div>
                     </div>
@@ -102,96 +363,15 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem">Prospective <br>Projects</p>
+                            <p class=" align-middle fw-bolder mt-1 ps-2 text-black-50" style="font-size: 0.8rem"><a href="#">Prospective <br>Projects</a></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $on_hold_projects}}</span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            {{-- letters div --}}
-            <div class="col-sm-4 min-vh-50 bg-red">
-                <p class="text-bold fs-5">Letters</p>
-                <div class="row card" style="min-height: 250px">
-                    <div class="col p-3">
-                        <p class="text-black-50">Incoming/ Recieved Letters</p>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Title of letter<p>
-                            <button class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</button>
-                        </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Title of letter</span></p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-secondary bottom-0 end-0 position-absolute m-3">view others</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row card" style="min-height: 250px">
-                    <div class="col p-3">
-                        <p class="text-black-50">Ongoing/ Sent Letters</p>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Title of letter</p>
-                            <button class="text-white btn-success btn-sm border-none btn border-0 align-middle top-0 end-0 position-absolute "> view details</button>
-                        </div>
-                        <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder my-1" style="font-size: 0.75rem">Title of letter</span></p>
-                            <button class="text-white btn-success btn-sm btn border-0 align-middle top-0 end-0 position-absolute"> view details</button>
-                        </div>
-                        <div>
-                            <button class="btn btn-sm btn-secondary bottom-0 end-0 position-absolute m-3">view others</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
-        {{-- staff register div --}}
-        <div class="row  my-3 gap-3 ">
-            <p class="text-bold fs-5">Staff/Client Register</p>
-            <div class="col-md-2 col-5 card rounded-1 shadow p-2">
-                <div class="mb-1">
-                    <p class=""></p>
-                </div>
-                
-                <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-warning" style="font-size: 0.9rem !important">At Work</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_at_work }}</span>
-                </div>
-            </div>
-            <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
-                <div class="mb-1">
-                    <p class="text-black-50"></p>
-                </div>
-                
-                <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color: rgb(213, 213, 32);">On Leave</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_on_leave }}</span>
-                </div>
-            </div>
-            <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
-                <div class="mb-1">
-                    <p class="text-black-50"></p>
-                </div>
-                
-                <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of clients <br><span class="text-success" style="font-size: 0.9rem !important">Client</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_as_client }}</span>
-                </div>
-            </div>
-            {{-- <div class="col-md-2 col-5 card rounded-1 shadow p-2 ">
-                <div class="mb-1">
-                    <p class="text-black-50"></p>
-                </div>
-                
-                <div class="position-relative pb-2">
-                    <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.6rem">Total number <br>of staff <br><span class="text-danger" style="font-size: 0.9rem !important">As Client</span></p>
-                    <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> 02</span>
-                </div>
-            </div> --}}
-        </div>
+       
 
 
 
@@ -330,3 +510,4 @@
         modal.find('.modal-body').text('New message to ' + recipient);
     });
 </script>
+

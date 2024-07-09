@@ -38,6 +38,7 @@
 {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script> --}}
 {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script> --}}
 <script src="{{ asset('assets/js/bootstrap-4.0.0.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 {{-- XLSX --}}
 
