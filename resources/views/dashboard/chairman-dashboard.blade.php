@@ -242,7 +242,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color:#4CAF50;">At Work</span></p>
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem"><a href="{{ route('users.index') }}">Total number <br>of staff <br></a><span style="font-size: 0.9rem !important; color:blueviolet;">At Work</span></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_at_work }}</span>
                         </div>
                     </div>
@@ -252,7 +252,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of staff <br><span style="font-size: 0.9rem !important; color: #FF5252;">On Leave</span></p>
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem"><a href="{{ route('users.index') }}">Total number <br>of staff <br></a><span style="font-size: 0.9rem !important; color: #FF5252;">On Leave</span></p>
                             <span class=" border-start border-2 align-middle border-secondary  top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_on_leave }}</span>
                         </div>
                     </div>
@@ -262,7 +262,7 @@
                         </div>
                         
                         <div class="position-relative pb-2">
-                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem">Total number <br>of clients <br><span class="text-success" style="font-size: 0.9rem !important">Client</span></p>
+                            <p class=" align-middle fw-bolder mt-0 ps-2" style="font-size: 0.9rem"><a href="{{ route('customer.index') }}">Total number <br>of clients <br></a><span class="" style="font-size: 0.9rem !important;color:aqua">Client</span></p>
                             <span class=" border-start border-2 align-middle border-secondary top-0 end-0 position-absolute fs-2 fw-bold"> {{ $users_as_client }}</span>
                         </div>
                     </div>
