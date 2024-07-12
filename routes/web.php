@@ -175,6 +175,10 @@ Route::get('/md-dashboard', function () {
     return view('md-dashboard');
 });
 
+// for productivity
+Route::get('/productivity', function () {
+    return view('productivity.index');
+})->name('productivity.index');
 
 
 Route::get('/account-dashboard', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['auth', 'XSS', 'revalidate']);

@@ -47,24 +47,24 @@
                 </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard' ? ' active' : '' }}">
                     <a href="{{ route('chairman.dashboard') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                        <span class="dash-micon"><i class="ti ti-check"></i></span><span
                             class="dash-mtext">{{ __('Requisition Approval') }}</span>
                     </a>
                 </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'projects.index' ? ' active' : '' }}">
                     <a href="{{ route('projects.index') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                        <span class="dash-micon"><i class="ti ti-box"></i></span><span
                             class="dash-mtext">{{ __('Projects') }}</span>
                     </a>
                 </li>
                 <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'project_products.index' ? ' active' : '' }}">
                     <a href="{{ route('project_products.index') }}" class="dash-link">
-                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                        <span class="dash-micon"><i class="ti ti-layers-difference"></i></span><span
                             class="dash-mtext">{{ __('Products') }}</span>
                     </a>
                 </li>
-                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'projects1.index' ? ' active' : '' }}">
-                    <a href="#" class="dash-link">
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'productivity.index' ? ' active' : '' }}">
+                    <a href="{{ route('productivity.index') }}" class="dash-link">
                         <span class="dash-micon"><i class="ti ti-user"></i></span><span
                             class="dash-mtext">{{ __('Productivity') }}</span>
                     </a>
