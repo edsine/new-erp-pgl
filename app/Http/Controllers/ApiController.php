@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 class ApiController extends Controller
 {
     //
-    use ApiResponser;
+    //use ApiResponser;
 
     public function login(Request $request)
     {
@@ -48,6 +48,52 @@ class ApiController extends Controller
             'settings' =>$settings,
         ],'Login successfully.');
     }
+
+    /**
+     * Retrieve all projects.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_projects()
+    {
+        $projects = Project::all(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $projects,
+        ]);
+    }
+
+    /**
+     * Retrieve all users.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_users()
+    {
+        $users = User::where('type', '!=', 'client')->get(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
+    }
+
+    /**
+     * Retrieve all clients.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_clients()
+    {
+        $users = User::where('type', '=', 'client')->get(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
+    }
+    
     public function logout()
     {
         auth()->user()->tokens()->delete();
