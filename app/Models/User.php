@@ -32,6 +32,7 @@ class User extends Authenticatable
         'lang',
         'mode',
         'delete_status',
+		'password',
         'plan',
         'plan_expire_date',
         'requested_plan',
@@ -41,7 +42,7 @@ class User extends Authenticatable
     ];
 
     protected $hidden = [
-        'password',
+        //'password',
         'remember_token',
     ];
 
