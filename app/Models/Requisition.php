@@ -28,6 +28,9 @@ class Requisition extends Model
     ];
     
 
+    public function employee1(){
+        return $this->belongsTo('App\Models\Employee','employee_id','id');
+    }
     public function employee()
     {
         return $this->hasOne('App\Models\Employee', 'id', 'employee_id')->first();

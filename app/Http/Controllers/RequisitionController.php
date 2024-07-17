@@ -123,7 +123,7 @@ $paymentsData = implode(',', $monthlyPayments);
                 if($user->type == 'chairman' || $user->type == 'company')
                 {
                     
-$query = Requisition::orderBy('updated_at', 'DESC');
+$query = Requisition::where('admin_approval', '=', "Approved")->orderBy('updated_at', 'DESC');
 $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 2000)
@@ -151,7 +151,7 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
             $employee      = Employee::where('user_id', \Auth::user()->id)->first();
 
             if (\Auth::user()->type == 'company' || \Auth::user()->type == 'office admin' || \Auth::user()->type == 'chairman' || \Auth::user()->type == 'ED/COO' || \Auth::user()->can('manage payment status')) {
-                $query = Requisition::orderBy('updated_at', 'DESC');
+                $query = Requisition::where('department_id', '=', $employee->department->id)->orderBy('updated_at', 'DESC');
             } else {
                 if (isset($employee->department)) {
                     $query = Requisition::where('department_id', '=', $employee->department->id)->orderBy('updated_at', 'DESC');

@@ -24,18 +24,22 @@
     </div>
 @endif
             <div class="card-body table-border-style">
-                    <div class="table-responsive">
+                    <div class="table table-responsive">
                     <table class="table datatable">
                             <thead>
                             <tr>
                                 <th>{{__('Pending Chairman Approvals')}}</th>
+                                <th>{{__('Created By')}}</th>
+                                <th>{{__('Date')}}</th>
                                 <th>{{__('Action')}}</th>
                             </tr>
                             </thead>
-                            <tbody class="font-style">
+                            <tbody >
                            @foreach($requisitions as $item)
                            <tr>
                             <td>{{substr($item->title,0, 30)}}</td>
+                            <td> {{$item->employee1 ? $item->employee1->name : 'Unknown'}} </td>
+                            <td>{{ date('d M, Y', strtotime($item->requisition_date)) }}</td>
                             <td>  
                                 
                                 <div class="action-btn bg-warning ms-2">
