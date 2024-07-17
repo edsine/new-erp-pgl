@@ -123,7 +123,7 @@ $paymentsData = implode(',', $monthlyPayments);
                 if($user->type == 'chairman' || $user->type == 'company')
                 {
                     
-$query = Requisition::where('admin_approval', '=', "Approved")->orderBy('updated_at', 'DESC');
+$query = Requisition::where('chairman_approval', '=', "Pending")->where('admin_approval', '=', "Approved")->orderBy('updated_at', 'DESC');
 $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) AS code_name, id'))
                 ->where('created_by', \Auth::user()->creatorId())
                 ->where('code', '!=', 2000)
