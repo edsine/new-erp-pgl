@@ -17,8 +17,10 @@ use App\Http\Controllers\ProjectController;
 Route::post('login', 'ApiController@login');
 
 Route::get('get-projects', [ApiController::class, 'api_projects']);
+Route::get('get-projects/{id}', [ApiController::class, 'api_projects_by_id']);
 Route::get('get-users', [ApiController::class, 'api_users']);
 Route::get('get-clients', [ApiController::class, 'api_clients']);
+Route::get('get-clients/{id}', [ApiController::class, 'api_client_by_id']);
 //Route::get('projects/milestone/{id}/show', [ProjectController::class, 'milestoneShow'])->name('project.milestone.show')->middleware(['auth', 'XSS']);
 //Route::get('projects/milestone/{id}/show', [ProjectController::class, 'milestoneShow'])->name('project.milestone.show')->middleware(['auth', 'XSS']);
 

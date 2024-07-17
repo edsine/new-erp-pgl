@@ -65,6 +65,29 @@ class ApiController extends Controller
     }
 
     /**
+ * Retrieve a specific project by ID.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\JsonResponse
+ */
+public function api_projects_by_id($id)
+{
+    $project = Project::find($id);
+
+    if (!$project) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Project not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $project,
+    ]);
+}
+
+    /**
      * Retrieve all users.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -93,6 +116,30 @@ class ApiController extends Controller
             'data' => $users,
         ]);
     }
+
+    /**
+ * Retrieve a specific client by ID.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+public function api_client_by_id($id)
+{
+    $client = User::where('type', 'client')->find($id);
+
+    if (!$client) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Client not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $client,
+    ]);
+}
     
     public function logout()
     {
