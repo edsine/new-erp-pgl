@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Http\JsonResponse;
 
 //use Faker\Provider\File;
 
@@ -798,6 +799,27 @@ class EmployeeController extends Controller
         }
 
         return redirect()->back()->with($data['status'], $data['msg']);
+    }
+
+    public function getUsersByDepartment(int $departmentId): JsonResponse
+    {
+        // Fetch users belonging to the specified department
+        $users = Employee::where('department_id', $departmentId)->get(['id', 'name']);
+
+        // Check if users are found
+        if ($users->isEmpty()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No users found for the specified department.',
+                'users' => []
+            ]);
+        }
+
+        // Return users in JSON format
+        return response()->json([
+            'success' => true,
+            'users' => $users
+        ]);
     }
 
 }

@@ -76,7 +76,11 @@
 
 
 </div>
-
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
 
 
 
@@ -123,7 +127,7 @@
                     </div>
                     <div class="row ">
 
-                        <div class="col-6">
+                        {{-- <div class="col-6">
                             <div class="form-group">
                                 {!! Form::label('user_id', 'USER', ['class' => 'form-label']) !!}
                                 {!! Form::select('user_id', $user->pluck('name', 'id'), null, ['class' => 'form-control']) !!}
@@ -136,7 +140,51 @@
                                 {!! Form::label('department_id', 'DEPARTMENT', ['class' => 'form-label']) !!}
                                 {!! Form::select('department_id', $dept->pluck('name', 'id'), null, ['class' => 'form-control']) !!}
                             </div>
+                        </div> --}}
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Assign To:</label><br>
+                                    <input type="radio" id="assignMe" name="assign" value="1" checked>
+                                    <label for="assignMe">Assign to Me</label><br>
+                                    <input type="radio" id="assignOthers" name="assign" value="2">
+                                    <label for="assignOthers">Assign to Others</label><br>
+                                    <input type="radio" id="assignDepartment" name="assign" value="3">
+                                    <label for="assignDepartment">Assign to Department</label>
+                                </div>
+                            </div>
                         </div>
+                    
+                        <div class="row">
+                            <div class="col-6 hidden" id="departmentSelect">
+                                <div class="form-group">
+                                    <label for="department_id" class="form-label">DEPARTMENT</label>
+                                    {!! Form::select('department_id', $dept->pluck('name', 'id'), null, ['class' => 'form-control', 'id' => 'department_id']) !!}
+                                </div>
+                            </div>
+                            <div class="col-6 hidden" id="userSelect">
+                                <div class="form-group">
+                                    <label for="user_id" class="form-label">EMPLOYEES</label>
+                                    {!! Form::select('user_id', [], null, ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
+                            <div class="col-6 hidden" id="usersList">
+                                <div class="form-group">
+                                    <label for="department_users" class="form-label">EMPLOYEES IN DEPARTMENT</label>
+                                    {!! Form::select('department_users', [], null, ['class' => 'form-control', 'id' => 'department_users']) !!}
+                                </div>
+                            </div>
+                            
+                        </div>
+                    
+                        {{-- <div class="row">
+                            <div class="col-6 hidden" id="usersList">
+                                <div class="form-group">
+                                    <label for="department_users" class="form-label">EMPLOYEES IN DEPARTMENT</label>
+                                    {!! Form::select('department_users', [], null, ['class' => 'form-control', 'id' => 'department_users']) !!}
+                                </div>
+                            </div>
+                        </div> --}}
                     </div>
                     <div class="form-group">
                         {!! Form::label('tags', 'TAGS', ['class' => 'form-label']) !!}
@@ -158,6 +206,69 @@
 @endsection
 
 @push('script-page')
+<script>
+    $(document).ready(function() {
+        const userSelectDiv = $('#userSelect');
+        const departmentSelectDiv = $('#departmentSelect');
+        const usersListDiv = $('#usersList');
+        const departmentIdSelect = $('#department_id');
+        const usersList = $('#department_users');
+
+        $('input[name="assign"]').change(function() {
+            const selectedValue = $(this).val();
+            
+            if (selectedValue == '1') {
+                userSelectDiv.addClass('hidden');
+                departmentSelectDiv.addClass('hidden');
+                usersListDiv.addClass('hidden');
+            } else if (selectedValue == '2') {
+                userSelectDiv.addClass('hidden');
+                departmentSelectDiv.removeClass('hidden');
+                //usersListDiv.addClass('hidden');
+                usersListDiv.removeClass('hidden');
+            } else if (selectedValue == '3') {
+                userSelectDiv.addClass('hidden');
+                departmentSelectDiv.removeClass('hidden');
+                usersListDiv.addClass('hidden');
+            }
+        });
+
+         departmentIdSelect.change(function() {
+            const departmentId = $(this).val();
+            
+            if (departmentId) {
+                $.ajax({
+                    url: `/get-users/${departmentId}`, // Replace with your endpoint URL
+                    type: 'GET',
+                    success: function(response) {
+                        usersList.empty(); // Clear existing options
+                        if (response.users.length > 0) {
+                            response.users.forEach(user => {
+                                usersList.append(new Option(user.name, user.id));
+                            });
+                        } else {
+                            usersList.append(new Option('No users available', ''));
+                        }
+                        
+                    },
+                    error: function() {
+                        usersList.empty();
+                        usersList.append(new Option('Error loading users', ''));
+                        usersListDiv.removeClass('hidden');
+                    }
+                });
+            } else {
+                usersList.empty();
+                usersListDiv.addClass('hidden');
+            }
+        }); 
+
+        // Initialize visibility
+        userSelectDiv.addClass('hidden');
+        departmentSelectDiv.addClass('hidden');
+        usersListDiv.addClass('hidden');
+    });
+</script>
 <script>
     $(document).ready(function() {
         var sort = 'created_at-desc';

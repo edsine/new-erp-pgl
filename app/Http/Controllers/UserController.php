@@ -434,4 +434,6 @@ class  UserController extends Controller
             'User Password successfully updated.'
         );
     }
+
+    
 }

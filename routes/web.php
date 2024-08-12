@@ -201,6 +201,8 @@ Route::post('user-reset-password/{id}', [UserController::class, 'userPasswordRes
 
 Route::get('/change/mode', [UserController::class, 'changeMode'])->name('change.mode');
 
+Route::get('/get-users/{departmentId}', [EmployeeController::class, 'getUsersByDepartment']);
+
 Route::resource('roles', RoleController::class)->middleware(['auth', 'XSS', 'revalidate']);
 
 Route::resource('permissions', PermissionController::class)->middleware(['auth', 'XSS', 'revalidate']);
