@@ -17,7 +17,7 @@
     @else
         <nav class="dash-sidebar light-sidebar">
 @endif
-<div class="navbar-wrapper">
+<div class="navbar-wrapper" >
     <div class="m-header main-logo">
         <a href="#" class="b-brand">
             @if ($setting['cust_darklayout'] && $setting['cust_darklayout'] == 'on')
@@ -32,8 +32,48 @@
     <div class="navbar-content">
         @if (\Auth::user()->type != 'client')
             <ul class="dash-navbar">
+                @if(\Auth::user()->type == 'chairman' )
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard.main' ? ' active' : '' }}">
+                    <a href="{{ route('chairman.dashboard.main') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-home"></i></span><span
+                            class="dash-mtext">{{ __('Dashboard') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'customer.index' ? ' active' : '' }}">
+                    <a href="{{ route('customer.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Clients') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'chairman.dashboard' ? ' active' : '' }}">
+                    <a href="{{ route('chairman.dashboard') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-check"></i></span><span
+                            class="dash-mtext">{{ __('Requisition Approval') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'projects.index' ? ' active' : '' }}">
+                    <a href="{{ route('projects.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-box"></i></span><span
+                            class="dash-mtext">{{ __('Projects') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'project_products.index' ? ' active' : '' }}">
+                    <a href="{{ route('project_products.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-layers-difference"></i></span><span
+                            class="dash-mtext">{{ __('Products') }}</span>
+                    </a>
+                </li>
+                <li class="dash-item dash-hasmenu {{ Request::route()->getName() == 'productivity.index' ? ' active' : '' }}">
+                    <a href="{{ route('productivity.index') }}" class="dash-link">
+                        <span class="dash-micon"><i class="ti ti-user"></i></span><span
+                            class="dash-mtext">{{ __('Productivity') }}</span>
+                    </a>
+                </li>
+                
 
+@else
                 <!--------------------- Start Dashboard ----------------------------------->
+                
 
                 @if (Gate::check('show hrm dashboard') || Gate::check('show project dashboard') || Gate::check('show account dashboard'))
                     <li
@@ -51,6 +91,7 @@
                                     class="ti ti-home"></i></span><span class="dash-mtext">{{ __('Dashboard') }}</span>
                             <span class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
                         <ul class="dash-submenu">
+                            
                             @if (\Auth::user()->show_account() == 1 && Gate::check('show account dashboard'))
                                 <li
                                     class="dash-item dash-hasmenu {{ Request::segment(1) == null || Request::segment(1) == 'report' ? ' active dash-trigger' : '' }}">
@@ -1317,7 +1358,7 @@
                         </li>
                     @endif
 
-
+                    @endif
                     <!--------------------- End System Setup ----------------------------------->
 
             </ul>
@@ -1429,6 +1470,7 @@
 
             </ul>
         @endif
+        
     </div>
 </div>
 </nav>

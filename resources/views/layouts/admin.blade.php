@@ -73,10 +73,14 @@
     </div>
 </div>
 
+{{-- @if(\Auth::user()->type != 'chairman' ) --}}
 @include('partials.admin.menu')
+{{-- @endif --}}
 <!-- [ navigation menu ] end -->
 <!-- [ Header ] start -->
+
 @include('partials.admin.header')
+
 
 <!-- Modal -->
 <div class="modal notification-modal fade"

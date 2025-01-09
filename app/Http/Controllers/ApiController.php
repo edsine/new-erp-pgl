@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Validator;
 class ApiController extends Controller
 {
     //
-    use ApiResponser;
+    //use ApiResponser;
 
     public function login(Request $request)
     {
@@ -48,6 +48,99 @@ class ApiController extends Controller
             'settings' =>$settings,
         ],'Login successfully.');
     }
+
+    /**
+     * Retrieve all projects.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_projects()
+    {
+        $projects = Project::all(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $projects,
+        ]);
+    }
+
+    /**
+ * Retrieve a specific project by ID.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\JsonResponse
+ */
+public function api_projects_by_id($id)
+{
+    $project = Project::find($id);
+
+    if (!$project) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Project not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $project,
+    ]);
+}
+
+    /**
+     * Retrieve all users.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_users()
+    {
+        $users = User::where('type', '!=', 'client')->get(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
+    }
+
+    /**
+     * Retrieve all clients.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function api_clients()
+    {
+        $users = User::where('type', '=', 'client')->get(); // Fetch all projects (you can modify this query as per your needs)
+
+        return response()->json([
+            'success' => true,
+            'data' => $users,
+        ]);
+    }
+
+    /**
+ * Retrieve a specific client by ID.
+ *
+ * @param  int  $id
+ * @return \Illuminate\Http\JsonResponse
+ */
+
+public function api_client_by_id($id)
+{
+    $client = User::where('type', 'client')->find($id);
+
+    if (!$client) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Client not found',
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $client,
+    ]);
+}
+    
     public function logout()
     {
         auth()->user()->tokens()->delete();

@@ -215,7 +215,7 @@ class ProjectController extends Controller
 
             $usr           = Auth::user();
             if (\Auth::user()->type == 'client') {
-                $user_projects = Project::where('client_id', \Auth::user()->id)->pluck('id', 'id')->toArray();;
+                $user_projects = Project::where('client_id', \Auth::user()->id)->pluck('id', 'id')->toArray();
             } else {
                 $user_projects = $usr->projects->pluck('id')->toArray();
             }

@@ -170,6 +170,17 @@ Route::get('/login/{lang?}', [AuthenticatedSessionController::class, 'showLoginF
 
 Route::get('/', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['XSS', 'revalidate',]);
 
+// For md dashboard
+Route::get('/md-dashboard', function () {
+    return view('md-dashboard');
+});
+
+// for productivity
+Route::get('/productivity', function () {
+    return view('productivity.index');
+})->name('productivity.index');
+
+
 Route::get('/account-dashboard', [DashboardController::class, 'account_dashboard_index'])->name('dashboard')->middleware(['auth', 'XSS', 'revalidate']);
 
 Route::get('/project-dashboard', [DashboardController::class, 'project_dashboard_index'])->name('project.dashboard')->middleware(['auth', 'XSS', 'revalidate']);
@@ -189,6 +200,8 @@ Route::any('user-reset-password/{id}', [UserController::class, 'userPassword'])-
 Route::post('user-reset-password/{id}', [UserController::class, 'userPasswordReset'])->name('user.password.update');
 
 Route::get('/change/mode', [UserController::class, 'changeMode'])->name('change.mode');
+
+Route::get('/get-users/{departmentId}', [EmployeeController::class, 'getUsersByDepartment']);
 
 Route::resource('roles', RoleController::class)->middleware(['auth', 'XSS', 'revalidate']);
 
@@ -1398,11 +1411,20 @@ Route::group(
 
 
         Route::get('requisition/{id}/action', [RequisitionController::class, 'action'])->name('requisition.action')->middleware(['auth', 'XSS']);
+
+        Route::get('requisition/{id}/action1', [RequisitionController::class, 'action1'])->name('requisition.action1')->middleware(['auth', 'XSS']);
+
         Route::get('requisition/{id}/view', [RequisitionController::class, 'view'])->name('requisition.view')->middleware(['auth', 'XSS']);
         Route::post('requisition/changeaction', [RequisitionController::class, 'changeaction'])->name('requisition.changeaction')->middleware(['auth', 'XSS']);
+        Route::post('requisition/changeactionByChairman', [RequisitionController::class, 'changeactionByChairman'])->name('requisition.changeactionByChairman')->middleware(['auth', 'XSS']);
 
         Route::get('requisition-approval', [RequisitionController::class, 'approval'])->name('requisition-approval');
+        Route::get('/chairman-dashboard', [RequisitionController::class, 'chairman_dashboard_index'])->name('chairman.dashboard')->middleware(['XSS', 'revalidate',]);
+        Route::get('/chairman', [RequisitionController::class, 'chairman_dashboard_main'])->name('chairman.dashboard.main')->middleware(['XSS', 'revalidate',]);
 
+       /*  Route::get('/chairman', function () {
+            return view('dashboard.chairman-dashboard');
+        }); */
         // Staff Leave
 
         Route::get('staff_leave', [StaffLeaveController::class, 'index'])->name('staff_leave.index');
