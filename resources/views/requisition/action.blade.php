@@ -143,7 +143,7 @@
                                             @can('manage admin remark')
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        {{ Form::label('admin_remark', __('Admin Remark'), ['class' => 'form-label']) }}
+                                                        {{ Form::label('admin_remark', __('ED/COO Remark'), ['class' => 'form-label']) }}
                                                         {!! Form::text('admin_remark', '', ['class' => 'form-control']) !!}
                                                     </div>
                                                 </div>
@@ -166,7 +166,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                                                {{ Form::label('admin_remark', __('ED/COO Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, ['class' => 'form-control', 'readonly']) !!}
                                             </div>
                                         </div>
@@ -195,7 +195,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                                                {{ Form::label('admin_remark', __('ED/COO Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, ['class' => 'form-control', 'readonly']) !!}
                                             </div>
                                         </div>
@@ -217,7 +217,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>{{ __('Admin Approval: ') }}</strong>
+                                    <strong>{{ __('ED/COO Approval: ') }}</strong>
                                     {{ $requisition->admin_approval }}
                                 </td>
                             </tr>
@@ -294,7 +294,7 @@
 @if ($requisition->hod_approval == 'Approved' && $requisition->admin_approval == 'Pending')
     @can('manage admin approval')
         <div class="modal-footer">
-            <h3>Admin Approval: </h3>
+            <h3>ED/COO Approval: </h3>
             <input type="submit" value="{{ __('Approved') }}" class="btn btn-success" data-bs-dismiss="modal"
                 name="admin_approval">
             <input type="submit" value="{{ __('Rejected') }}" class="btn btn-danger" name="admin_approval">
