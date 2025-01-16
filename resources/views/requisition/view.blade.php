@@ -141,7 +141,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <strong>{{ __('Admin Approval: ') }}</strong>
+                                        <strong>{{ __('ED/COO Approval: ') }}</strong>
                                         {{ $requisition->admin_approval }}
                                     </td>
                                 </tr>
