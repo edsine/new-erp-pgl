@@ -157,16 +157,16 @@
                                 <tr>
                                     <td>
                                         <div class="col-md-12">
-                                            {{-- <div class="form-group">
+                                            <div class="form-group">
                                                 {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('hod_remark', $requisition->hod_remark, ['class' => 'form-control', 'readonly']) !!}
-                                            </div> --}}
+                                            </div>
                                         </div>
                                         <div class="col-md-12">
-                                            {{-- <div class="form-group">
+                                            <div class="form-group">
                                                 {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, ['class' => 'form-control', 'readonly']) !!}
-                                            </div> --}}
+                                            </div>
                                         </div>
                                         @can('manage chairman remark')
                                             <div class="col-md-12">
@@ -185,7 +185,7 @@
                                     $requisition->chairman_approval == 'Approved')
                                 <tr>
                                     <td>
-                                       {{--  <div class="col-md-12">
+                                        <div class="col-md-12">
                                             <div class="form-group">
                                                 {{ Form::label('hod_remark', __('HOD Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('hod_remark', $requisition->hod_remark, ['class' => 'form-control', 'readonly']) !!}
@@ -193,10 +193,10 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                                                {{ Form::label('admin_remark', __('ED/COO Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, ['class' => 'form-control', 'readonly']) !!}
                                             </div>
-                                        </div> --}}
+                                        </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 {{ Form::label('chairman_remark', __('Chairman Remark'), ['class' => 'form-label']) }}
@@ -207,7 +207,7 @@
                                 </tr>
                             @endif
 
-                            {{-- <tr>
+                            <tr>
                                 <td>
                                     <strong>{{ __('HOD Approval: ') }}</strong>
                                     {{ $requisition->hod_approval }}
@@ -215,10 +215,10 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <strong>{{ __('Admin Approval: ') }}</strong>
+                                    <strong>{{ __('ED/COO Approval: ') }}</strong>
                                     {{ $requisition->admin_approval }}
                                 </td>
-                            </tr> --}}
+                            </tr>
                             <tr>
                                 <td>
                                     <strong>{{ __('Chairman Approval: ') }}</strong>

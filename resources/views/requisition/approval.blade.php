@@ -47,7 +47,7 @@
                                 @if($item->hod_approval == 'Pending')
                                 Awaiting HOD Approval
                                 @elseif($item->admin_approval == 'Pending')
-                                Awaiting Admin Approval
+                                Awaiting ED/COO Approval
                                 @elseif($item->chairman_approval == 'Pending')
                                 Awaiting Chairman Approval
                                 @elseif($item->chairman_approval == 'Approved' && $item->payment_status !== 'Paid')
