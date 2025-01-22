@@ -21,28 +21,6 @@ class XSS
     public function handle($request, Closure $next)
     {
 
-        if(\Auth::check())
-        {
-            \App::setLocale(\Auth::user()->lang);
-
-            if(\Auth::user()->type == 'company')
-            {
-                $migrations             = $this->getMigrations();
-                $messengerMigration     = Utility::get_messenger_packages_migration();
-                $dbMigrations           = $this->getExecutedMigrations();
-                $numberOfUpdatesPending = (count($migrations) + $messengerMigration) - count($dbMigrations);
-
-                if($numberOfUpdatesPending > 0)
-                {
-
-                    Utility::addNewData();
-
-                    return redirect()->route('LaravelUpdater::welcome');
-                }
-
-            }
-        }
-
         $input = $request->all();
 //        array_walk_recursive(
 //            $input, function (&$input){

@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Session;
 use Spatie\Permission\Models\Role;
+use App\Models\Signature;
+use Laracasts\Flash\Flash;
 
 
 
@@ -34,6 +36,117 @@ class  UserController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+    public function saveSignature(Request $request)
+{
+    // Validation rules
+    $validated = $request->validate([
+        'signature' => 'required|image|mimes:png,jpeg,jpg',
+    ]);
+
+    // Check if the file is uploaded
+    if ($request->hasFile('signature')) {
+        $file = $request->file('signature');
+
+        // Get original file name and extension
+        $fileNameWithExtension = $file->getClientOriginalName();
+        $fileExtension = $file->getClientOriginalExtension();
+
+        // Get the image file's current dimensions
+        list($width, $height) = getimagesize($file);
+
+        // Set maximum dimensions for resizing
+        $maxWidth = 200;  // Maximum width in pixels
+        $maxHeight = 200; // Maximum height in pixels
+
+        // Calculate the new dimensions while maintaining aspect ratio
+        $ratio = min($maxWidth / $width, $maxHeight / $height);
+        $newWidth = (int) ($width * $ratio);
+        $newHeight = (int) ($height * $ratio);
+
+        // Create an image resource from the uploaded file based on its extension
+        if ($fileExtension == 'jpeg' || $fileExtension == 'jpg') {
+            $image = imagecreatefromjpeg($file);
+        } elseif ($fileExtension == 'png') {
+            $image = imagecreatefrompng($file);
+        } else {
+            return back()->with('error', 'Unsupported file type.');
+        }
+
+        // Create a new true color image with the new dimensions
+        $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+
+        // Preserve transparency for PNG images
+        if ($fileExtension == 'png') {
+            imagealphablending($resizedImage, false);
+            imagesavealpha($resizedImage, true);
+        }
+
+        // Resize the image
+        imagecopyresampled($resizedImage, $image, 0, 0, 0, 0, $newWidth, $newHeight, $width, $height);
+
+        // Compress the image (quality: 75 out of 100)
+        $compressedImage = null;
+        if ($fileExtension == 'jpeg' || $fileExtension == 'jpg') {
+            // For JPG, we use imagejpeg() to compress the image
+            ob_start();
+            imagejpeg($resizedImage, null, 75); // 75 is the quality (1-100 scale)
+            $compressedImage = ob_get_contents();
+            ob_end_clean();
+        } elseif ($fileExtension == 'png') {
+            // For PNG, we use imagepng() to compress the image
+            ob_start();
+            imagepng($resizedImage, null, 6); // 0 to 9 compression level
+            $compressedImage = ob_get_contents();
+            ob_end_clean();
+        }
+
+        // Generate a unique name for the file
+        $fileName = uniqid() . '.' . $fileExtension;
+
+        // Define the path where the image will be saved
+        $path = "documents";
+        $pathFolder = public_path($path);
+
+        // Check if the folder exists, if not, create it
+        if (!file_exists($pathFolder)) {
+            mkdir($pathFolder, 0755, true); // Create folder with proper permissions
+        }
+
+        // Check IP and save file locally or to S3
+            // Save locally (for local testing)
+            file_put_contents($pathFolder . '/' . $fileName, $compressedImage);
+            $documentUrl = $path . "/" . $fileName;
+        
+
+        // Retrieve or create a new signature for the user
+        $userId = Auth()->id();
+        $signature = Signature::where('user_id', $userId)->first();
+
+        if ($signature) {
+            $signature->user_id = $userId;
+            $signature->signature_data = $documentUrl;
+            $signature->save();
+        } else {
+            Signature::create([
+                'user_id' => $userId,
+                'signature_data' => $documentUrl
+            ]);
+        }
+
+        return back()->with('success', 'Signature uploaded and compressed successfully!');
+    }
+
+    return back()->with('error', 'No signature file uploaded.');
+}
+
+    public function changeSignature()
+    {
+        $userId = Auth()->id();
+        $signature = Signature::where('user_id',$userId)->first();
+
+        return view('users.signature',compact("signature"));
     }
 
     public function create()
@@ -220,8 +333,10 @@ class  UserController extends Controller
         $userDetail              = \Auth::user();
         $userDetail->customField = CustomField::getData($userDetail, 'user');
         $customFields            = CustomField::where('created_by', '=', \Auth::user()->creatorId())->where('module', '=', 'user')->get();
+        $userId = Auth()->id();
+        $signature = Signature::where('user_id',$userId)->first();
 
-        return view('user.profile', compact('userDetail', 'customFields'));
+        return view('user.profile', compact('userDetail', 'customFields', 'signature'));
     }
 
     public function editprofile(Request $request)

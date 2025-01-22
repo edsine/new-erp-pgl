@@ -35,7 +35,7 @@
             <div class="tab-content" id="pills-tabContent">
                 <div class="tab-pane fade show active" id="staff" role="tabpanel" aria-labelledby="pills-home-tab">
                     @php
-                        $modules=['user','role','client','product & service','constant unit','constant tax','constant category','company settings', 'requisition'];
+                        $modules=['user','role','client','product & service','constant unit','constant tax','constant category','company settings', 'requisition', 'files'];
                        if(\Auth::user()->type == 'company'){
                            $modules[] = 'language';
                            $modules[] = 'permission';
@@ -326,6 +326,14 @@
                                                             <div class="col-md-3 custom-control custom-checkbox">
                                                                 {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'form-check-input staff_checkall isscheck_'.str_replace(' ', '', str_replace('&', '', $module)),'id' =>'permission'.$key])}}
                                                                 {{Form::label('permission'.$key,'Trial Balance',['class'=>'custom-control-label'])}}<br>
+                                                            </div>
+                                                        @endif
+                                                    @endif
+                                                    @if(in_array('files '.$module,(array) $permissions))
+                                                        @if($key = array_search('files '.$module,$permissions))
+                                                            <div class="col-md-3 custom-control custom-checkbox">
+                                                                {{Form::checkbox('permissions[]',$key,$role->permission, ['class'=>'form-check-input staff_checkall isscheck_'.str_replace(' ', '', str_replace('&', '', $module)),'id' =>'permission'.$key])}}
+                                                                {{Form::label('permission'.$key,'Files',['class'=>'custom-control-label'])}}<br>
                                                             </div>
                                                         @endif
                                                     @endif
