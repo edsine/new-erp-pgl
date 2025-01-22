@@ -38,7 +38,8 @@ class User extends Authenticatable
         'requested_plan',
         'last_login_at',
         'created_by',
-        'customer_id'
+        'customer_id',
+        'level_id',
     ];
 
     protected $hidden = [
@@ -52,6 +53,24 @@ class User extends Authenticatable
     ];
 
     public $settings;
+
+    public function files()
+    {
+        return $this->belongsToMany(DocumentHasUserFiles::class, 'documents_has_users_files', 'user_id', 'document_id');
+    }
+    public function staff()
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    public function level(){
+        return $this->belongsTo(Level::class);
+    }
+
+    public function signature()
+    {
+        return $this->hasOne(Signature::class);
+    }
 
     public function getProfileAttribute()
     {
