@@ -121,5 +121,41 @@ $profile=\App\Models\Utility::get_file('uploads/avatar');
                 </div>
 
             </div>
+            <div id="change_signature" class="card">
+                <div class="card-header">
+                    <h5>{{__('Change Signature')}} </h5>
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('signature.upload') }}" method="POST" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="col-6">
+                               
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="signature">Upload Signature</label>
+                                        <input type="file" name="signature" id="signature" class="form-control" accept="image/png, image/jpeg, image/jpg" required>
+                                    </div>
+                                    @error('signature')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                   
+                            </div></div>
+                            <div class="row">
+                            <div class="col-6 mt-5">
+                                <button type="submit" name="submit" class="btn btn-primary">Save Signature</button>
+                                
+            
+                                @if (isset($signature))
+                                <div class="mt-5">
+                                    <img src="{{ ($signature->signature_data) }}" style="width: 200px;height: auto;"/>
+                                    <p class="mt-3">{{ $signature->user->name }}</p>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
 @endsection

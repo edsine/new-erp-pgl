@@ -11,6 +11,8 @@ class Notification extends Model
         'type',
         'data',
         'is_read',
+		'action_id',
+        'message',
     ];
 
     public function toHtml()

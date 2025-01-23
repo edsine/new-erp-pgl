@@ -8,6 +8,7 @@
     $mode_setting = \App\Models\Utility::mode_layout();
     $emailTemplate = \App\Models\EmailTemplate::first();
     $lang = Auth::user()->lang;
+    $notifications = getUnreadNotifications();
 @endphp
 
 {{-- <nav class="dash-sidebar light-sidebar {{(isset($mode_setting['cust_theme_bg']) && $mode_setting['cust_theme_bg'] == 'on')?'transprent-bg':''}}"> --}}
@@ -70,11 +71,26 @@
                     </a>
                 </li>
                 
-
+                <li
+                class="dash-item dash-hasmenu {{ Request::segment(1) == 'documents.by.files' ||
+                                Request::segment(1) == 'documents.by.files.shared'
+                                    ? 'active dash-trigger'
+                                    : '' }}">
+                <a class="dash-link" href="#"><span class="dash-micon"><i
+                    class="ti ti-file"></i></span><span class="badge rounded-pill badge-soft-danger  text-danger float-end">{{ $notifications->count() }}</span>
+                    <span >File Management</span><span
+                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                <ul class="dash-submenu">
+                    <li class="dash-item"><a class="dash-link" href="{{ route('documents.by.files') }}" >File Archive</a></li>
+                    <li class="dash-item"><a class="dash-link" href="{{ route('documents.by.files.shared') }}" >
+                        <span class="badge rounded-pill badge-soft-danger  text-danger float-end">{{ $notifications->count() }}</span>
+                        My Departmental Files</a></li>
+                </ul>
+                </li>
 @else
                 <!--------------------- Start Dashboard ----------------------------------->
                 
-
+                
                 @if (Gate::check('show hrm dashboard') || Gate::check('show project dashboard') || Gate::check('show account dashboard'))
                     <li
                         class="dash-item dash-hasmenu
@@ -263,8 +279,24 @@
                             @endif
 
                         </ul>
-                    </li @endif
+                    </li> @endif
 
+                    <li
+                class="dash-item dash-hasmenu {{ Request::segment(1) == 'documents.by.files' ||
+                                Request::segment(1) == 'documents.by.files.shared'
+                                    ? 'active dash-trigger'
+                                    : '' }}">
+                <a class="dash-link" href="#"><span class="dash-micon"><i
+                    class="ti ti-file"></i></span><span class="badge rounded-pill badge-soft-danger  text-danger float-end">{{ $notifications->count() }}</span>
+                    <span >File Management</span><span
+                        class="dash-arrow"><i data-feather="chevron-right"></i></span></a>
+                <ul class="dash-submenu">
+                    <li class="dash-item"><a class="dash-link" href="{{ route('documents.by.files') }}" >File Archive</a></li>
+                    <li class="dash-item"><a class="dash-link" href="{{ route('documents.by.files.shared') }}" >
+                        <span class="badge rounded-pill badge-soft-danger  text-danger float-end">{{ $notifications->count() }}</span>
+                        My Departmental Files</a></li>
+                </ul>
+                </li>
                     <!--------------------- End Dashboard ----------------------------------->
 
 
@@ -1301,15 +1333,7 @@
                         </a>
                     </li>
 
-                    @can('manage document')
-                        <li
-                            class="dash-item dash-hasmenu {{ Request::segment(1) == 'document-upload' ? 'active' : '' }}">
-                            <a href="{{ route('document-upload.index') }}" class="dash-link">
-                                <span class="dash-micon"><i class="ti ti-files"></i></span><span
-                                    class="dash-mtext">{{ __('Document Manager') }}</span>
-                            </a>
-                        </li>
-                    @endcan
+                    
                     <li class="dash-item dash-hasmenu  {{ Request::segment(1) == 'sptasks' ? ' active' : '' }}">
                         <a href="{{ route('sptask.index') }}" class="dash-link">
                             <span class="dash-micon"><i class="ti ti-share"></i></span><span
