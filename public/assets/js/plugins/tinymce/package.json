@@ -28,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/tinymce/tinymce/issues"
   },
-  "bundleDependencies": false,
+  "bundleDependencies": [],
   "deprecated": false,
   "description": "Web based JavaScript HTML WYSIWYG editor control.",
   "homepage": "https://www.tiny.cloud/",
@@ -55,5 +55,8 @@
     "directory": "modules/tinymce"
   },
   "types": "tinymce.d.ts",
-  "version": "5.10.3"
+  "version": "5.10.3",
+  "dependencies": {
+    "tinymce": "file:"
+  }
 }
