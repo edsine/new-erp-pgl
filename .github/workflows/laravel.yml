@@ -34,9 +34,6 @@ jobs:
         DB_DATABASE: database/database.sqlite
       run: php artisan test
 
-    - name: Run composer dump autoload
-      run: composer dump-autoload --ignore-platform-reqs
-
     - name: Artisan Migrate 
       run: php artisan migrate
 
