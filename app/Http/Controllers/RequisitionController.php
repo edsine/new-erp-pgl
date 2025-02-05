@@ -31,7 +31,7 @@ class RequisitionController extends Controller
     {
         $employee      = Employee::where('user_id', \Auth::user()->id)->first();
 
-        if (\Auth::user()->type == 'company' || \Auth::user()->type == 'admin') {
+        if (\Auth::user()->type == 'chairman' || \Auth::user()->type == 'ED/COO' || \Auth::user()->can('manage payment status')) {
             $query = Requisition::orderBy('created_at', 'DESC');
         } else {
             if (isset($employee->department)) {
@@ -150,8 +150,8 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
         if (\Auth::user()->can('manage requisition approval')) {
             $employee      = Employee::where('user_id', \Auth::user()->id)->first();
 
-            if (\Auth::user()->type == 'company' || \Auth::user()->type == 'office admin' || \Auth::user()->type == 'chairman' || \Auth::user()->type == 'ED/COO' || \Auth::user()->can('manage payment status')) {
-                $query = Requisition::where('department_id', '=', $employee->department->id)->orderBy('updated_at', 'DESC');
+            if (\Auth::user()->type == 'chairman' || \Auth::user()->type == 'ED/COO' || \Auth::user()->can('manage payment status')) {
+                $query = Requisition::orderBy('updated_at', 'DESC');
             } else {
                 if (isset($employee->department)) {
                     $query = Requisition::where('department_id', '=', $employee->department->id)->orderBy('updated_at', 'DESC');
