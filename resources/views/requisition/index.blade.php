@@ -80,6 +80,7 @@
                                         data-original-title="{{ __('View Approval') }}">
                                         <i class="ti ti-caret-right text-white"></i> </a>
                                 </div>
+                                @if($item->chairman_approval == 'Pending')
                                 <div class="action-btn bg-primary ms-2">
                                     <a href="{{ route('requisition.edit', $item->id)}}"  data-size="lg" class="mx-3 btn btn-sm align-items-center" data-bs-toggle="tooltip" title="{{__('Edit')}}" data-original-title="{{__('Edit')}}"><i class="ti ti-pencil text-white"></i></a>
                                 </div>
@@ -90,6 +91,7 @@
                                     <a href="#" class="mx-3 btn btn-sm align-items-center bs-pass-para" data-bs-toggle="tooltip" title="{{__('Delete')}}" data-original-title="{{__('Delete')}}" data-confirm="{{__('Are You Sure?').'|'.__('This action can not be undone. Do you want to continue?')}}" data-confirm-yes="document.getElementById('delete-form-{{$item->id}}').submit();"><i class="ti ti-trash text-white"></i></a>
                                     {!! Form::close() !!}
                                 </div>
+                                @endif
                             </td>
                            </tr>
                            @endforeach
