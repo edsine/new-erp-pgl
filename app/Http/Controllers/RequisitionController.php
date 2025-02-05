@@ -212,6 +212,13 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
 
         $image = $request->file('document');
         if ($image != '') {
+
+            $directory = public_path('storage/requisition/');
+
+if (!File::exists($directory)) {
+    File::makeDirectory($directory, 0777, true);
+}
+
             $request->validate(
                 [
                     'document' => 'sometimes|required|mimes:pdf,doc,docx,jpg,jpeg,png,svg|max:20000',
@@ -279,6 +286,12 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
                 $old_image = $path_folder = public_path('storage/requisition/' . $requisition->document);
                 File::delete($old_image);
             }
+
+            $directory = public_path('storage/requisition/');
+
+if (!File::exists($directory)) {
+    File::makeDirectory($directory, 0777, true);
+}
 
             $request->validate(
                 [
