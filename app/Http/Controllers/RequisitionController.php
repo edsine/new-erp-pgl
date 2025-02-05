@@ -214,9 +214,13 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
         if ($image != '') {
             $request->validate(
                 [
-                    'document' => 'sometimes|required|mimes:pdf,doc,jpg,jpeg,png,svg|max:20000',
+                    'document' => 'sometimes|required|mimes:pdf,doc,docx,jpg,jpeg,png,svg|max:20000',
                 ],
-                ['document.mimes' => __('The :attribute must be an pdf,doc,jpg,jpeg,png,svg'),]
+                [
+                    'document.required' => __('The :attribute field is required.'),
+                    'document.mimes' => __('The :attribute must be a pdf, doc, docx, jpg, jpeg, png, or svg file.'),
+                    'document.max' => __('The :attribute may not be greater than 20000 kilobytes.'),
+                ]
             );
             $path_folder = public_path('storage/requisition/' . $request->employee_id);
 
@@ -278,9 +282,13 @@ $chart_of_accounts = ChartOfAccount::select(\DB::raw('CONCAT(code, " - ", name) 
 
             $request->validate(
                 [
-                    'document' => 'sometimes|required|mimes:jpg,jpeg,png,svg|max:20000',
+                    'document' => 'sometimes|required|mimes:pdf,doc,docx,jpg,jpeg,png,svg|max:20000',
                 ],
-                ['document.mimes' => __('The :attribute must be an jpg,jpeg,png,svg'),]
+                [
+                    'document.required' => __('The :attribute field is required.'),
+                    'document.mimes' => __('The :attribute must be a pdf, doc, docx, jpg, jpeg, png, or svg file.'),
+                    'document.max' => __('The :attribute may not be greater than 20000 kilobytes.'),
+                ]
             );
             $path_folder = public_path('storage/requisition/' . $request->employee_id);
 

@@ -164,7 +164,7 @@
                                         </div>
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                {{ Form::label('admin_remark', __('Admin Remark: '), ['class' => 'form-label']) }}
+                                                {{ Form::label('admin_remark', __('ED/COO Remark: '), ['class' => 'form-label']) }}
                                                 {!! Form::textarea('admin_remark', $requisition->admin_remark, ['class' => 'form-control', 'readonly']) !!}
                                             </div>
                                         </div>
